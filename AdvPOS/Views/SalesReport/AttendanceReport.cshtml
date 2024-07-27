@@ -1,0 +1,100 @@
+<div class="wrapper">
+    <div class="panel panel-hash">
+        <div class="panel-heading">
+            <div class="row">
+                <div class="col-md-5">
+                    <h5>Attendance Report</h5>
+                </div>
+                <div class="col-md-7">
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label">Employee: </label>
+                        <div class="col-sm-10">
+                            <select onchange="GetEmployeeWiseAttendanceReport();" class="" id="EmployeeId"
+                                style="width: 100%;">
+                                <option selected>All Employee</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="panel-body scroll panel-height">
+            <table id="tblAttendanceReport" class="BlueGreen" style="width:100%">
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Employee</th>
+                        <th>Check In</th>
+                        <th>Check Out</th>
+                        <th>Stay Time</th>
+                        <th>Created Date</th>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+    </div>
+</div>
+
+<style>
+    .panel-heading {
+        padding: 0px 0px 0px 5px;
+    }
+
+    .panel-body {
+        padding: 5px;
+    }
+
+    .h4 {
+        margin-top: 1px;
+        margin-bottom: 1px;
+    }
+</style>
+
+<script src="~/js/SalesReport/AttendanceReport_Datatable.js"></script>
+
+<script>
+    $(document).ready(function () {
+        $("#EmployeeId").select2();
+        DataTableCustomSearchBox('450px', 'Search Item');
+        GetEmployeeddlList();    
+    });
+
+    var GetEmployeeddlList = function () {        
+        $.ajax({
+            type: "GET",
+            url: "/SalesReport/GetEmployeeddlList",
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (data) {               
+                for (var i = 0; i < data.length; i++) {
+                    var _EmployeeId = document.getElementById("EmployeeId");
+                    var _option = document.createElement("option");
+                    _option.text = data[i].Name;
+                    _option.value = data[i].Id;
+                    _EmployeeId.add(_option);
+                }
+            },
+            error: function (response) {
+                SwalSimpleAlert(errormessage.responseText, "warning");
+            }
+        });
+    };
+
+    var GetEmployeeWiseAttendanceReport = function ()
+    {
+        var _EmployeeId = $("#EmployeeId").val();       
+        var _tblAttendanceReport = $("#tblAttendanceReport").DataTable();
+        _tblAttendanceReport.clear();
+        _tblAttendanceReport.destroy();
+        if(_EmployeeId == 'All Employee')
+        {
+            AttendanceDataTableLoad(false, 0);       
+        }
+        else
+        {                
+            AttendanceDataTableLoad(true, _EmployeeId);
+        }
+        DataTableCustomSearchBox('450px', 'Search Item');  
+    }
+</script>

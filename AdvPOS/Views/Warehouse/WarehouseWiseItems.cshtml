@@ -1,0 +1,99 @@
+﻿@model IEnumerable<AdvPOS.Models.WarehouseViewModel.WarehouseWiseItemsViewModel>
+
+@{
+    ViewData["Title"] = "Warehouse Wise Items";
+}
+
+<div class="content-wrapper">
+    <div class="col-lg-12">
+
+    </div>
+    <div class="panel panel-hash">
+        <div class="panel-heading">
+            <div class="row">
+                <div class="col-sm-6">
+                    <a class="btn btn-danger fa fa-plus" onclick="TransferItem()"> Transfer Item</a>
+                </div>
+                <div class="col-sm-6">
+                    <h4 class="pull-right"><b>Warehouse Wise Items</b></h4>
+                </div>
+            </div>
+        </div>
+        <div class="panel-body scroll panel-height">
+            <table id="tblWarehouseWiseItems" class="BlueGreen">
+                <thead>
+                    <tr>
+                        <th>
+                            Warehouse Id
+                        </th>
+                        <th>
+                            Warehouse Name
+                        </th>
+                        <th>
+                            Total Available Item
+                        </th>
+                        <th>
+                            Total Available Quantity
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @{
+                        Int64 sumTotalAvailableItem = 0;
+                        Int64 sumTotalAvailableQuantity = 0;
+
+                        foreach (var item in Model)
+                        {
+                            sumTotalAvailableItem = sumTotalAvailableItem + item.TotalAvailableItem;
+                            sumTotalAvailableQuantity = sumTotalAvailableQuantity + item.TotalAvailableQuantity;
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.WarehouseId)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.WarehouseName)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.TotalAvailableItem)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.TotalAvailableQuantity)
+                                </td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+
+                <tfoot>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td>Σ: @sumTotalAvailableItem</td>
+                        <td>Σ: @sumTotalAvailableQuantity</td>
+                    </tr>
+                </tfoot>
+            </table>
+            <br />
+            <partial name="~/Views/UIComponents/_IndexPagination.cshtml" />
+            <partial name="~/Views/UIComponents/_bootstrapAlert.cshtml" />
+        </div>
+    </div>
+</div>
+
+
+<script src="~/js/CRUD/Warehouse_CRUD.js"></script>
+
+<style>
+    .panel-heading {
+        padding: 0px 0px 0px 5px;
+    }
+
+    .panel-body {
+        padding: 15px;
+    }
+
+    .h4 {
+        margin-top: 1px;
+        margin-bottom: 1px;
+    }
+</style>

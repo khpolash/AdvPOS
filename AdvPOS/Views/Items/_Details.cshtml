@@ -1,0 +1,112 @@
+﻿@model AdvPOS.Models.ItemsViewModel.ItemsCRUDViewModel
+<div class="row" style="overflow-x:auto;">
+    <div class="col-md-12">
+        <table class="BlueGreen">
+            <tr>
+                <th style="width: 30%;">ID</th>
+                <td>@Model.Id</td>
+            </tr>
+            <tr>
+                <th>Code</th>
+                <td>@Model.Code</td>
+            </tr>
+            <tr>
+                <th>Barcode</th>
+                <td>
+                    <img src="@Model.Barcode" alt="" />
+                </td>
+            </tr>
+            <tr>
+                <th>Name</th>
+                <td>@Model.Name</td>
+            </tr>
+            <tr>
+                <th>Categories Name</th>
+                <td>@Model.CategoriesDisplay</td>
+            </tr>
+            <tr>
+                <th>Supplier Name</th>
+                <td>@Model.SupplierDisplay</td>
+            </tr>
+            <tr>
+                <th>Warehouse Name</th>
+                <td>@Model.WarehouseDisplay</td>
+            </tr>
+            <tr>
+                <th>Measure</th>
+                <td>@Model.MeasureDisplay</td>
+            </tr>
+            <tr>
+                <th>Measure Value</th>
+                <td>@Model.MeasureValue</td>
+            </tr>
+            <tr>
+                <th>Cost Price</th>
+                <td>@Model.CostPrice</td>
+            </tr>
+            <tr>
+                <th>Sell Price</th>
+                <td>@Model.NormalPrice</td>
+            </tr>
+            <tr>
+                <th>Old Unit Price</th>
+                <td>@Model.OldUnitPrice</td>
+            </tr>
+            <tr>
+                <th>Old Sell Price</th>
+                <td>@Model.OldSellPrice</td>
+            </tr>
+            <tr>
+                <th style="background-color:rebeccapurple">Quantity in Stock</th>
+                <td>@Model.Quantity</td>
+            </tr>
+            <tr>
+                <th>Manufacture Date</th>
+                <td>@Model.ManufactureDate</td>
+            </tr>
+            <tr>
+                <th>Expiration Date</th>
+                <td>@Model.ExpirationDate</td>
+            </tr>
+            <tr>
+                <th>Stock Keeping Unit</th>
+                <td>@Model.StockKeepingUnit</td>
+            </tr>
+            <tr>
+                <th>Note</th>
+                <td>@Model.Note</td>
+            </tr>
+            <tr>
+                <th>Image</th>
+                <td>
+                    <div class="user-panel mt-2 pb-2 mb-2 d-flex">
+                        <div class="image">
+                            <img src="@Model.ImageURL" class="img-circle elevation-2" alt="Asset Image">
+                        </div>
+                        <div class="info">
+                            <a href="#" class="d-block" onclick="ViewImage('@Model.ImageURL', '@Model.Name')">
+                                @Model.Name
+                            </a>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <th>Created Date</th>
+                <td>@Model.CreatedDate</td>
+            </tr>
+            <tr>
+                <th>Modified Date</th>
+                <td>@Model.ModifiedDate</td>
+            </tr>
+            <tr>
+                <th>Created By</th>
+                <td>@Model.CreatedBy</td>
+            </tr>
+            <tr>
+                <th>Modified By</th>
+                <td>@Model.ModifiedBy</td>
+            </tr>
+        </table>
+    </div>
+</div>

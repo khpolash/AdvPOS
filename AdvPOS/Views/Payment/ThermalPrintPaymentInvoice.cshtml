@@ -1,0 +1,56 @@
+@model AdvPOS.Models.PaymentViewModel.PaymentReportViewModel
+
+<partial name="~/Views/UIComponents/_bootstrapAlert.cshtml" />
+
+<div class="row">
+    <input type="hidden" id="CurrentURL" asp-for="PaymentCRUDViewModel.CurrentURL" />
+    <div class="col-sm-12">
+        <div class="panel-footer text-right">
+
+            <button id="btnPrint" class="hidden-print btn btn-success pull-right">Print <span class="fa fa-print"></span></button>
+            <button class="hidden-print btn btn-info" onclick="DownloadPaymentInvoiceReportPDF('@Model.PaymentCRUDViewModel.CustomerId')"><span class="fa fa-download"></span></button>
+
+            <button class="hidden-print btn btn-info" onclick="AddEdit('@Model.PaymentCRUDViewModel.Id')">Edit</button>
+            <button class="hidden-print btn btn-dark" onclick="BacktoPreviousPage()">Back</button>
+        </div>
+
+        <div class="row">
+            <div class="ticket">
+
+                <partial name="~/Views/DownloadReport/_CompanyBannerThermal.cshtml" />
+                <hr />
+                <partial name="~/Views/DownloadReport/_PaymentInvoicePrintableArea.cshtml" />
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<link href="~/css/ThermalPrinting.css" rel="stylesheet" />
+
+<style>
+    * {
+        font-size: 12px;
+        font-family: 'Times New Roman';
+    }
+</style>
+
+<script>
+    var DownloadPaymentInvoiceReportPDF = function (VisitId) {
+        location.href = "/DownloadReport/DownloadPaymentInvoiceReportPDF?_VisitId=" + VisitId;
+    };
+
+    var AddEdit = function (id) {
+        localStorage.setItem('CurrentURL', window.location.pathname);
+        localStorage.setItem('PaymentId', '@Model.PaymentCRUDViewModel.Id');
+
+        $('#titleExtraBigModal').html("Edit Payments");
+        loadExtraBigModal("/Payments/AddEdit?id=" + id);
+    };
+
+    const $btnPrint = document.querySelector("#btnPrint");
+    $btnPrint.addEventListener("click", () => {
+        window.print();
+    });
+</script>
+

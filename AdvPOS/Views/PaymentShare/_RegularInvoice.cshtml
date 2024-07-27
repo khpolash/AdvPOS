@@ -1,0 +1,175 @@
+﻿@model AdvPOS.Models.PaymentViewModel.PaymentReportViewModel
+
+<div>
+    <h5>Payment Item Details</h5>
+    <div>
+        <div class="row" style="width:100%; margin:0 auto;">
+            <table class="" style="width:100%" border="1">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Item</th>
+                        <th>Quantity</th>
+                        <th>Unit Price</th>
+                        <th>Discount(%)</th>
+                        <th>VAT(%)</th>
+                        <th>Total Amount</th>
+                    </tr>
+                </thead>
+                @foreach (var item in Model.listPaymentDetailCRUDViewModel)
+                {
+                    <tbody>
+
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Id)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.ItemName)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Quantity)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.UnitPrice)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.ItemDiscount)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.ItemVAT)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.TotalAmount)
+                            </td>
+                        </tr>
+                    </tbody>
+                }
+            </table>
+        </div>
+    </div>
+
+    <hr />
+    <div class="row">
+        <div class="col-sm-6">
+        </div>
+
+        <div class="col-sm-6">
+            <h5>Payment Details: Σ @Model.PaymentCRUDViewModel.PaidAmount</h5>
+            <table class="" style="width:100%" border="1">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Payment Type</th>
+                        <th>Amount</th>
+                        <th>Reference No</th>
+                        <th>Date</th>
+                    </tr>
+                </thead>
+                @foreach (var item in Model.listPaymentModeHistoryCRUDViewModel)
+                {
+                    <tbody>
+
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Id)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.ModeOfPayment)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Amount)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.ReferenceNo)
+                            </td>
+                            <td>
+                                @item.CreatedDate.ToString("dd MMMM yyyy")
+                            </td>
+                        </tr>
+                    </tbody>
+                }
+            </table>
+
+            <hr />
+            <div class="row">
+                <div class="column">
+                    <h4></h4>
+                </div>
+                <div class="column">
+                    <div class="row" style="width:100%; margin:0 auto;">
+                        <table class="" style="width:100%" border="1">
+                            <tr>
+                                <th>Sub Total</th>
+                                <td>@Model.PaymentCRUDViewModel.SubTotal</td>
+                            </tr>
+                            <tr>
+                                <th>Discount Amount</th>
+                                <td>@Model.PaymentCRUDViewModel.DiscountAmount</td>
+                            </tr>
+                            <tr>
+                                <th>VAT Amount</th>
+                                <td>@Model.PaymentCRUDViewModel.VATAmount</td>
+                            </tr>
+                            <tr>
+                                <th>Shipping Charge</th>
+                                <td>@Model.PaymentCRUDViewModel.CommonCharge</td>
+                            </tr>
+                            <tr>
+                                <th>Grand Total</th>
+                                <td>@Model.PaymentCRUDViewModel.GrandTotal</td>
+                            </tr>
+                            <tr>
+                                <th>Paid Amount</th>
+                                <td>@Model.PaymentCRUDViewModel.PaidAmount</td>
+                            </tr>
+                            <tr>
+                                <th>Due Amount</th>
+                                <td>@Model.PaymentCRUDViewModel.DueAmount</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <style>
+        table th {
+            padding-left: 5px;
+        }
+
+        table td {
+            padding-left: 5px;
+        }
+    </style>
+</div>
+
+
+<br />
+<hr />
+<div id="divTermsAndCondition">
+    <hr />
+    <h3 width="100%" align="center" class="bgcolor font-13"
+        style="padding:10px 0 !important; margin-top:0 !important; margin-bottom:2px !important;">
+        <strong>Term and Conditions</strong>
+    </h3>
+
+    <div style="padding:0 5px !important;">
+        <p>
+            <span style="font-size:8px">@Model.CompanyInfoCRUDViewModel.TermsAndCondition</span>
+        </p>
+    </div>
+
+    <p align="center" style="margin-top:10px;" class="font-12">
+        <strong>THANKS FOR YOUR BUSINESS!</strong>
+    </p>
+
+    <p align="center" style="font-size: 10px;">
+        <strong>
+            COMPNAY REG NUMBER: GB658589 INCORPORATED IN ENGLAND AND
+            WALES VAT REG NO:
+        </strong>
+    </p>
+</div>

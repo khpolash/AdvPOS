@@ -1,0 +1,70 @@
+﻿@model AdvPOS.Models.DashboardViewModel.TransactionByViewModel;
+<div class="row">
+    <div class="col-sm-12">
+        <div class="panel-footer text-right">
+            <button class="btn btn-info" onclick="printDiv('printableArea','CustomBlueTable')"><span
+                    class="fa fa-print"></span></button>
+        </div>
+    </div>
+</div>
+
+<div class="panel panel-hash" id="printableArea">
+    <div class="panel-heading">
+        <h4><b>@ViewBag.ReportTitle</b></h4>
+    </div>
+    <div class="panel-body scroll panel-height">
+        <table class="CustomBlueTable" border="1" style="width:100%;">
+            <thead>
+                <tr>
+                    <th>SL</th>
+                    <th>Date</th>
+                    <th>Quantity Sold</th>
+                    <th>Total Trans</th>
+                    <th>Total Earned</th>
+                    <th>Total Due</th>
+                </tr>
+            </thead>
+            <tbody>
+                @{
+                    var sumQuantitySold = 0;
+                    var sumTotalTran = 0;
+                    double sumTotalEarned = 0;
+                    double sumTotalDue = 0;
+
+                    foreach (var item in Model.listTransactionByViewModel)
+                    {
+                        sumQuantitySold = sumQuantitySold + item.QuantitySold;
+                        sumTotalTran = sumTotalTran + item.TotalTran;
+                        sumTotalEarned = (double)sumTotalEarned + (double)item.TotalEarned;
+                        sumTotalDue = (double)sumTotalDue + (double)item.TotalDue;
+                        <tr>
+                            <td>@item.Id</td>
+                            <td>@item.TranDate</td>
+                            <td>@item.QuantitySold</td>
+                            <td>@item.TotalTran</td>
+                            <td>@item.TotalEarned</td>
+                            <td>@item.TotalDue</td>
+                        </tr>
+                    }
+                }
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td>Σ: @sumQuantitySold</td>
+                    <td>Σ: @sumTotalTran</td>
+                    <td>Σ: @Math.Round(sumTotalEarned, 2)</td>
+                    <td>Σ: @Math.Round(sumTotalDue, 2)</td>                   
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <style>
+        table th {
+            padding-left: 5px;
+        }
+
+        table td {
+            padding-left: 5px;
+        }
+    </style>
+</div>

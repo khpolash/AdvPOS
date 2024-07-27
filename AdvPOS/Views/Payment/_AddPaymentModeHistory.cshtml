@@ -1,0 +1,264 @@
+﻿@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer localizer
+
+<table id="tblPaymentModeHistory" border="1" style="width: 100%;">
+    <thead>
+        <tr>
+            <th>@localizer["Id"]</th>
+            <th>@localizer["Payment Type"]</th>
+            <th>@localizer["Amount"]</th>
+            <th>@localizer["Reference"]</th>
+            <th>@localizer["Action"]</th>
+        </tr>
+    </thead>
+    <tbody></tbody>
+    <tfoot id="tblAddLabTeststfoot">
+        <tr>
+            <td style="width: 40px;">
+                <input id="PaymentModeHistoryId" style="width: 30px;" value="1" type="number" class="unstyled-button" readonly />
+            </td>
+            <td style="width: 120px;">
+                <select id="ModeOfPayment" asp-items="@ViewBag._LoadddlPaymentType" style="width: 100%;">
+                    <option value="1" selected>Cash</option>
+                </select>
+            </td>
+            <td style="width: 40px;">
+                <input id="Amount" type="number" value="1" min="1" />
+                <input type="checkbox" id="chkFullPaid" />
+                <label>@localizer["Full Paid"]</label>
+            </td>
+            <td style="width: 40px;">
+                <textarea id="ReferenceNo" type="text"></textarea>
+            </td>
+            <td style="width: 60px;">
+                <button id="btnPaymentModeHistory" onclick="AddPaymentModeHistoryHTMLRow();"
+                       class="btn btn-info btn-xs">@localizer["Add Item"]</button>
+            </td>
+        </tr>
+    </tfoot>
+</table>
+
+
+<script>
+    $("body").on("click", "#chkFullPaid", function () {
+        var _DueAmount = $("#DueAmount").val();
+        if (parseFloat(_DueAmount) > 0) {
+            if ($('#chkFullPaid').is(":checked")) {
+                $("#Amount").val($("#DueAmount").val());
+                AddPaymentModeHistoryHTMLRow();
+                $("#DueAmount").val(0);
+                $("#ChangedAmount").val(0);
+            }
+            else {
+                $("#Amount").val(0);
+                var _GrandTotal = $("#GrandTotal").val();
+                var _PaidAmount = $("#PaidAmount").val();
+                $("#DueAmount").val((parseFloat(_GrandTotal).toFixed(2) - parseFloat(_PaidAmount)).toFixed(2));
+                $("#ChangedAmount").val(0);
+            }
+        }
+    });
+
+
+    var listPaymentModeHistory = new Array();
+    var AddPaymentModeHistoryHTMLRow = function () {
+        var _DueAmount = $("#DueAmount").val();
+        if(_DueAmount==0) {
+            SwalSimpleAlert("Full payment already completed.", "info");
+            return;
+        }
+
+        if (!FieldValidation('#Amount')) {
+            FieldValidationAlert('#Amount', 'Amount is Required.', "warning");
+            return;
+        }
+
+        var PaymentModeHistory = {};
+        PaymentModeHistory.PaymentModeHistoryId = $("#ModeOfPayment").val();
+        PaymentModeHistory.PaymentId = $("#Id").val();
+        PaymentModeHistory.ModeOfPayment = $("#ModeOfPayment option:selected").text();
+        PaymentModeHistory.Amount = $("#Amount").val();
+        PaymentModeHistory.ReferenceNo = $("#ReferenceNo").val();
+
+
+        PaymentModeHistory.PaymentModeHistoryId = $("#PaymentModeHistoryId").val();
+        SavePaymentModeHistory(PaymentModeHistory);
+        listPaymentModeHistory.push(PaymentModeHistory);
+
+        $("#ModeOfPayment").focus();
+        ClearPaymentModeHistoryItemTableRowData();
+    }
+
+
+    var HLMLTableRowinPaymentModeHistory = function () {
+        var tBody = $("#tblPaymentModeHistory > TBODY")[0];
+        var row = tBody.insertRow(-1);
+
+        var cell = $(row.insertCell(-1));
+        cell.html($("#ModeOfPayment").val());
+
+        var cell = $(row.insertCell(-1));
+        cell.html($("#ModeOfPayment option:selected").text());
+
+        var cell = $(row.insertCell(-1));
+        cell.html($("#Amount").val());
+
+        var cell = $(row.insertCell(-1));
+        cell.html($("#ReferenceNo").val());
+
+
+        var _RoleName = $("#RoleName").val();
+        cell = $(row.insertCell(-1));
+        var btnRemovePayHis;
+        if(_RoleName == 'Admin'){
+            btnRemovePayHis = $("<input />");
+        }
+        else{
+            btnRemovePayHis = $("<input disabled />");
+        }
+        btnRemovePayHis.attr("type", "button");
+        btnRemovePayHis.attr('class', 'btn btn-danger btn-xs');
+        btnRemovePayHis.attr("onclick", "RemovePaymentModeHistoryRow(this);");
+        btnRemovePayHis.val(" X ");
+        cell.append(btnRemovePayHis);
+    }
+
+
+    //Edit Option: Load Items
+    $(document).ready(function () {
+        if (parseFloat($("#Id").val()) > 0) {
+            var result = @Html.Raw(Json.Serialize(Model.listPaymentModeHistoryCRUDViewModel));
+            if (result != null) {
+                result.forEach(LoadPaymentModeHistoryFromDB);
+                listPaymentModeHistory = result;
+                $("#PaidAmount").val(sumPaymentModeHistoryAmount());
+                $('#SumPaymentHistory').text(sumPaymentModeHistoryAmount());
+            }
+        }
+    });
+
+    function LoadPaymentModeHistoryFromDB(item, index) {
+        var tBody = $("#tblPaymentModeHistory > TBODY")[0];
+        var row = tBody.insertRow(-1);
+
+        var cell = $(row.insertCell(-1));
+        cell.html(item.Id);
+
+        var cell = $(row.insertCell(-1));
+        cell.html(item.ModeOfPayment);
+
+        var cell = $(row.insertCell(-1));
+        cell.html(item.Amount);
+
+        var cell = $(row.insertCell(-1));
+        cell.html(item.ReferenceNo);
+
+        //Add Button cell.
+        var _RoleName = $("#RoleName").val();
+        cell = $(row.insertCell(-1));
+        var btnRemovePayHis;
+        if(_RoleName == 'Admin'){
+            btnRemovePayHis = $("<input />");
+        }
+        else{
+            btnRemovePayHis = $("<input disabled />");
+        }
+
+        btnRemovePayHis.attr("type", "button");
+        btnRemovePayHis.attr('class', 'btn btn-danger btn-xs');
+        btnRemovePayHis.attr("onclick", "RemovePaymentModeHistoryRow(this);");
+        btnRemovePayHis.val(" X ");
+        cell.append(btnRemovePayHis);
+    }
+
+    var ClearPaymentModeHistoryItemTableRowData = function () {
+        $("#PaymentModeHistoryId").val("");
+        $('#ModeOfPayment').val(1).trigger('change');
+        $("#Amount").val("");
+        $("#ReferenceNo").val("");
+    }
+
+    function RemovePaymentModeHistoryRow(button) {
+        Swal.fire({
+            title: 'Do you want to delete this item?',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes'
+        }).then((result) => {
+            if (result.value) {
+                RemoveHTMLTableRowInPaymentModeHistory(button);
+            }
+        });
+    }
+
+    function RemoveHTMLTableRowInPaymentModeHistory(button) {
+        var row = $(button).closest("TR");
+        var table = $("#tblPaymentModeHistory")[0];
+        table.deleteRow(row[0].rowIndex);
+        var _PaymentModeHistoryId = $("TD", row).eq(0).html();
+
+        listPaymentModeHistory = listPaymentModeHistory.filter((item) => item.Id !== parseFloat(_PaymentModeHistoryId));
+        $("#PaidAmount").val(sumPaymentModeHistoryAmount());
+
+        var item = {};
+        item.Id = _PaymentModeHistoryId;
+        item.PaymentsId = $("#Id").val();
+        DeletePaymentModeHistory(item);
+    }
+
+    var sumPaymentModeHistoryAmount = function () {
+        var _sumPaymentModeHistoryAmount = 0;
+        for (let i = 0; i < listPaymentModeHistory.length; i++) {
+            _sumPaymentModeHistoryAmount = parseFloat(_sumPaymentModeHistoryAmount) + parseFloat(listPaymentModeHistory[i].Amount);
+        }        
+        return _sumPaymentModeHistoryAmount;
+    }
+
+
+    var SavePaymentModeHistory = function (PaymentModeHistoryCRUDViewModel) {
+        var _PaymentCRUDViewModel = PreparedFormObj();
+        PaymentModeHistoryCRUDViewModel.PaymentType = 1;
+		var _CategoryTMP = $("#Category").val();
+        _PaymentCRUDViewModel.Category = _CategoryTMP;
+        PaymentModeHistoryCRUDViewModel.PaymentCRUDViewModel=_PaymentCRUDViewModel;
+
+        $.ajax({
+            type: "POST",
+            url: "/Payment/SavePaymentModeHistory",
+            data: PaymentModeHistoryCRUDViewModel,
+            dataType: "json",
+            success: function (result) {
+                toastr.success("New payment item added successfully. ID: " + result.Id, 'Success');
+                var AddNewPaymentModeHistory = new Array();
+                AddNewPaymentModeHistory.push(result);
+                AddNewPaymentModeHistory.forEach(LoadPaymentModeHistoryFromDB);
+
+                UpdatePaymentFields(result.PaymentCRUDViewModel);
+            },
+            error: function (errormessage) {
+                alert(errormessage.responseText);
+            }
+        });
+    }
+
+
+    var DeletePaymentModeHistory = function (PaymentModeHistoryCRUDViewModel) {
+        var _PaymentCRUDViewModel = PreparedFormObj();
+        PaymentModeHistoryCRUDViewModel.PaymentCRUDViewModel = _PaymentCRUDViewModel;
+
+        $.ajax({
+            type: "DELETE",
+            url: "/Payment/DeletePaymentModeHistory",
+            data: PaymentModeHistoryCRUDViewModel,
+            dataType: "json",
+            success: function (result) {
+                toastr.success("Payment item has been deleted successfully. ID: " + result.Id, 'Success');
+                UpdatePaymentFields(result.PaymentCRUDViewModel);
+            },
+            error: function (errormessage) {
+                alert(errormessage.responseText);
+            }
+        });
+    }
+</script>

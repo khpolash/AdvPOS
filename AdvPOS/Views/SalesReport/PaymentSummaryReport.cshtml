@@ -1,0 +1,80 @@
+<div class="wrapper">
+    <div class="panel panel-hash">
+        <div class="panel-heading">
+            <div class="row">
+                <div class="col-md-8">
+                    <h5>Payment Summary Report</h5>
+                </div>
+                <div class="col-md-4 pull-right">
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label">Branch: </label>
+                        <div class="col-sm-10">
+                            <select id="BranchId" style="width: 100%;" asp-items="@ViewBag.ddlBranch"
+                                onchange="GetBrancWisePaymentSummarReport()" class="form-control" required>
+                                <option value="0" selected>All Branch</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="panel-body scroll panel-height">
+            <table id="tblPaymentSummaryReport" class="BlueGreen" style="width:100%">
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Customer Name</th>
+                        <th>Discount</th>
+                        <th>VAT</th>
+                        <th>Sub Total</th>
+                        <th>Grand Total</th>
+                        <th>Paid Amount</th>
+                        <th>Due Amount</th>
+                        <th>Status</th>
+                        <th>Created Date</th>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+    </div>
+</div>
+
+<style>
+    .panel-heading {
+        padding: 0px 0px 0px 5px;
+    }
+
+    .panel-body {
+        padding: 5px;
+    }
+
+    .h4 {
+        margin-top: 1px;
+        margin-bottom: 1px;
+    }
+</style>
+
+<script src="~/js/SalesReport/PaymentSummaryReport_Datatable.js"></script>
+
+<script>
+    $(document).ready(function () {
+        $("#BranchId").select2();
+        DataTableCustomSearchBox('350px', 'Search...');
+    });
+
+    var GetBrancWisePaymentSummarReport = function () {
+        var _BranchId = $("#BranchId").val();
+
+        var _tblPaymentSummaryReport = $("#tblPaymentSummaryReport").DataTable();
+        _tblPaymentSummaryReport.clear();
+        _tblPaymentSummaryReport.destroy();
+        if (_BranchId == 0) {
+            PaymentSummarReportDataTableLoad(false, 0);
+        }
+        else {
+            PaymentSummarReportDataTableLoad(true, _BranchId);
+        }
+        DataTableCustomSearchBox('350px', 'Search...');
+    }
+</script>

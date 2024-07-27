@@ -1,0 +1,78 @@
+﻿@model AdvPOS.Models.UserAccountViewModel.UpdateRoleViewModel
+@{
+    ViewData["Title"] = "Manage User Roles";
+}
+
+
+<div class="wrapper">
+    <div class="row">
+        <h2>Manage Page Access List</h2>&nbsp;&nbsp;
+        <span>
+            <input type="button" class="btn btn-sm btn-success" value="Edit"
+                onclick="ManagePageAccessGeneral('@Model.ApplicationUserId')" />
+        </span>
+    </div>
+
+    <input type="hidden" id="ApplicationUserId" asp-for="ApplicationUserId" />
+    <table class="CustomBlueTable" border="1" id="tblUserRole">
+        <thead>
+            <tr>
+                <th>SL</th>
+                <th>Page Name</th>
+                <th>Access</th>
+            </tr>
+        </thead>
+        <tbody>
+            @{
+                int index = 1;
+                @for (int i = 0; i < Model.listManageUserRolesViewModel.Count; i++)
+                {
+                    <tr>
+                        <td>
+                            @index
+                        </td>
+                        <td>
+                            @Model.listManageUserRolesViewModel[i].RoleName
+                        </td>
+                        <td>
+                            @if (@Model.listManageUserRolesViewModel[i].Selected)
+                            {
+                                <button class="btn btn-sm btn-info">
+                                    <span>Yes</span>
+                                    <i class="fa fa-check-circle" aria-hidden="true"></i>
+                                </button>
+
+                            }
+                            else
+                            {
+                                <button class="btn btn-sm btn-danger">
+                                    <span>No</span>
+                                    <i class="fa fa-flag" aria-hidden="true"></i>
+                                </button>
+                            }
+                        </td>
+                    </tr>
+                    index++;
+                }
+            }
+        </tbody>
+        <tfoot>
+        </tfoot>
+    </table>
+</div>
+
+<script src="~/js/UserManagement/UserManagement_CRUD.js"></script>
+
+<script>
+    $(document).ready(function () {
+        $("#tblUserRole").DataTable({
+            'columnDefs': [{
+                'targets': [0, 1, 2],
+                'orderable': false,
+            }],
+
+            "lengthMenu": [[20, 10, 15, 25, 50, 100, 200], [20, 10, 15, 25, 50, 100, 200]]
+        });
+        DataTableCustomSearchBox('350px', 'Search Role');
+    });
+</script>

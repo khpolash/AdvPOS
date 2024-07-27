@@ -1,0 +1,127 @@
+﻿@model AdvPOS.Models.WarehouseViewModel.TransferItemViewModel
+
+@{
+    ViewData["Title"] = "Transfer Item";
+}
+
+
+<div>
+    <div class="row">
+        <div class="col-md-12">
+            <form asp-action="SaveTransferItem">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                <div class="form-group">
+                    <label asp-for="ItemId" class="control-label"></label>
+                    <select asp-for="ItemId" id="ItemId" onchange="GetByItem()" style="width: 570px;" asp-items="@ViewBag.ddlItem" required>
+                        <option value="0" disabled selected>Please Select Item</option>
+                    </select>
+                    <span asp-validation-for="ItemId" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="CurrentTotalStock" class="control-label"></label>
+                    <input asp-for="CurrentTotalStock" id="CurrentTotalStock" class="form-control" type="number" readonly />
+                </div>
+                <div class="form-group">
+                    <label asp-for="FromWarehouseId" class="control-label"></label>
+                    <select asp-for="FromWarehouseId" id="FromWarehouseId" asp-items="@ViewBag.ddlWarehouseList" class="form-control" disabled>
+                        <option value="0" disabled selected>Please Select Item</option>
+                    </select>
+                    <span asp-validation-for="FromWarehouseId" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="TotalTransferItem" class="control-label"></label>
+                    <input asp-for="TotalTransferItem" id="TotalTransferItem" onchange="CheckCurrentStock()" class="form-control" type="number" min="1" />
+                    <span asp-validation-for="TotalTransferItem" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="ToWarehouseId" class="control-label"></label>
+                    <select asp-for="ToWarehouseId" id="ToWarehouseId" onchange="WarehouseValidate()" asp-items="@ViewBag.ddlWarehouseList" class="form-control" required>
+                        <option value="0" disabled selected>Please Select Item</option>
+                    </select>
+                    <span asp-validation-for="ToWarehouseId" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="ReasonOfTransfer" class="control-label"></label>
+                    <textarea asp-for="ReasonOfTransfer" class="form-control" type="text" />
+                    <span asp-validation-for="ReasonOfTransfer" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <input type="submit" value="Save" class="btn btn-info">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script src="/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+
+
+<script>
+    var tmpTotalDamageItem;
+    $(document).ready(function () {
+        $("#ItemId").select2();
+    });
+
+
+    var SelectItemValue = $("#ItemId").val();
+    GetByItem();
+    tmpTotalDamageItem = $("#TotalTransferItem").val();
+
+
+    function GetByItem() {
+        var SelectItemValue = $("#ItemId").val();
+        $.ajax({
+            type: "GET",
+            url: "/Transactions/GetByItem?Id=" + SelectItemValue,
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (data) {
+                if (data === null) return;
+                WarehouseValidate();
+                $('#CurrentTotalStock').val(data.Quantity);
+                $('#FromWarehouseId').val(data.WarehouseId);
+            },
+            error: function (response) {
+                console.log(response);
+            }
+        });
+    }
+
+    var WarehouseValidate = function () {
+        var _FromWarehouseId = $("#FromWarehouseId").val();
+        var _ToWarehouseId = $("#ToWarehouseId").val();
+        if (parseFloat(_FromWarehouseId) == parseFloat(_ToWarehouseId)) {
+            Swal.fire({
+                title: "Warehouse can't be same, please check.",
+                text: "Alert!",
+                type: "warning"
+            }).then(function () {
+                $("#FromWarehouseId").focus();
+            });
+        }
+    }
+
+    var CheckCurrentStock = function () {
+        var _CurrentTotalStock = $("#CurrentTotalStock").val();
+        var _TotalTransferItem = $("#TotalTransferItem").val();
+
+        if (parseFloat(_TotalTransferItem) > parseFloat(_CurrentTotalStock)) {
+            strCurrentStockMessage = "Transfer item can not be gratre than currrent total stock."
+            Swal.fire({
+                title: strCurrentStockMessage,
+                text: "Alert!",
+                type: "warning"
+            }).then(function () {
+                $("#TotalTransferItem").val("");
+                window.setTimeout(function () {
+                    document.getElementById('TotalTransferItem').focus();
+                }, 0);
+            });
+        }
+    };
+
+</script>
+

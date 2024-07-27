@@ -1,0 +1,23 @@
+@model AdvPOS.Models.CustomerInfoViewModel.CustomerInfoCRUDViewModel
+@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer localizer
+
+<div class="row">
+    <div class="col-md-12">
+        <table class="BlueGreen">
+            <tr><th>@localizer["Id"]</th><td>@Model.Id</td></tr>
+            <tr><th>@localizer["Name"]</th><td>@Model.Name</td></tr>
+            <tr><th>@localizer["Company Name"]</th><td>@Model.CompanyName</td></tr>
+            <tr><th>@localizer["Type"]</th><td>@Model.TypeDisplay</td></tr>
+            <tr><th>@localizer["Phone"]</th><td>@Model.Phone</td></tr>
+            <tr><th>@localizer["Email"]</th><td>@Model.Email</td></tr>
+
+            <tr><th>@localizer["Address"]</th><td>@Model.Address</td></tr>
+            <tr><th>@localizer["Billing Address"]</th><td>@Model.BillingAddress</td></tr>
+            <tr><th>@localizer["Notes"]</th><td>@Model.Notes</td></tr>
+            <tr><th>@localizer["Created Date<"]/th><td>@Model.CreatedDate</td></tr>
+            <tr><th>@localizer["Modified Date"]</th><td>@Model.ModifiedDate</td></tr>
+            <tr><th>@localizer["Created By"]</th><td>@Model.CreatedBy</td></tr>
+            <tr><th>@localizer["Modified By"]</th><td>@Model.ModifiedBy</td></tr>
+        </table>
+    </div>
+</div>

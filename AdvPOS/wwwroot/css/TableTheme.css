@@ -1,0 +1,207 @@
+﻿/* Blue Green */
+.BlueGreen {
+    font-family: Arial, Helvetica, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+    border: 1px solid #17A2B8;
+}
+
+    .BlueGreen td, .BlueGreen th {
+        border: 1px solid #17A2B8;
+        /*padding: 1px;*/
+        line-height: 20px;
+        padding-left: 5px;
+    }
+
+    .BlueGreen th {
+        border: 1px solid #9d79ad;
+        padding-top: 1px;
+        padding-bottom: 1px;
+        text-align: left;
+        background-color: #17A2B8;
+        color: white;
+        line-height: 30px;
+        padding-left: 5px;
+    }
+
+    .BlueGreen tr:nth-child(even) {
+        background-color: #fff;
+    }
+
+    .BlueGreen tr:hover {
+        background-color: #6ab0bb;
+        color: white;
+    }
+
+    .BlueGreen td, .BlueGreen th {
+        font-size: 12px;
+    }
+
+    .BlueGreen a:hover {
+        color: #fff;
+    }
+
+
+/* Custom Table Purple */
+.CustomTablePurple {
+    font-family: Arial, Helvetica, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+    border: 1px solid #b200ff;
+}
+
+    .CustomTablePurple td, .CustomTablePurple th {
+        border: 1px solid #b200ff;
+        /*padding: 1px;*/
+        line-height: 20px;
+        padding-left: 5px;
+    }
+
+    .CustomTablePurple th {
+        border: 1px solid #9d79ad;
+        padding-top: 1px;
+        padding-bottom: 1px;
+        text-align: left;
+        background-color: #b200ff;
+        color: white;
+        line-height: 30px;
+        padding-left: 5px;
+    }
+
+    .CustomTablePurple tr:nth-child(even) {
+        background-color: #fff;
+    }
+
+    .CustomTablePurple tr:hover {
+        background-color: #9d79ad;
+        color: white;
+    }
+
+    .CustomTablePurple td, .CustomTablePurple th {
+        font-size: 12px;
+    }
+
+    .CustomTablePurple a:hover {
+        color: #fff;
+    }
+
+
+/* Item Tran Table */
+.ItemTranTable {
+    font-family: Arial, Helvetica, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+    border: 1px solid #4CAF50;
+}
+
+    .ItemTranTable td, #ItemTranTable th {
+        border: 1px solid #4CAF50;
+        /*padding: 1px;*/
+        line-height: 20px;
+        padding-left: 5px;
+    }
+
+    .ItemTranTable th {
+        border: 1px solid #808080;
+        padding-top: 1px;
+        padding-bottom: 1px;
+        text-align: left;
+        background-color: #4CAF50;
+        color: white;
+        line-height: 30px;
+        padding-left: 5px;
+    }
+
+    .ItemTranTable tr:nth-child(even) {
+        background-color: #f2f2f2;
+    }
+
+    .ItemTranTable tr:hover {
+        background-color: #6cba4d;
+        color: white;
+    }
+
+    .ItemTranTable a:hover {
+        color: #ff0000;
+    }
+
+    .ItemTranTable td, .ItemTranTable th {
+        font-size: 12px;
+    }
+
+
+/* Custom Blue Table */
+.CustomBlueTable {
+    font-family: Arial, Helvetica, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+    border: 1px solid #0094ff;
+}
+
+    .CustomBlueTable td, .CustomBlueTable th {
+        border: 1px solid #0094ff;
+        /*padding: 1px;*/
+        line-height: 20px;
+        padding-left: 5px;
+    }
+
+    .CustomBlueTable th {
+        border: 1px solid #4CAF50;
+        padding-top: 1px;
+        padding-bottom: 1px;
+        text-align: left;
+        background-color: #0094ff;
+        color: white;
+        line-height: 30px;
+        padding-left: 5px;
+    }
+
+    .CustomBlueTable tr:nth-child(even) {
+        background-color: #f2f2f2;
+    }
+
+    .CustomBlueTable tr:hover {
+        background-color: #5e9cc8;
+        color: white;
+    }
+
+    .CustomBlueTable a:hover {
+        color: #ff0000;
+    }
+
+    .CustomBlueTable td, .CustomBlueTable th {
+        font-size: 12px;
+    }
+
+/* Print Invoice Table */
+.PrintInvoiceTable {
+    font-family: Arial, Helvetica, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+    border: 1px solid #4CAF50;
+}
+
+    .PrintInvoiceTable td, #PrintInvoiceTable thth {
+        border: 1px solid #000000;
+        padding-left: 5px;
+    }
+
+    .PrintInvoiceTable th {
+        border: 1px solid #808080;
+        padding-left: 5px;
+        text-align: left;
+        background-color: #4CAF50;
+        color: white;
+    }
+
+    .PrintInvoiceTable tr:nth-child(even) {
+        background-color: #f2f2f2;
+    }
+
+    .PrintInvoiceTable tr:hover {
+        background-color: #6cba4d;
+    }
+
+    .PrintInvoiceTable td, .PrintInvoiceTable th {
+        font-size: 12px;
+    }

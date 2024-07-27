@@ -1,0 +1,18 @@
+
+
+Project Sample Explanation: ASP.NET Full Stack Development
+https://www.youtube.com/playlist?list=PLe8xdXlVhkWhvHqt6A3t8AKMjSkPVcJZ4
+
+
+How to Connect SQL Server in ASP.NET 💻Project | ASP.NET Database Connection Common 🚩Error
+https://www.youtube.com/watch?v=_RecxwQ2qwo
+
+ASP.NET MVC Full Stack Development 🚀 | .NET 8 | CRUD Operations Paging Sorting Searching
+https://www.youtube.com/watch?v=6QlQ1gIpfZI&
+
+How to deploy/host ASP.NET Core 6.0 MVC App to IIS Using VS Code | Visual Studio
+https://www.youtube.com/watch?v=XcLrP8qixBM
+
+
+Our Blog:
+https://medium.com/@shahedbd

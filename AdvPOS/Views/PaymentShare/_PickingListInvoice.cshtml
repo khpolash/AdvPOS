@@ -1,0 +1,83 @@
+﻿@model AdvPOS.Models.PaymentViewModel.PaymentReportViewModel
+
+<div>
+    <h5>Payment Item Details</h5>
+    <div>
+        <div class="row" style="width:100%; margin:0 auto;">
+            <table class="" style="width:100%" border="1">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Item</th>
+                        <th>Quantity</th>
+                        <th>Unit Price</th>
+                        <th>Discount(%)</th>
+                        <th>VAT(%)</th>
+                        <th>Total Amount</th>
+                    </tr>
+                </thead>
+                @foreach (var item in Model.listPaymentDetailCRUDViewModel)
+                {
+                    <tbody>
+
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Id)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.ItemName)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Quantity)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.UnitPrice)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.ItemDiscount)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.ItemVAT)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.TotalAmount)
+                            </td>
+                        </tr>
+                    </tbody>
+                }
+            </table>
+        </div>
+    </div>
+
+    <div id="divPickingList">
+    <hr />
+    <table class="" style="width:100%" border="1">
+        <tbody>
+            <tr class="firstrow text-center">
+                <td width="25%">Picked By</td>
+                <td width="25%">Checked By</td>
+                <td width="25%">Time</td>
+                <td width="25%">Collected By</td>
+            </tr>
+
+            <tr align="center" style="height:60px">
+                <td width="25%"></td>
+                <td width="25%"></td>
+                <td width="25%"></td>
+                <td width="25%"></td>
+            </tr>
+
+        </tbody>
+    </table>
+</div>
+
+    <style>
+        table th {
+            padding-left: 5px;
+        }
+
+        table td {
+            padding-left: 5px;
+        }
+    </style>
+</div>

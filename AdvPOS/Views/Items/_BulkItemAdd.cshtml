@@ -1,0 +1,16 @@
+﻿@model AdvPOS.Models.ItemsViewModel.BulkItemViewModel
+
+
+<div>
+    <form id="frmAttachmentFile" method="post" enctype="multipart/form-data">
+        <div class="form-group">
+            <span class="control-fileupload">
+                <label for="file">Choose a file :</label>
+                <input type="file" asp-for="AttachmentFile" id="AttachmentFile" name="AttachmentFile" />
+            </span>
+        </div>
+        <div class="form-group">
+            <input type="button" id="btnSaveBulkItem" value="Add Bulk Item" class="btn btn-info" onclick="SaveBulkItem();">
+        </div>
+    </form>
+</div>

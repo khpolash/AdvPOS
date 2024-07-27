@@ -1,0 +1,104 @@
+﻿@model AdvPOS.Models.PaymentViewModel.PaymentReportViewModel
+
+@{
+    ViewData["Title"] = "Invoice Report";
+}
+
+<div class="row">
+    <div class="col-sm-5" id="divCompanyLogo">
+        <img src="@Model.CompanyInfoCRUDViewModel.Logo" class="" alt="" style="margin-bottom:20px; width:20%;">
+    </div>
+    <div class="col-sm-7">
+        @if (Model.PaymentCRUDViewModel.Category == 1)
+        {
+            <h4 id="titleInvoice"><b>INVOICE</b></h4>
+        }
+        else if (Model.PaymentCRUDViewModel.Category == 3)
+        {
+            <h4><b>QUOTE</b></h4>
+        }
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-sm-5" id="divCompanyInfo">
+        <address style="margin-top:1px">
+            <strong>@Model.CompanyInfoCRUDViewModel.Name</strong>
+            <br>@Model.CompanyInfoCRUDViewModel.Address<br>
+            <abbr><b>Mobile: </b></abbr>@Model.CompanyInfoCRUDViewModel.Phone<br>
+            <abbr><b>Email: </b></abbr>@Model.CompanyInfoCRUDViewModel.Email<br>
+            <abbr><b>Website: </b></abbr>@Model.CompanyInfoCRUDViewModel.Website
+        </address>
+    </div>
+    <div class="col-sm-2">
+        @if (Model.PaymentCRUDViewModel.Category == 1)
+        {
+            <abbr><b>Invoice No: </b></abbr>
+
+            @Model.PaymentCRUDViewModel.InvoiceNo
+
+            <br>
+            <abbr><b>Payment Status: </b></abbr>
+
+            @Model.PaymentCRUDViewModel.PaymentStatusDisplay
+
+            <br>
+        }
+        else if (Model.PaymentCRUDViewModel.Category == 3)
+        {
+            <abbr><b>Quote No: </b></abbr>
+
+            @Model.PaymentCRUDViewModel.QuoteNo
+
+            <br>
+        }
+
+        <abbr><b>Currency: </b></abbr>@Model.PaymentCRUDViewModel.CurrencyName<br>
+        <abbr><b>Branch: </b></abbr>@Model.PaymentCRUDViewModel.BranchName<br>
+    </div>
+    <div class="col-sm-5 text-right">
+        <table cellpadding="3" cellspacing="0" border="1" class="infotablethird pull-right">
+            <tbody>
+                <tr>
+                    <td colspan="2" class="bgcolor font_size_bold" width="250px">Customer Details</td>
+                    <td class="bgcolor font_size_bold" width="250px" align="center">Shipping Details</td>
+                </tr>
+                <tr style="">
+                    <td colspan="2" height="40px" class="unbold font_size_unbold">
+                        @Model.CustomerInfoCRUDViewModel.Address<span></span>
+                        @Model.CustomerInfoCRUDViewModel.AddressPostcode
+                    </td>
+                    <td rowspan="3">
+                        @Model.CustomerInfoCRUDViewModel.BillingAddress<span>,</span>
+                        @Model.CustomerInfoCRUDViewModel.BillingAddressPostcode
+                    </td>
+                </tr>
+                <tr>
+                    <td class="bgcolor font_size_bold">Email</td>
+                    <td class="unbold font_size_unbold">@Model.CustomerInfoCRUDViewModel.Email</td>
+                </tr>
+                <tr>
+                    <td class="bgcolor font_size_bold">Phone</td>
+                    <td class="unbold font_size_unbold">@Model.CustomerInfoCRUDViewModel.Phone</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="m-b-15">
+            <strong>Served By </strong>: @Model.PaymentCRUDViewModel.CreatedBy
+        </div>
+        <div class="m-b-15">
+            <strong>Print Date </strong>: @DateTime.Today.ToString("dd MMMM yyyy")
+        </div>
+    </div>
+</div>
+
+<style>
+    .panel-heading {
+        padding: 0px 0px;
+        border-bottom: 0px solid transparent;
+        border-top-left-radius: 0px;
+        border-top-right-radius: 0px;
+    }
+</style>
+

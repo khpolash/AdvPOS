@@ -1,0 +1,65 @@
+﻿@model IEnumerable<AdvPOS.Models.ItemsHistoryViewModel.ItemsHistoryCRUDViewModel>
+
+<div class="row">
+    <div class="col-sm-12">
+        <table id="tblItemsHistory" class="BlueGreen">
+            <thead>
+                <tr>
+                    <th>SL</th>
+                    <th>Item Name</th>
+                    <th>Unit Price</th>
+                    <th>Sell Price</th>
+                    <th>Old Unit Price</th>
+                    <th>Old Qnt</th>
+                    <th>New Qnt</th>
+                    <th>Tran Qnt</th>
+                    <th>Action</th>
+                    <th>Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                @{
+                    int index = 1;
+                    @foreach (var item in Model)
+                    {
+                        var _CreatedDate = item.CreatedDate.ToShortDateString();
+                        <tr>
+                            <td>
+                                @index
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.ItemName)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.CostPrice)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.NormalPrice)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.OldUnitPrice)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.OldQuantity)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.NewQuantity)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.TranQuantity)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Action)
+                            </td>
+                            <td>
+                                @item.ModifiedDate.ToString("dd MMMM yyyy")
+                            </td>
+                        </tr>
+                        index++;
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+

@@ -1,0 +1,75 @@
+﻿@model AdvPOS.Models.DashboardViewModel.DashboardSummaryViewModel;
+@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer localizer
+
+<div class="panel panel-hash">
+    <div class="panel-heading"><h4><b>@localizer["Recent Invoice"]</b></h4></div>
+    <div class="panel-body scroll panel-height">
+        <table class="CustomBlueTable">
+            <thead>
+                <tr>
+                    <th>@localizer["SL"]</th>
+                    <th>@localizer["Invoice No"]</th>
+                    <th>@localizer["Customer Name"]</th>
+                    <th>@localizer["Amount"]</th>
+                    <th>@localizer["Paid Amount"]</th>
+                    <th>@localizer["Due Amount"]</th>
+                    <th>@localizer["Payment Status"]</th>
+                    <th>@localizer["Invoice Date"]</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @{
+                    var countSL = 1;
+                    foreach (var item in Model.listRecentInvoiceViewModel)
+                    {
+                        <tr>
+                            <td>@countSL</td>
+                            <td>
+                                <a href='#' class='btn btn-link btn-xs' onclick=Details('@item.Id')>@item.InvoiceNo</a>
+                            </td>
+                            <td>@item.CustomerName</td>
+                            <td>@item.Amount</td>
+                            <td>@item.PaidAmount</td>
+                            <td>@item.DueAmount</td>
+                            @if (item.PaymentStatus == "Paid")
+                            {
+                                <td>
+                                    <button class="btn btn-xs btn-info">
+                                        <span>Paid</span> 
+                                        <i class="fa fa-check-circle" aria-hidden="true"></i>
+                                    </button>
+                                </td>
+                            }
+                            @if (item.PaymentStatus == "Unpaid")
+                            {
+                                <td>
+                                    <button class="btn btn-xs btn-danger">
+                                        <span>Unpaid</span>
+                                        <i class="fa fa-flag" aria-hidden="true"></i>
+                                    </button>
+                                </td>
+
+                            }
+                            <td>@item.InvoiceDate.ToString("dddd, dd MMMM yyyy HH:mm:ss")</td>
+                            <td>
+                                <a href='#' class="btn btn-link btn-xs" onclick=PrintPaymentInvoice("@item.Id")>
+                                    <span class='fa fa-print'></span>@localizer["Print"]
+                                </a>
+                            </td>
+                        </tr>
+                        countSL++;
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+<br />
+
+<script src="~/js/Payment/Payment_CRUD.js"></script>
+<script>
+    var PrintInvoice = function (PaymentId) {
+        location.href = "/Transactions/PrintInvoice?PaymentId=" + PaymentId;
+    };
+</script>

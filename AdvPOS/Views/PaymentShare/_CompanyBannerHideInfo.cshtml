@@ -1,0 +1,67 @@
+﻿@model AdvPOS.Models.PaymentViewModel.PaymentReportViewModel
+
+<div class="row">
+    <div class="column">
+        <h4></h4>
+    </div>
+    <div class="column">
+        @if (Model.PaymentCRUDViewModel.Category == 1)
+        {
+            <h4 id="titleInvoice"><b>INVOICE</b></h4>
+        }
+        else if (Model.PaymentCRUDViewModel.Category == 3)
+        {
+            <h4><b>QUOTE</b></h4>
+        }
+    </div>
+</div>
+<hr />
+
+<div class="row">
+    <div class="column">
+        <span>............</span>
+    </div>
+    <div class="column text-right">
+        <abbr><b>Invoice No: </b></abbr>@Model.PaymentCRUDViewModel.InvoiceNo<br>
+        <abbr><b>Payment Status: </b></abbr>@Model.PaymentCRUDViewModel.PaymentStatusDisplay<br>
+        <abbr><b>Currency: </b></abbr>@Model.PaymentCRUDViewModel.CurrencyName<br>
+        <div class="m-b-15"><strong>Print Date </strong>: @DateTime.Today.ToString("dd MMMM yyyy")</div>
+
+        <div class="col-sm-5 text-right">
+            <table cellpadding="3" cellspacing="0" border="1" class="infotablethird pull-right">
+                <tbody>
+                    <tr>
+                        <td colspan="2" class="bgcolor font_size_bold" width="250px">Customer Details</td>
+                        <td class="bgcolor font_size_bold" width="250px" align="center">Shipping Details</td>
+                    </tr>
+                    <tr style="">
+                        <td colspan="2" height="40px" class="unbold font_size_unbold">
+                            @Model.CustomerInfoCRUDViewModel.Address<span></span>
+                            @Model.CustomerInfoCRUDViewModel.AddressPostcode
+                        </td>
+                        <td rowspan="3">
+                            @Model.CustomerInfoCRUDViewModel.BillingAddress<span>,</span>
+                            @Model.CustomerInfoCRUDViewModel.BillingAddressPostcode
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="bgcolor font_size_bold">Email</td>
+                        <td class="unbold font_size_unbold">@Model.CustomerInfoCRUDViewModel.Email</td>
+                    </tr>
+                    <tr>
+                        <td class="bgcolor font_size_bold">Phone</td>
+                        <td class="unbold font_size_unbold">@Model.CustomerInfoCRUDViewModel.Phone</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="m-b-15">
+                <strong>Served By </strong>: @Model.PaymentCRUDViewModel.CreatedBy
+            </div>
+            <div class="m-b-15">
+                <strong>Print Date </strong>: @DateTime.Today.ToString("dd MMMM yyyy")
+            </div>
+        </div>
+    </div>
+</div>
+<hr />

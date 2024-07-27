@@ -1,0 +1,157 @@
+@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer localizer
+
+<div class="wrapper">
+    <div class="panel panel-hash">
+        <div class="panel-heading">
+            <div class="row">
+                <div class="col-md-5">
+                    <a class="fa fa-plus-square fa-2x" onclick="AddEdit(0)"></a>
+                </div>
+                <div class="col-md-7 pull-right">
+                    <h5 class="pull-right"><b>&nbsp;@localizer["Invoice List"]</b></h5>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-3">
+                    <div class="">
+                        <label>@localizer["Start Date:"]</label>
+                        <input type="date" id="StartDate" class="" required>
+                    </div>
+                </div>
+                <div class="col-sm-3">
+                    <div class="f">
+                        <label>@localizer["End Date:"]</label>
+                        <input type="date" id="EndDate" class="" required>
+                    </div>
+                </div>
+                <div class="col-sm-2">
+                    <div class="">
+                        <label></label>
+                        <input type="button" class=" btn btn-sm btn-success" value="Submit"
+                               onclick="CustomRangeDataFilter()" />
+                        <input type="button" class=" btn btn-sm btn-danger" value="Reset"
+                               onclick="CustomRangeDataFilter()" />
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <label>@localizer["Showing"] : @ViewBag.StartDate to @ViewBag.EndDate</label>
+                </div>
+            </div>
+        </div>
+
+        <div class="panel-body scroll panel-height">
+            <table id="tblPayments" class="BlueGreen" style="width:100%">
+                <thead>
+                    <tr>
+                        <th>@localizer["Id"]</th>
+                        <th>@localizer["Customer"]</th>
+                        <th>@localizer["Sub Total"]</th>
+                        <th>@localizer["Discount"]</th>
+                        <th>@localizer["VAT"]</th>
+                        <th>@localizer["Grand Total"]</th>
+                        <th>@localizer["Paid Amount"]</th>
+                        <th>@localizer["Due Amount"]</th>
+                        <th>@localizer["Created Date"]</th>
+
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+    </div>
+
+    <hr />
+    <div class="row col-sm-12">
+        <div id="cash_period_before_refund" class="col-sm-6 pull-left">
+            <h5><b>@localizer["Cash flow (before refunds)"]</b></h5>
+            <table class="ItemTranTable" border="1">
+                <tbody>
+                    <tr>
+                        <th style="width:40%;">@localizer["Due Amount"]</th>
+                        <td><label id="ReportDueAmount"></label></td>
+                    </tr>
+                    <tr>
+                        <th>@localizer["Paid Amount"]</th>
+                        <td><label id="ReportPaidAmount"></label></td>
+                    </tr>
+                    <tr>
+                        <th>@localizer["Changed Amount"]</th>
+                        <td><label id="ReportChangedAmount"></label></td>
+                    </tr>
+                    <tr>
+                        <th>@localizer["Grand Total"]</th>
+                        <td><label id="ReportGrandTotalCashflow"></label></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div id="cash_period_after_refund" class="col-sm-6 pull-left">
+            <h5><b>@localizer["Total takings this Period"]</b></h5>
+            <table class="CustomBlueTable" border="1">
+                <tbody>
+                    <tr>
+                        <th style="width:40%;">@localizer["Sub Total"]</th>
+                        <td><label id="ReportSubTotal"></label></td>
+                    </tr>
+                    <tr>
+                        <th>@localizer["Discount Amount"]</th>
+                        <td><label id="ReportDiscountAmount"></label></td>
+                    </tr>
+                    <tr>
+                        <th>@localizer["VAT Amount"]</th>
+                        <td><label id="ReportVATAmount"></label></td>
+                    </tr>
+
+                    <tr>
+                        <th>@localizer["Grand Total"]</th>
+                        <td><label id="ReportGrandTotal"></label></td>
+                    </tr>
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<style>
+    .panel-heading {
+        padding: 0px 0px 0px 5px;
+    }
+
+    .panel-body {
+        padding: 5px;
+    }
+
+    .h3 h3 {
+        margin-top: 0px;
+        margin-bottom: 0px;
+        font-size: 0.0rem;
+    }
+
+    .h4 {
+        margin-top: 1px;
+        margin-bottom: 1px;
+    }
+
+    .h5 {
+        margin-top: 1px;
+        margin-bottom: 1px;
+    }
+
+    .modal-title {
+        margin-bottom: 0;
+        line-height: 0.1;
+    }
+</style>
+
+<script src="~/js/Payment/Payment_CRUD.js"></script>
+<script src="~/js/Payment/Payment_Datatable.js"></script>
+<script src="~/js/Common_CRUD.js"></script>
+<script src="~/js/ReturnLog/Sales_ReturnLog_CRUD.js"></script>

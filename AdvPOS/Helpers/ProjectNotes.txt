@@ -1,0 +1,54 @@
+
+dotnet ef migrations add InitialCreate
+dotnet ef database update
+
+public const int DefaultConnectionMSSQLNoCred = 0;
+public const int DefaultConnectionMSSQL = 1;
+public const int DefaultConnectionMySQL = 2;
+public const int DefaultConnectionDockerBase = 3;
+public const int DefaultConnectionMSSQLProd = 4;
+public const int DefaultConnectionOthers = 5;
+
+npx kill-port 5001
+
+# Create local certificate:
+dotnet dev-certs https --clean
+dotnet dev-certs https -t
+
+
+
+dotnet build
+dotnet run
+
+Publish App:
+dotnet publish -c Release -p:UseAppHost=false
+
+
+-- Kill Current Connection and Drop MSSQL DB: 
+USE [master]
+GO
+ALTER DATABASE [AdvPOS] SET  SINGLE_USER WITH ROLLBACK IMMEDIATE
+GO
+USE [master]
+GO
+DROP DATABASE [AdvPOS]
+GO
+
+
+
+Fa fa:
+https://fontawesome.com/icons/list?s=solid&f=sharp
+
+
+After sign into google account, go to:
+https://www.google.com/settings/security/lesssecureapps
+or
+https://myaccount.google.com/lesssecureapps 
+
+https://code-maze.com/aspnetcore-send-email/
+
+
+SwaggerDoc
+https://localhost:5007/swagger/index.html
+
+

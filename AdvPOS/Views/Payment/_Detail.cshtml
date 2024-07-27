@@ -1,0 +1,200 @@
+@model AdvPOS.Models.PaymentViewModel.ManagePaymentViewModel
+@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer localizer
+
+<div>
+    <h5>@localizer["Customer Name:"] @Model.PaymentCRUDViewModel.CustomerName, @localizer["Id:"] @Model.PaymentCRUDViewModel.Id
+    </h5>
+</div>
+
+<div class="card card-primary card-outline card-tabs">
+    <div class="card-header p-0 pt-1 border-bottom-0">
+        <ul class="nav nav-tabs" id="custom-tabs-three-tab" role="tablist">
+            <li class="nav-item">
+                <a class="nav-link active" id="Tab1" data-toggle="pill" href="#divTab1" role="tab" aria-controls="Tab1"
+                    aria-selected="true">@localizer["Payment Summary"]</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="Tab2" data-toggle="pill" href="#divTab2" role="tab" aria-controls="Tab2"
+                    aria-selected="true">@localizer["Payment History"]</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="Tab3" data-toggle="pill" href="#divTab3" role="tab" aria-controls="Tab3"
+                    aria-selected="true">@localizer["Item Detail"]</a>
+            </li>
+        </ul>
+    </div>
+
+    <div class="card-body">
+        <div class="tab-content" id="tabContent">
+            <div class="tab-pane fade show active" id="divTab1" role="tabpanel" aria-labelledby="divTab1">
+                <table class="CustomBlueTable" style="width:100%;" border="1">
+                    <tr>
+                        <th>@localizer["Invoice No"]</th>
+                        <td>@Model.PaymentCRUDViewModel.InvoiceNo</td>
+                    </tr>
+                    <tr>
+                        <th>@localizer["Sub Total"]</th>
+                        <td>@Model.PaymentCRUDViewModel.SubTotal</td>
+                    </tr>
+                    <tr>
+                        <th>@localizer["Discount(%)"]</th>
+                        <td>@Model.PaymentCRUDViewModel.Discount</td>
+                    </tr>
+                    <tr>
+                        <th>@localizer["Discount Amount"]</th>
+                        <td>@Model.PaymentCRUDViewModel.DiscountAmount</td>
+                    </tr>
+                    <tr>
+                        <th>@localizer["VAT(%)"]</th>
+                        <td>@Model.PaymentCRUDViewModel.VAT</td>
+                    </tr>
+                    <tr>
+                        <th>@localizer["VAT Amount"]</th>
+                        <td>@Model.PaymentCRUDViewModel.VATAmount</td>
+                    </tr>
+                    <tr>
+                        <th>@localizer["Shipping Charge"]</th>
+                        <td>@Model.PaymentCRUDViewModel.CommonCharge</td>
+                    </tr>
+                    <tr>
+                        <th style="background-color:rebeccapurple; color:white">@localizer["Grand Total"]</th>
+                        <td>@Model.PaymentCRUDViewModel.GrandTotal</td>
+                    </tr>
+                    <tr>
+                        <th>@localizer["Paid Amount"]</th>
+                        <td>@Model.PaymentCRUDViewModel.PaidAmount</td>
+                    </tr>
+                    <tr>
+                        <th>@localizer["Due Amount"]</th>
+                        <td>@Model.PaymentCRUDViewModel.DueAmount</td>
+                    </tr>
+                    <tr>
+                        <th>@localizer["Changed Amount"]</th>
+                        <td>@Model.PaymentCRUDViewModel.ChangedAmount</td>
+                    </tr>
+                    <tr>
+                        <th>@localizer["Payment Status"]</th>
+                        <td>@Model.PaymentCRUDViewModel.PaymentStatusDisplay</td>
+                    </tr>
+                    <tr>
+                        <th>@localizer["Currency"]</th>
+                        <td>@Model.PaymentCRUDViewModel.CurrencyName</td>
+                    </tr>
+                    <tr>
+                        <th>@localizer["Branch"]</th>
+                        <td>@Model.PaymentCRUDViewModel.BranchName</td>
+                    </tr>
+                    <tr>
+                        <th>@localizer["Created Date"]</th>
+                        <td>@Model.PaymentCRUDViewModel.CreatedDate</td>
+                    </tr>
+                </table>
+            </div>
+            <div class="tab-pane fade show" id="divTab2" role="tabpanel" aria-labelledby="divTab2">
+                <table class="CustomBlueTable" style="width:100%" border="1">
+                    <thead>
+                        <tr>
+                            <th>@localizer["ID"]</th>
+                            <th>@localizer["Payment Type"]</th>
+                            <th>@localizer["Amount"]</th>
+                            <th>@localizer["Reference No"]</th>
+                            <th>@localizer["Date"]</th>
+                        </tr>
+                    </thead>
+                    @foreach (var item in Model.listPaymentModeHistoryCRUDViewModel)
+                    {
+                        <tbody>
+
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Id)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.ModeOfPayment)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Amount)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.ReferenceNo)
+                                </td>
+                                <td>
+                                    @item.CreatedDate.ToString("dd MMMM yyyy")
+                                </td>
+                            </tr>
+                        </tbody>
+                    }
+                </table>
+            </div>
+            <div class="tab-pane fade show" id="divTab3" role="tabpanel" aria-labelledby="divTab3">
+                <div class="row" style="width:100%; margin:0 auto;">
+                    <table class="CustomBlueTable" border="1">
+                        <thead>
+                            <tr>
+                                <th>@localizer["ID"]</th>
+                                <th>@localizer["Item Name"]</th>
+                                <th>@localizer["Quantity"]</th>
+                                <th>@localizer["Item Price"]</th>
+                                <th>@localizer["Discount(%)"]</th>
+                                <th>@localizer["VAT(%)"]</th>
+                                <th>@localizer["Total Amount"]</th>
+                                <th>@localizer["Return"]</th>
+                            </tr>
+                        </thead>
+                        @foreach (var item in Model.listPaymentDetailCRUDViewModel)
+                        {
+                            <tbody>
+
+                                <tr>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Id)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.ItemName)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Quantity)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.UnitPrice)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.ItemDiscount)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.ItemVAT)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.TotalAmount)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.IsReturnDisplay)
+                                    </td>
+                                </tr>
+                            </tbody>
+                        }
+                        <tfoot id="tblAddLabTeststfoot">
+                            <tr>
+                                <td>
+                                </td>
+                                <td>
+                                </td>
+                                <td>
+                                </td>
+                                <td>
+                                </td>
+                                <td>
+                                </td>
+                                <td>
+                                </td>
+                                <td>
+                                    <span>@localizer["Total:"] @Model.PaymentCRUDViewModel.GrandTotal</span>
+                                </td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

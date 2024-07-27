@@ -1,0 +1,239 @@
+@model AdvPOS.Models.PaymentViewModel.ManagePaymentViewModel
+
+<div class="row">
+    <input asp-for="PaymentCRUDViewModel.Id" id="PaymentId" hidden>
+    <button type="button" id="btnClose" class="btn btn-danger" data-dismiss="modal" hidden>Close</button>
+
+    <div class="col-12 col-sm-12">
+        <div class="form-group row">
+            <label asp-for="PaymentCRUDViewModel.ReturnNote" class="col-sm-2 col-form-label"></label>
+            <div class="col-sm-10">
+                <textarea asp-for="PaymentCRUDViewModel.ReturnNote" id="ReturnNote" class="form-control" rows="3"
+                    placeholder="Return Note"></textarea>
+                <span asp-validation-for="PaymentCRUDViewModel.ReturnNote" class="text-danger"></span>
+            </div>
+        </div>
+    </div>
+    <div class="col-12 col-sm-12">
+        <div class="form-group row">
+            <div class="col-sm-2">
+            </div>
+            <div class="col-sm-10">
+                <input type="button" id="btnConfirmReturn" value="Confirm Return" onclick="SaveSalesRetrurn()"
+                    class="btn btn-success">
+            </div>
+        </div>
+    </div>
+</div>
+
+<hr />
+<h4>Payment Details</h4>
+<hr />
+<div>
+    <h5>Customer Name: @Model.PaymentCRUDViewModel.CustomerName
+    </h5>
+</div>
+
+<div class="card card-primary card-outline card-tabs">
+    <div class="card-header p-0 pt-1 border-bottom-0">
+        <ul class="nav nav-tabs" id="custom-tabs-three-tab" role="tablist">
+            <li class="nav-item">
+                <a class="nav-link active" id="Tab1" data-toggle="pill" href="#divTab1" role="tab" aria-controls="Tab1"
+                    aria-selected="true">Item Detail</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="Tab2" data-toggle="pill" href="#divTab2" role="tab" aria-controls="Tab2"
+                    aria-selected="true">Payment History</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="Tab3" data-toggle="pill" href="#divTab3" role="tab" aria-controls="Tab3"
+                    aria-selected="true">Payment Summary</a>
+            </li>
+        </ul>
+    </div>
+
+    <div class="card-body">
+        <div class="tab-content" id="tabContent">
+            <div class="tab-pane fade show active" id="divTab1" role="tabpanel" aria-labelledby="divTab1">
+                <div class="row" style="width:100%; margin:0 auto;">
+                    <table class="CustomBlueTable" border="1">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Item Name</th>
+                                <th>Quantity</th>
+                                <th>Item Price</th>
+                                <th>Discount(%)</th>
+                                <th>VAT(%)</th>
+                                <th>Total Amount</th>
+                                <th>Return</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        @foreach (var item in Model.listPaymentDetailCRUDViewModel)
+                        {
+                            <tbody>
+
+                                <tr>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.ItemId)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.ItemName)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Quantity)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.UnitPrice)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.ItemDiscount)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.ItemVAT)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.TotalAmount)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.IsReturnDisplay)
+                                    </td>
+                                    <td>
+                                        @if (!item.IsReturn)
+                                        {
+                                            <a href="#" class='btn btn-sm btn-primary'
+                                        onclick="SingleItemSalesRetrurn('@Model.PaymentCRUDViewModel.Id', '@item.Id');"><i
+                                            class='fa fa-arrow-circle-left' aria-hidden='true'></i></a>
+                                        }
+                                    </td>
+                                </tr>
+                            </tbody>
+                        }
+                        <tfoot id="tblAddLabTeststfoot">
+                            <tr>
+                                <td>
+                                </td>
+                                <td>
+                                </td>
+                                <td>
+                                </td>
+                                <td>
+                                </td>
+                                <td>
+                                </td>
+                                <td>
+                                </td>
+                                <td>
+                                    <span>Total: @Model.PaymentCRUDViewModel.GrandTotal</span>
+                                </td>
+                                <td>
+                                </td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+            <div class="tab-pane fade show" id="divTab2" role="tabpanel" aria-labelledby="divTab2">
+                <table class="CustomBlueTable" style="width:100%" border="1">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Payment Type</th>
+                            <th>Amount</th>
+                            <th>Reference No</th>
+                            <th>Date</th>
+                        </tr>
+                    </thead>
+                    @foreach (var item in Model.listPaymentModeHistoryCRUDViewModel)
+                    {
+                        <tbody>
+
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Id)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.ModeOfPayment)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Amount)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.ReferenceNo)
+                                </td>
+                                <td>
+                                    @item.CreatedDate.ToString("dd MMMM yyyy")
+                                </td>
+                            </tr>
+                        </tbody>
+                    }
+                </table>
+            </div>
+            <div class="tab-pane fade show" id="divTab3" role="tabpanel" aria-labelledby="divTab3">
+                <table class="CustomBlueTable" style="width:100%;" border="1">
+                    <tr>
+                        <th>Invoice No</th>
+                        <td>@Model.PaymentCRUDViewModel.InvoiceNo</td>
+                    </tr>
+                    <tr>
+                        <th>Sub Total</th>
+                        <td>@Model.PaymentCRUDViewModel.SubTotal</td>
+                    </tr>
+                    <tr>
+                        <th>Discount(%)</th>
+                        <td>@Model.PaymentCRUDViewModel.Discount</td>
+                    </tr>
+                    <tr>
+                        <th>Discount Amount</th>
+                        <td>@Model.PaymentCRUDViewModel.DiscountAmount</td>
+                    </tr>
+                    <tr>
+                        <th>VAT(%)</th>
+                        <td>@Model.PaymentCRUDViewModel.VAT</td>
+                    </tr>
+                    <tr>
+                        <th>VAT Amount</th>
+                        <td>@Model.PaymentCRUDViewModel.VATAmount</td>
+                    </tr>
+                    <tr>
+                        <th>Shipping Charge</th>
+                        <td>@Model.PaymentCRUDViewModel.CommonCharge</td>
+                    </tr>
+                    <tr>
+                        <th style="background-color:rebeccapurple; color:white">Grand Total</th>
+                        <td>@Model.PaymentCRUDViewModel.GrandTotal</td>
+                    </tr>
+                    <tr>
+                        <th>Paid Amount</th>
+                        <td>@Model.PaymentCRUDViewModel.PaidAmount</td>
+                    </tr>
+                    <tr>
+                        <th>Due Amount</th>
+                        <td>@Model.PaymentCRUDViewModel.DueAmount</td>
+                    </tr>
+                    <tr>
+                        <th>Changed Amount</th>
+                        <td>@Model.PaymentCRUDViewModel.ChangedAmount</td>
+                    </tr>
+                    <tr>
+                        <th>Payment Status</th>
+                        <td>@Model.PaymentCRUDViewModel.PaymentStatusDisplay</td>
+                    </tr>
+                    <tr>
+                        <th>Currency</th>
+                        <td>@Model.PaymentCRUDViewModel.CurrencyName</td>
+                    </tr>
+                    <tr>
+                        <th>Branch</th>
+                        <td>@Model.PaymentCRUDViewModel.BranchName</td>
+                    </tr>
+                    <tr>
+                        <th>Created Date</th>
+                        <td>@Model.PaymentCRUDViewModel.CreatedDate</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

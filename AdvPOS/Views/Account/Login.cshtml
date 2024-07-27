@@ -1,0 +1,71 @@
+﻿@model AdvPOS.Models.AccountViewModels.LoginViewModel
+@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer localizer
+
+@{
+    ViewData["Title"] = "Log in";
+}
+
+<div id="auth-form">
+    <form id="frmLogin">
+        <input type="hidden" asp-for="Latitude" id="Longitude" />
+        <input type="hidden" asp-for="Latitude" id="Latitude" />
+        <div class="form-group ">
+            <div class="col-xs-12">
+                <input class="form-control" asp-for="Email" id="Email" type="email" name="email" autofocus
+                    placeholder="Email">
+            </div>
+            <span asp-validation-for="Email" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <div class="col-xs-12">
+                <input class="form-control" asp-for="Password" id="Password" type="password" name="password" required
+                    placeholder="Password">
+                <span asp-validation-for="Password" class="text-danger"></span>
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            <div class="col-xs-12">
+                <div class="">
+                    <input id="checkbox-signup" type="checkbox" name="remember">
+                    <label for="checkbox-signup" class="text-dark">@localizer["Remember Me"]</label>
+                </div>
+                <a asp-action="ForgotPassword" class="text-dark pull-right"><i class="fa fa-lock m-r-5"></i>
+                    @localizer["Forgot Password?"]</a>
+            </div>
+        </div>
+        <div class="form-group text-center m-t-10">
+            <div class="col-xs-12">
+                <button type="button" id="btnUserLogin"
+                    class="btn btn-info btn-lg btn-block btn-rounded text-uppercase waves-effect waves-light"
+                    onclick="LoginAction()">
+                    @localizer["Log In"]
+                </button>
+            </div>
+        </div>
+        <div class="form-group m-b-0">
+            <div class="col-sm-12 text-center">
+                <p>
+                    @localizer["Don't have an account?"] <a asp-action="Register"
+                        class="text-primary m-l-5"><b>@localizer["Sign Up"]</b></a>
+                </p>
+            </div>
+        </div>
+    </form>
+
+    <div class="row">
+        <div class="col-sm-12" id="divLoginInfo"></div>
+    </div>
+</div>
+
+<script src="~/js/LoginOperation.js"></script>
+@section Scripts {
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+    <script>
+        $(document).ready(function () {
+            //$("#btnUserLogin").trigger('click');
+            SetLoginInfo('divLoginInfo');
+        });
+    </script>
+}

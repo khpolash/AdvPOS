@@ -1,0 +1,26 @@
+@model AdvPOS.Models.EmailConfigViewModel.EmailConfigCRUDViewModel
+
+<div class="row">
+    <div class="col-md-12">
+        <table class="ItemTranTable">
+            <tr><th>Id</th><td>@Model.Id</td></tr>
+            <tr><th>Email</th><td>@Model.Email</td></tr>
+            <tr>
+                <th>Password</th>
+                <td>
+                    <input value="@Model.Password" type="password" readonly />
+                </td>
+            </tr>
+            <tr><th>Hostname</th><td>@Model.Hostname</td></tr>
+            <tr><th>Port</th><td>@Model.Port</td></tr>
+            <tr><th>SSL Enabled</th><td>@Model.SSLEnabled</td></tr>
+            <tr><th>Sender Full Name</th><td>@Model.SenderFullName</td></tr>
+            <tr><th>Is Default</th><td>@Model.IsDefault</td></tr>
+
+            <tr><th>Created Date</th><td>@Model.CreatedDate</td></tr>
+            <tr><th>Modified Date</th><td>@Model.ModifiedDate</td></tr>
+            <tr><th>Created By</th><td>@Model.CreatedBy</td></tr>
+            <tr><th>Modified By</th><td>@Model.ModifiedBy</td></tr>
+        </table>
+    </div>
+</div>

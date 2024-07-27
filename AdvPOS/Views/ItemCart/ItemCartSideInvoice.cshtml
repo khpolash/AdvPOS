@@ -1,0 +1,223 @@
+@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer localizer
+
+<div class="wrapper">
+    <div class="row">
+        <div class="col-sm-5" style="background-color: white;">
+            <div class="col-sm-12">
+                <select id="CustomerId" asp-items="@ViewBag._LoadddlCustomerInfo" style="width: 100%;" class="" required>
+                    <option value="1" selected>@localizer["Walk in Customer"]</option>
+                </select>
+            </div>
+            <hr />
+            <div class="col-sm-12" style="border: 50px;">
+               <input id="ItemBarcode" onchange="GetItemByItemBarcode($(this).val())" class="col-sm-12"
+                placeholder="Scan item barcode here" />
+            </div>
+            
+            <hr />
+            <table id="tblItemCart" class="CustomBlueTable" border="1" style="width:100%;">
+                <thead>
+                    <tr>
+                        <th>@localizer["Id"]</th>
+                        <th>@localizer["Item"]</th>
+                        <th style="width: 70px;">@localizer["Quantity"]</th>
+                        <th>@localizer["Unit Price"]</th>
+                        <th style="width: 70px;">@localizer["VAT"]</th>
+                        <th>@localizer["Total"]</th>
+                        <th>@localizer["Action"]</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+                <tfoot>
+                </tfoot>
+            </table>
+            <br />
+            <hr />
+
+             <div class="row">
+                <div class="col-sm-12 text-right">
+                    <label id="ItemChartSubTotal">@localizer["Sub Total: "]</label>
+                </div>
+                <div class="col-sm-12 text-right">
+                    <label id="ItemChartGrandTotal">@localizer["Grand Total: "]</label>
+                </div>
+                <hr />
+
+                <div class="col-sm-12 text-right">
+                    <button id="btn500" onclick="GetDefaultAmount500()"><i class="fa fa-dollar" style="color:red"></i> 500</button>
+                    <button id="btn1000" onclick="GetDefaultAmount1000()"><i class="fa fa-dollar" style="color:red"></i> 1000</button>
+                    <button id="btn2000" onclick="GetDefaultAmount2000()"><i class="fa fa-dollar" style="color:red"></i> 2000</button>
+                    <button id="btn5000" onclick="GetDefaultAmount5000()"><i class="fa fa-dollar" style="color:red"></i> 5000</button>
+                    <button id="btn5000" onclick="GetDefaultAmountFullPaid()"><i class="fa fa-dollar" style="color:red"></i>Full</button>
+                    <input id="AmountSI" onchange="UpdateChangeAmountSI()" class="col-sm-6" placeholder="Add Payment Amout" />
+                </div>
+                <hr />
+                <div class="col-sm-12 text-right">
+                    <label>@localizer["Change Amount: "]</label>
+                    <input id="ChangeAmountSI" class="col-sm-6" placeholder="Change Amount" readonly />
+                </div>
+                <hr />
+            </div>
+            <div class="row">
+                <div class="col-sm-12 text-right">
+                    <button type="button" class="btn btn-xs btn-danger col-sm-2" onclick="ClearCart()">@localizer["Clear Cart"]</button>
+                    <button type="button" class="btn btn-info form-control col-sm-3" id="btnCheckout"
+                        onclick="ItemCheckout()">@localizer["Checkout"]</button>
+
+                    <button type="button" class="btn btn-success form-control col-sm-5" id="btnSaveAndPrintSI"
+                        onclick="SaveAndPrintPaymentSI()"><span class="fa fa-print"></span> @localizer["Save & Print"]</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-sm-7">
+            <div class="form-group row">
+                <label class="col-sm-3 col-form-label">@localizer["Item By Category:"] </label>
+                <div class="col-sm-9">
+                    <select asp-items="@ViewBag.CategorieList" onchange="TableFilterByCategory();" class="form-control" id="CategoriesId" style="width: 100%;">
+                        <option selected>@localizer["All Item"]</option>
+                    </select>                   
+                </div>
+            </div>
+            <table id="tblItemCartSideInvoice" style="width:100%">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+    </div>
+    <partial name="_ItemCartModal" />
+</div>
+
+<style>
+    .h4 {
+        margin-top: 1px;
+        margin-bottom: 1px;
+    }
+
+    .form-control {
+        border-radius: 5px;
+        box-shadow: none;
+        border-color: green;
+        width: 300px;
+    }
+</style>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<script src="~/js/ItemCart/ItemCart_CRUD.js"></script>
+<script src="~/js/ItemCart/SaveAndPrint_SideInvoice.js"></script>
+<script src="~/js/Payment/Payment_CRUD.js"></script>
+<script src="~/js/Common_CRUD.js"></script>
+<script src="~/js/ItemCart/ItemCartSideInvoice_Datatable.js"></script>
+<script src="~/js/ItemCart/dynamic_content.js"></script>
+
+<script>
+    var listPaymentDetail = new Array();
+    var listItemCart = new Array();
+
+    var ClearCart = function () {
+        ClearAllCartItemWithAlert();
+        $("#ItemChartSubTotal").text("Sub Total: 0.00");
+        $("#ItemChartGrandTotal").text("Grand Total: 0.00");
+        $("#AmountSI").val('');
+        $("#ChangeAmountSI").val('');
+    }
+
+    var ViewItem = function (Id) {
+        var url = "/Items/ViewItem?Id=" + Id;
+        $('#titleBigModal').html("Item Details ");
+        loadBigModal(url);
+    };
+
+    $(document).ready(function () {
+        var _url = "/CustomerInfo/GetAllCustomerForDDL";
+        GetDropDownDataBase("CustomerId", _url);
+        $("#CustomerId").select2();
+
+        $("#CategoriesId").select2();
+        DataTableCustomSearchBox('350px', 'Search Item');
+        var table = $("#tblItemCartSideInvoice").DataTable();
+        table.search('').columns().search('').draw();
+        
+        GetAllCartItem();
+        var _listItemCart = localStorage.getItem('listItemCart');
+        if (_listItemCart != null) {
+            listItemCart = JSON.parse(_listItemCart);
+            $("#shoppingcart").html(listItemCart.length);
+            for (let i = 0; i < listItemCart.length; i++) {
+                AddTableRow(listItemCart[i], '#tblItemCart');
+            }
+        }
+        SubAndGrandTotal();
+    });
+
+    var TableFilterByCategory = function ()
+    {
+        //var _CategoriesId = $("#CategoriesId option:selected").text();      
+        var _CategoriesId = $("#CategoriesId").val();
+        var _tblItemCartSideInvoice = $("#tblItemCartSideInvoice").DataTable();
+        _tblItemCartSideInvoice.clear();
+        _tblItemCartSideInvoice.destroy();
+        if(_CategoriesId == 'All Item')
+        {
+            //table.search('').columns().search('').draw();
+            ItemCartDataTableLoad(false, 0);       
+        }
+        else
+        {
+            //table.search(_CategoriesId).draw();                  
+            ItemCartDataTableLoad(true, _CategoriesId);
+        }
+        DataTableCustomSearchBox('350px', 'Search Item');        
+    }
+
+    var GetItemByItemBarcode = function (_ItemBarcode) {
+        if (_ItemBarcode == null || _ItemBarcode == '') return;
+        $.ajax({
+            type: "GET",
+            url: "/Payment/GetItemByItemBarcode?ItemBarcode=" + _ItemBarcode,
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (data) {
+                if (data === null) {
+                    Swal.fire({
+                        title: "Item not found for Barcode: " + _ItemBarcode,
+                        icon: 'info',
+                        onAfterClose: () => {
+                            setTimeout(function () {
+                                $('#ItemBarcode').focus();
+                            }, 300);
+                        }
+                    });
+                    return;
+                }
+
+                var TempItemDTO = {};
+                TempItemDTO.ItemId = data.Id;
+                TempItemDTO.ItemName = data.Name;
+                TempItemDTO.Quantity = 1;
+                TempItemDTO.UnitPrice = data.NormalPrice;
+                TempItemDTO.ItemVAT = data.NormalVAT;
+                TempItemDTO.TotalAmount = data.NormalPrice;
+                var _TotalPriceWithVAT = data.NormalPrice + (data.NormalVAT / 100) * data.NormalPrice;
+                TempItemDTO.TotalPriceWithVAT = _TotalPriceWithVAT;
+
+                listItemCart.push(TempItemDTO);
+                AddTableRow(TempItemDTO, "#tblItemCart");
+                SubAndGrandTotal();
+
+                $('#ItemBarcode').focus();
+                $('#ItemBarcode').val('');
+                toastr.options.positionClass = "toast-bottom-right";
+                toastr.success("Item added successfully. Item Id: " + data.Id);
+                localStorage.setItem("listItemCart", JSON.stringify(listItemCart));
+            },
+            error: function (response) {
+                SwalSimpleAlert(errormessage.responseText, "warning");
+            }
+        });
+    };
+</script>

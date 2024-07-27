@@ -1,0 +1,212 @@
+@model AdvPOS.Models.PaymentViewModel.PaymentReportViewModel
+
+<partial name="~/Views/UIComponents/_bootstrapAlert.cshtml" />
+<div class="row">
+    <input type="hidden" id="CurrentURL" asp-for="PaymentCRUDViewModel.CurrentURL" />
+    <input type="hidden" id="Category" asp-for="PaymentCRUDViewModel.Category" />
+    <input type="hidden" id="IsSaveAndPrint" asp-for="PaymentCRUDViewModel.IsSaveAndPrint" />
+
+    <div class="row col-sm-12">
+        <div class="col-sm-6">
+            <div class="col-sm-6">
+                <select id="PrintDocType" class="form-control" onchange="LoadDynamicPrintDoc();">
+                    <option value="1" selected>Print Document</option>
+                    <option value="2">Print Picking List</option>
+                    <option value="3">Print Delivery Note</option>
+                </select>
+            </div>
+
+            <div class="col-sm-6">
+                <label class="checkbox-inline">
+                    <input type="checkbox" id="HideCompanyInfo" value=""> Hide Company Info
+                </label>
+            </div>
+        </div>
+
+        <div class="col-sm-6">
+            <div class="panel-footer text-right">
+                <button class="btn btn-sm btn-danger"
+                    onclick="OpenSendMailPaymentInvoice('@Model.PaymentCRUDViewModel.Id')">
+                    <span class="fa fa-envelope">
+                        Mail
+                    </span>
+                </button>
+                <button class="btn btn-sm btn-success" onclick="PrintPOSReport('@Model.PaymentCRUDViewModel.Id')">
+                    <span class="fa fa-print">Thermal</span>
+                </button>
+                <button class="btn btn-sm btn-info" id="btnFullPagePrint" onclick="printDiv('printableArea')">
+                    Print
+                    <span class="fa fa-print"></span>
+                </button>
+                <button class="btn btn-sm btn-dark" onclick="BacktoPreviousPage()">Back</button>
+            </div>
+        </div>
+    </div>
+
+    <br /> <br />
+    <hr />
+
+    <div class="col-sm-12">
+        <div id="printableArea">
+            <div id="divCompanyBanner">
+                <partial name="~/Views/DownloadReport/_CompanyBanner.cshtml" />
+            </div>
+            <div id="divCompanyBannerHideComInfo">
+                <partial name="~/Views/DownloadReport/_CompanyBannerHideComInfo.cshtml" />
+            </div>
+
+            <hr />
+            <partial name="~/Views/DownloadReport/_PaymentInvoicePrintableArea.cshtml" />
+
+            <div id="divTermsAndCondition">
+                <hr />
+                <h3 width="100%" align="center" class="bgcolor font-13"
+                    style="padding:10px 0 !important; margin-top:0 !important; margin-bottom:2px !important;">
+                    <strong>Term and Conditions</strong>
+                </h3>
+
+                <div style="padding:0 5px !important;">
+                    <p>
+                        <span style="font-size:8px">@Model.CompanyInfoCRUDViewModel.TermsAndCondition</span>
+                    </p>
+                </div>
+
+                <p align="center" style="margin-top:10px;" class="font-12">
+                    <strong>THANKS FOR YOUR BUSINESS!</strong>
+                </p>
+
+                <p align="center" style="font-size: 10px;">
+                    <strong>
+                        COMPNAY REG NUMBER: GB658589 INCORPORATED IN ENGLAND AND
+                        WALES VAT REG NO:
+                    </strong>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    var PrintPOSReport = function (id) {
+        location.href = "/Payment/PrintPOSReport?id=" + id;
+    };
+
+    var OpenSendMailPaymentInvoice = function (id) {
+        //var _ItemId = $("#ItemId option:selected").text();
+        var _InvoiceDocType = $("#PrintDocType").val();
+        var _HideCompanyInfo;
+
+        if ($("#HideCompanyInfo").is(":checked")) {
+            _HideCompanyInfo = 0;
+        }
+        else {
+            _HideCompanyInfo = 1;
+        }
+        var url = "/PaymentShare/OpenSendMailPaymentInvoice?_PaymentId=" + id + "&_InvoiceDocType=" + _InvoiceDocType + "&_HideCompanyInfo=" + _HideCompanyInfo;
+
+        $('#titleExtraBigModal').html("Send Invoice");
+        loadExtraBigModal(url);
+    };
+
+
+    $(document).ready(function () {
+        var _GetDivObject = GetDivObject();
+
+        _GetDivObject.divCompanyBanner.style.display = "block";
+        _GetDivObject.divCompanyBannerHideComInfo.style.display = "none";
+
+        $('#titleInvoice').html("INVOICE");
+        _GetDivObject.divPaymentItemDetails.style.display = "block";
+        _GetDivObject.divTermsAndCondition.style.display = "block";
+        _GetDivObject.divDeliveryNote.style.display = "none";
+        _GetDivObject.divPickingList.style.display = "none";
+
+
+        setTimeout(function () {
+            var _Category = $("#Category").val();
+            if (_Category == 3) {
+                _GetDivObject.divPaymentSummary.style.display = "none";
+            }
+            else {
+                _GetDivObject.divPaymentSummary.style.display = "block";
+            }
+
+            var _IsSaveAndPrint = $("#IsSaveAndPrint").val();
+            console.log(_IsSaveAndPrint);
+            if (_IsSaveAndPrint == "True") {
+                //window.print();
+                $("#btnFullPagePrint").trigger('click');
+            }
+        }, 200);
+    });
+
+    var LoadDynamicPrintDoc = function () {
+        var _PrintDocType = $("#PrintDocType").val();
+        var _GetDivObject = GetDivObject();
+
+        if (_PrintDocType == 1) {
+            $('#titleInvoice').html("INVOICE");
+            _GetDivObject.divPaymentItemDetails.style.display = "block";
+            _GetDivObject.divPaymentSummary.style.display = "block";
+            _GetDivObject.divTermsAndCondition.style.display = "block";
+
+            _GetDivObject.divDeliveryNote.style.display = "none";
+            _GetDivObject.divPickingList.style.display = "none";
+        }
+        else if (_PrintDocType == 2) {
+            $('#titleInvoice').html("Picking List");
+            _GetDivObject.divPaymentItemDetails.style.display = "block";
+            _GetDivObject.divPaymentSummary.style.display = "none";
+            _GetDivObject.divTermsAndCondition.style.display = "none";
+
+            _GetDivObject.divDeliveryNote.style.display = "none";
+            _GetDivObject.divPickingList.style.display = "block";
+        }
+        else if (_PrintDocType == 3) {
+            $('#titleInvoice').html("Delivery Note");
+            _GetDivObject.divPaymentItemDetails.style.display = "none";
+            _GetDivObject.divPaymentSummary.style.display = "none";
+            _GetDivObject.divTermsAndCondition.style.display = "none";
+
+            _GetDivObject.divDeliveryNote.style.display = "block";
+            _GetDivObject.divPickingList.style.display = "none";
+        }
+
+        var _Category = $("#Category").val();
+        if (_Category == 3) {
+            _GetDivObject.divPaymentSummary.style.display = "none";
+        }
+        else {
+            _GetDivObject.divPaymentSummary.style.display = "block";
+        }
+    }
+
+    $("body").on("click", "#HideCompanyInfo", function () {
+        var _GetDivObject = GetDivObject();
+
+        if ($('#HideCompanyInfo').is(":checked")) {
+            _GetDivObject.divCompanyBanner.style.display = "none";
+            _GetDivObject.divCompanyBannerHideComInfo.style.display = "block";
+        }
+        else {
+            _GetDivObject.divCompanyBanner.style.display = "block";
+            _GetDivObject.divCompanyBannerHideComInfo.style.display = "none";
+        }
+    });
+
+    var GetDivObject = function () {
+        var DivObject = {
+            divPaymentItemDetails: document.getElementById("divPaymentItemDetails"),
+            divPaymentSummary: document.getElementById("divPaymentSummary"),
+
+            divDeliveryNote: document.getElementById("divDeliveryNote"),
+            divPickingList: document.getElementById("divPickingList"),
+            divTermsAndCondition: document.getElementById("divTermsAndCondition"),
+
+            divCompanyBanner: document.getElementById("divCompanyBanner"),
+            divCompanyBannerHideComInfo: document.getElementById("divCompanyBannerHideComInfo"),
+
+        };
+        return DivObject;
+    }
+</script>

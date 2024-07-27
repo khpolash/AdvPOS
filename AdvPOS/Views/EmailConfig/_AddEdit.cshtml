@@ -1,0 +1,59 @@
+@model AdvPOS.Models.EmailConfigViewModel.EmailConfigCRUDViewModel
+
+@{ ViewData["Title"] = "Create"; }
+
+<div>
+    <div class="row">
+        <div class="col-md-12">
+            <form id="frmEmailConfig">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <input type="hidden" asp-for="Id" />
+                <input type="hidden" asp-for="CreatedDate" />
+                <input type="hidden" asp-for="CreatedBy" />
+                <div class="form-group">
+                    <label asp-for="Email" class="control-label"></label>
+                    <input asp-for="Email" class="form-control" />
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Password" class="control-label"></label>
+                    <input asp-for="Password" class="form-control" type="password" />
+                    <span asp-validation-for="Password" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Hostname" class="control-label"></label>
+                    <input asp-for="Hostname" class="form-control" />
+                    <span asp-validation-for="Hostname" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Port" class="control-label"></label>
+                    <input asp-for="Port" class="form-control" />
+                    <span asp-validation-for="Port" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="SSLEnabled" class="control-label"></label>
+                    <input asp-for="SSLEnabled" class="form-control" />
+                    <span asp-validation-for="SSLEnabled" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="SenderFullName" class="control-label"></label>
+                    <input asp-for="SenderFullName" class="form-control" />
+                    <span asp-validation-for="SenderFullName" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <div class="checkbox">
+                        <label>
+                            <input asp-for="IsDefault" /> @Html.DisplayNameFor(model => model.IsDefault)
+                        </label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <input type="button" value="Save" onclick="SaveEmailConfig()" class="btn btn-info">
+                    <button type="button" id="btnCloseEmailConfig" class="btn btn-danger" data-dismiss="modal">Close</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script src="/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>

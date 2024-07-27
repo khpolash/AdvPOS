@@ -1,0 +1,88 @@
+@model AdvPOS.Models.EmailConfigViewModel.SendEmailViewModel
+
+<div>
+    <form id="frmShare">
+        <div hidden>
+            <input asp-for="InvoiceId" id="InvoiceId" />
+            <input asp-for="IsHideCompanyInfo" id="IsHideCompanyInfo" />
+            <input asp-for="InvoiceDocType" id="InvoiceDocType" />
+        </div>
+        <div class="row">
+            <div class="col-6 col-sm-6">
+                <div class="form-group row">
+                    <label asp-for="SenderEmailId" class="col-sm-4 col-form-label"></label>
+                    <div class="col-sm-7">
+                        <select asp-for="SenderEmailId" asp-items="@ViewBag.GetddlEmailConfig" id="SenderEmailId" class="form-control" style="width:100%;">
+                        </select>
+                        <span asp-validation-for="SenderEmailId" class="text-danger"></span>
+                    </div>
+                    <div class="col-sm-1">
+                        <a href="#" onclick="EmailConfig()">Config</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-6 col-sm-6">
+                <div class="form-group row">
+                    <div class="col-sm-3">
+                    </div>
+                    <div class="col-sm-1">
+                        <input type="checkbox" class="form-inline" id="chkTypeReceiverEmail" />
+                    </div>
+                    <div class="col-sm-8 text-left">
+                        <span>Type Email</span>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label asp-for="ReceiverEmail" class="col-sm-3 col-form-label"></label>
+                    <div class="col-sm-9">
+                        <div id="divReceiverEmailId">
+                            <select asp-for="ReceiverEmailId" asp-items="@ViewBag.GetddlUserEmail" id="ReceiverEmailId" class="form-control" style="width:100%;">
+                                <option disabled selected>--- SELECT ---</option>
+                            </select>
+                        </div>
+                        <div id="divReceiverEmail">
+                            <input type="text" asp-for="ReceiverEmail" id="ReceiverEmail" class="form-control" placeholder="Receiver Email">
+                        </div>
+                        <span asp-validation-for="ReceiverEmailId" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label asp-for="Subject" class="col-sm-2 col-form-label"></label>
+            <div class="col-sm-10">
+                <input asp-for="Subject" class="form-control" id="Subject" type="text" />
+                <span asp-validation-for="Subject" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label asp-for="Body" class="col-sm-2 col-form-label"></label>
+            <div class="col-sm-10">
+                <textarea asp-for="Body" id="Body" class="form-control" rows="6"></textarea>
+                <span asp-validation-for="Body" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-sm-2 col-form-label"></label>
+            <div class="col-sm-10">
+                <input type="button" id="btnSend" class="btn btn-success" value="Send" onclick="SendMailPaymentInvoice()">
+                <button type="button" id="btnClose" class="btn btn-danger" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+<partial name="~/Views/UIComponents/_ExtraBigModalEmailConfig.cshtml" />
+
+<script src="/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+<script src="~/js/Payment/Payment_Share.js"></script>
+<script src="~/js/EmailConfig/EmailConfig_CRUD.js"></script>
+
+<script type="text/javascript">
+    $("#SenderEmailId").select2();
+    $("#ReceiverEmailId").select2();
+</script>

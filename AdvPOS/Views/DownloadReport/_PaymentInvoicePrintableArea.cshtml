@@ -1,0 +1,203 @@
+﻿@model AdvPOS.Models.PaymentViewModel.PaymentReportViewModel
+
+<div id="divPaymentItemDetails">
+    <h5>Item Details</h5>
+    <div class="row" style="width:100%; margin:0 auto;">
+        <table class="" style="width:100%" border="1">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Item</th>
+                    <th>Quantity</th>
+                    <th>Unit Price</th>
+                    <th>Discount(%)</th>
+                    <th>VAT(%)</th>
+                    <th>Total Amount</th>
+                </tr>
+            </thead>
+            @foreach (var item in Model.listPaymentDetailCRUDViewModel)
+            {
+                <tbody>
+
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Id)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ItemName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Quantity)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.UnitPrice)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ItemDiscount)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ItemVAT)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.TotalAmount)
+                        </td>
+                    </tr>
+                </tbody>
+            }
+        </table>
+    </div>
+</div>
+
+<div id="divDeliveryNote">
+    <hr />
+    <div class="row" style="width:100%; margin:0 auto;">
+        <table class="" style="width:100%" border="1">
+            <thead>
+                <tr>
+                    <th>ITEM CODE</th>
+                    <th>QTY</th>
+                    <th>DESCRIPTION</th>
+                </tr>
+            </thead>
+            @foreach (var item in Model.listPaymentDetailCRUDViewModel)
+            {
+                <tbody>
+
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ItemCode)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Quantity)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ItemName)
+                        </td>
+                    </tr>
+                </tbody>
+            }
+        </table>
+    </div>
+</div>
+
+<div id="divPickingList">
+    <hr />
+    <table class="" style="width:100%" border="1">
+        <tbody>
+            <tr class="firstrow text-center">
+                <td width="25%">Picked By</td>
+                <td width="25%">Checked By</td>
+                <td width="25%">Time</td>
+                <td width="25%">Collected By</td>
+            </tr>
+
+            <tr align="center" style="height:60px">
+                <td width="25%"></td>
+                <td width="25%"></td>
+                <td width="25%"></td>
+                <td width="25%"></td>
+            </tr>
+
+        </tbody>
+    </table>
+</div>
+
+<br />
+<div id="divPaymentSummary">
+    <div class="row" style="width:100%; margin:0 auto;">
+        <hr />
+        <div class="col-sm-6">
+            <div class="pull-left" style="border:1px solid black; width:70%;">
+                <div class="bgcolor font_size_bold" style="padding-left:1px;"><b>Customer Notes:</b></div>
+                <div class="unbold font_size_unbold" style="padding:1px;">@Model.PaymentCRUDViewModel.CustomerNote</div>
+            </div>
+            <br />
+            <div class="pull-left" style="border:1px solid black; width:70%;">
+                <div class="bgcolor font_size_bold" style="padding-left:1px;"><b>Private Note:</b></div>
+                <div class="unbold font_size_unbold" style="padding:1px;">@Model.PaymentCRUDViewModel.PrivateNote</div>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <h5>Payment Details: Σ @Model.PaymentCRUDViewModel.PaidAmount</h5>
+            <table class="" style="width:100%" border="1">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Payment Type</th>
+                        <th>Amount</th>
+                        <th>Reference No</th>
+                        <th>Date</th>
+                    </tr>
+                </thead>
+                @foreach (var item in Model.listPaymentModeHistoryCRUDViewModel)
+                {
+                    <tbody>
+
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Id)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.ModeOfPayment)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Amount)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.ReferenceNo)
+                            </td>
+                            <td>
+                                @item.CreatedDate.ToString("dd MMMM yyyy")
+                            </td>
+                        </tr>
+                    </tbody>
+                }
+            </table>
+            <hr />
+            <div class="row" style="width:100%; margin:0 auto;">
+                <table class="" style="width:100%" border="1">
+                    <tr>
+                        <th>Sub Total</th>
+                        <td>@Model.PaymentCRUDViewModel.SubTotal</td>
+                    </tr>
+                    <tr>
+                        <th>Discount Amount</th>
+                        <td>@Model.PaymentCRUDViewModel.DiscountAmount</td>
+                    </tr>
+                    <tr>
+                        <th>VAT Amount</th>
+                        <td>@Model.PaymentCRUDViewModel.VATAmount</td>
+                    </tr>
+                    <tr>
+                        <th>Shipping Charge</th>
+                        <td>@Model.PaymentCRUDViewModel.CommonCharge</td>
+                    </tr>
+                    <tr>
+                        <th>Grand Total</th>
+                        <td>@Model.PaymentCRUDViewModel.GrandTotal</td>
+                    </tr>
+                    <tr>
+                        <th>Paid Amount</th>
+                        <td>@Model.PaymentCRUDViewModel.PaidAmount</td>
+                    </tr>
+                    <tr>
+                        <th>Due Amount</th>
+                        <td>@Model.PaymentCRUDViewModel.DueAmount</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<style>
+    table th {
+        padding-left: 5px;
+    }
+
+    table td {
+        padding-left: 5px;
+    }
+</style>

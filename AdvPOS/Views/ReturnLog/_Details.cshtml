@@ -1,0 +1,44 @@
+@model AdvPOS.Models.ReturnLogViewModel.ReturnLogCRUDViewModel
+
+<div class="row">
+    <div class="col-md-12">
+        <table class="BlueGreen">
+            <tr>
+                <th>Id</th>
+                <td>@Model.Id</td>
+            </tr>
+            <tr>
+                <th>Ref Id</th>
+                <td>@Model.RefId</td>
+            </tr>
+            <tr>
+                <th>Customer</th>
+                <td>@Model.CustomerDisplay</td>
+            </tr>
+            <tr>
+                <th>Tran Type</th>
+                <td>@Model.TranType</td>
+            </tr>
+            <tr>
+                <th>Note</th>
+                <td>@Model.Note</td>
+            </tr>
+            <tr>
+                <th>Created Date</th>
+                <td>@Model.CreatedDate</td>
+            </tr>
+            <tr>
+                <th>Modified Date</th>
+                <td>@Model.ModifiedDate</td>
+            </tr>
+            <tr>
+                <th>Created By</th>
+                <td>@Model.CreatedBy</td>
+            </tr>
+            <tr>
+                <th>Modified By</th>
+                <td>@Model.ModifiedBy</td>
+            </tr>
+        </table>
+    </div>
+</div>

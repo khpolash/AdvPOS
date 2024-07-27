@@ -1,0 +1,21 @@
+﻿@model AdvPOS.Models.PaymentViewModel.PaymentReportViewModel
+
+@{ Layout = null; }
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Payment Invoice</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="~/lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/css/site.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="col-sm-12">
+        <partial name="~/Views/DownloadReport/_CompanyBanner.cshtml" /> 
+        <hr />
+        <partial name="_PaymentInvoicePrintableArea" />
+    </div>
+</body>
+</html>

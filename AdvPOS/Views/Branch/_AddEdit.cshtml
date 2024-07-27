@@ -1,0 +1,68 @@
+@model AdvPOS.Models.BranchViewModel.BranchCRUDViewModel
+@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer localizer
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<div>
+    <div class="row">
+        <div class="col-md-12">
+            <form id="frmBranch">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <input type="hidden" asp-for="Id" />
+                <input type="hidden" asp-for="CreatedDate" />
+                <input type="hidden" asp-for="CreatedBy" />
+
+                <div class="form-group row">
+                    <label class="col-sm-3 col-form-label">@localizer["Name"]</label>
+                    <div class="col-sm-9">
+                        <input asp-for="Name" class="form-control" />
+                        <span asp-validation-for="Name" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-3 col-form-label">@localizer["Contact Person"]</label>
+                    <div class="col-sm-9">
+                        <input asp-for="ContactPerson" class="form-control" />
+                        <span asp-validation-for="ContactPerson" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-3 col-form-label">@localizer["Phone Number"]</label>
+                    <div class="col-sm-9">
+                        <input asp-for="PhoneNumber" class="form-control" />
+                        <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-3 col-form-label">@localizer["Address"]</label>
+                    <div class="col-sm-9">
+                        <input asp-for="Address" class="form-control" />
+                        <span asp-validation-for="Address" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-3 col-form-label">@localizer["Short Description"]</label>
+                    <div class="col-sm-9">
+                        <textarea asp-for="ShortDescription" class="form-control" rows="2"> </textarea>
+                        <span asp-validation-for="ShortDescription" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-3 col-form-label"></label>
+                    <div class="col-sm-9">
+                        <div class="col-sm-9">
+                            <button type="button" onclick="Save()" class="btn btn-info">@localizer["Save"]</button>
+                            <button type="button" id="btnClose" class="btn btn-danger"
+                                data-dismiss="modal">@localizer["Close"]</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script src="/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+

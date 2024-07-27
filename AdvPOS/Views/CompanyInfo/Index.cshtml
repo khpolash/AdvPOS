@@ -1,0 +1,166 @@
+﻿@model AdvPOS.Models.CompanyInfoViewModel.CompanyInfoCRUDViewModel
+@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer localizer
+
+@{
+    ViewData["Title"] = "Company Info";
+}
+
+<div class="wrapper">
+    <div class="panel panel-hash">
+        <div class="panel-heading">
+            <div style="display: inline-block;">
+                <h3 class="pull-right"><b><a class="btn btn-danger btn-sm" asp-action="Edit">@localizer["Company Info: Edit"]</a></b></h3>                 
+            </div>
+        </div>
+        <div class="panel-body scroll panel-height">
+            <table class="CustomBlueTable">
+                <tr>
+                    <th style="width: 30%;">@localizer["ID"]</th>
+                    <td>@Model.Id</td>
+                </tr>
+                <tr>
+                    <th>@localizer["Name"]</th>
+                    <td>@Model.Name</td>
+                </tr>
+                <tr>
+                    <th>@localizer["Logo"]</th>
+                    <td>
+                        <div class="user-panel mt-2 pb-2 mb-2 d-flex">
+                            <div class="image">
+                                <img src="@Model.Logo" class="img-circle elevation-2" alt="Asset Image">
+                            </div>
+                            <div class="info">
+                                <a href="#" class="d-block" onclick="ViewImage('@Model.Logo', '@Model.Name')">
+                                    @Model.Name
+                                </a>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <th>@localizer["Invoice No Prefix"]</th>
+                    <td>@Model.InvoiceNoPrefix</td>
+                </tr>
+                <tr>
+                    <th>@localizer["Quote No Prefix"]</th>
+                    <td>@Model.QuoteNoPrefix</td>
+                </tr>
+                <tr>
+                    <th>@localizer["Address"]</th>
+                    <td>@Model.Address</td>
+                </tr>
+                <tr>
+                    <th>@localizer["Country"]</th>
+                    <td>@Model.Country</td>
+                </tr>
+                <tr>
+                    <th>@localizer["Phone"]</th>
+                    <td>@Model.Phone</td>
+                </tr>
+                <tr>
+                    <th>@localizer["Email"]</th>
+                    <td>@Model.Email</td>
+                </tr>
+                <tr>
+                    <th>@localizer["Fax"]</th>
+                    <td>@Model.Fax</td>
+                </tr>
+                <tr>
+                    <th>@localizer["Website"]</th>
+                    <td>@Model.Website</td>
+                </tr>
+                <tr>
+                    <th>@localizer["Shop No"]</th>
+                    <td>@Model.ShopNo</td>
+                </tr>
+                <tr>
+                    <th>@localizer["Street Name"]</th>
+                    <td>@Model.StreetName</td>
+                </tr>
+                <tr>
+                    <th>@localizer["Post Code"]</th>
+                    <td>@Model.PostCode</td>
+                </tr>
+                <tr>
+                    <th>@localizer["Office"]</th>
+                    <td>@Model.Office</td>
+                </tr>
+                <tr>
+                    <th>@localizer["Mobile"]</th>
+                    <td>@Model.Mobile</td>
+                </tr>
+                <tr>
+                    <th>@localizer["Password"]</th>
+                    <td><input asp-for="Password" class="form-control" type="password" /></td>
+                </tr>
+                <tr>
+                    <th>@localizer["Host Name"]</th>
+                    <td>@Model.HostName</td>
+                </tr>
+                <tr>
+                    <th>@localizer["Terms And Condition"]</th>
+                    <td>@Model.TermsAndCondition</td>
+                </tr>
+                <tr>
+                    <th>@localizer["Terms And Condition Item Sale"]</th>
+                    <td>@Model.TermsAndConditionItemSale</td>
+                </tr>
+                <tr>
+                    <th>@localizer["Company Number"]</th>
+                    <td>@Model.CompanyNumber</td>
+                </tr>
+                <tr>
+                    <th>@localizer["Vat Number"]</th>
+                    <td>@Model.VatNumber</td>
+                </tr>
+                <tr>
+                    <th>@localizer["Card Percentage"]</th>
+                    <td>@Model.CardPercentage</td>
+                </tr>
+                <tr>
+                    <th>@localizer["Vat"]</th>
+                    <td>@Model.IsVat</td>
+                </tr>
+                <tr>
+                    <th>@localizer["Whitelist IP"]</th>
+                    <td>@Model.WhitelistIP</td>
+                </tr>
+
+
+                <tr>
+                    <th>@localizer["Created Date"]</th>
+                    <td>@Model.CreatedDate.ToString("dddd, dd MMMM yyyy HH:mm:ss")</td>
+                </tr>
+                <tr>
+                    <th>@localizer["Created By"]</th>
+                    <td>@Model.CreatedBy</td>
+                </tr>
+                <tr>
+                    <th>
+                    </th>
+                    <td>
+                        <a class="btn btn-danger btn-sm" asp-action="Edit">@localizer["Edit"]</a>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+    <partial name="~/Views/UIComponents/_bootstrapAlert.cshtml" />
+</div>
+
+<style>
+    .panel-heading {
+        padding: 0px 0px 0px 25px;
+    }
+
+    .panel-body {
+        padding: 0px 25px 0px 25px;
+    }
+
+    .h4 {
+        margin-top: 1px;
+        margin-bottom: 1px;
+    }
+</style>
+

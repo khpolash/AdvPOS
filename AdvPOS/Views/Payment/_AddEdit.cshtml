@@ -1,0 +1,587 @@
+﻿@model AdvPOS.Models.PaymentViewModel.ManagePaymentViewModel
+@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer localizer
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<div class="col-md-12">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div hidden>
+        <input asp-for="PaymentCRUDViewModel.Id" id="Id" />
+        <input asp-for="PaymentCRUDViewModel.QuoteNoRef" id="QuoteNoRef" />
+        <input asp-for="PaymentCRUDViewModel.CreatedDate" id="CreatedDate" />
+        <input asp-for="PaymentCRUDViewModel.CreatedBy" id="CreatedBy" />
+        <input asp-for="PaymentCRUDViewModel.CurrentURL" id="CurrentURL" />
+        <input asp-for="PaymentCRUDViewModel.IsVat" id="IsVat" />
+        <input asp-for="PaymentCRUDViewModel.RoleName" id="RoleName" />
+    </div>
+
+    <div class="card card-primary card-outline card-tabs">
+        <div class="card-header p-0 pt-1 border-bottom-0">
+            <ul class="nav nav-tabs" id="custom-tabs-three-tab" role="tablist">
+                <li class="nav-item">
+                    <a class="nav-link active" id="BasicInfo" data-toggle="pill" href="#divBasicInfo" role="tab"
+                        aria-controls="BasicInfo" aria-selected="true">@localizer["Main"]</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="OtherInfo" data-toggle="pill" href="#divOtherInfo" role="tab"
+                        aria-controls="OtherInfo" aria-selected="true">@localizer["Other"]</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="AddNewCustomer" data-toggle="pill" href="#divAddNewCustomer" role="tab"
+                        aria-controls="AddNewCustomer" aria-selected="true">@localizer["Add New Customer"]</a>
+                </li>
+            </ul>
+        </div>
+
+        <div class="card-body">
+            <div class="tab-content" id="tabContent">
+                <div class="tab-pane fade show active" id="divBasicInfo" role="tabpanel" aria-labelledby="divBasicInfo">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="row">
+                                <label class="col-sm-3 col-form-label">@localizer["Customer"]</label>
+                                <div class="col-sm-8">
+                                    <select id="CustomerId" asp-items="@ViewBag._LoadddlCustomerInfo"
+                                        asp-for="PaymentCRUDViewModel.CustomerId" style="width: 100%;" class=""
+                                        onchange="LoadCustomerNoteByCustomerId()" required>
+                                        <option value="1" selected>@localizer["Walk in Customer"]</option>
+                                    </select>
+                                </div>
+                                <div class="col-sm-1">
+                                    <a class="fa fa-plus-square fa-2x" onclick="AddNewCustomer()"></a>
+                                </div>
+                            </div>
+                            <div id="divPaymentStatus">
+                                <div class="row">
+                                    <label class="col-sm-3 col-form-label">@localizer["Payment Status"]</label>
+                                    <div class="col-sm-9">
+                                        <select id="PaymentStatus" asp-items="@ViewBag.GetddlPaymentStatus"
+                                            asp-for="PaymentCRUDViewModel.PaymentStatus" style="width: 100%;" class=""
+                                            required>
+                                            <option value="2" selected>@localizer["UnPaid"]</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <label class="col-sm-3 col-form-label">@localizer["Item Barcode"]</label>
+                                <div class="col-sm-9">
+                                    <input asp-for="PaymentCRUDViewModel.ItemBarcode" id="ItemBarcode"
+                                        onchange="GetItemByItemBarcode($(this).val())" class="" type="text"
+                                        placeholder="Item Barcode" />
+                                    <span asp-validation-for="PaymentCRUDViewModel.ItemBarcode"
+                                        class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="row">
+                                <label class="col-sm-5 col-form-label">@localizer["Purchase Order Number"]</label>
+                                <div class="col-sm-7">
+                                    <input asp-for="PaymentCRUDViewModel.PurchaseOrderNumber" id="PurchaseOrderNumber"
+                                        class="" type="text" placeholder="N/A" />
+                                    <span asp-validation-for="PaymentCRUDViewModel.PurchaseOrderNumber"
+                                        class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div id="divInvoiceNo">
+                                <div class="row">
+                                    <label class="col-sm-5 col-form-label">@localizer["Invoice No"]</label>
+                                    <div class="col-sm-7">
+                                        <input asp-for="PaymentCRUDViewModel.InvoiceNo" id="InvoiceNo" class=""
+                                            type="text" />
+                                        <span asp-validation-for="PaymentCRUDViewModel.InvoiceNo"
+                                            class="text-danger"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="divQuoteNo">
+                                <div class="row">
+                                    <label class="col-sm-5 col-form-label">@localizer["Quote No"]</label>
+                                    <div class="col-sm-7">
+                                        <input asp-for="PaymentCRUDViewModel.QuoteNo" id="QuoteNo" class=""
+                                            type="text" />
+                                        <span asp-validation-for="PaymentCRUDViewModel.QuoteNo"
+                                            class="text-danger"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <label class="col-sm-5">@localizer["Document Type"]</label>
+                                <div class="col-sm-7">
+                                    <select asp-for="PaymentCRUDViewModel.Category" id="Category" class="" required>
+                                        <option value="1" selected>Invoice</option>
+                                        <option value="2" selected>Draft Invoice</option>
+                                        <option value="3">Quote</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    @if (Model.PaymentCRUDViewModel.IsVat == "Yes")
+                    {
+                        <partial name="_AddPaymentDetail" />
+                    }
+                    else
+                    {
+                        <partial name="_AddPaymentDetailVATDisabled" />
+                    }
+
+                    <h5 class="text-right">
+                        @localizer["Payment Item Total:"] @Model.PaymentCRUDViewModel.CurrencySymbol <label
+                            id="SumPaymentItem">0</label>
+                    </h5>
+
+                    <div class="row">
+                        <div class="col-sm-5">
+                            <table class="" border="1" style=" width:100%;margin:1px auto;">
+                                <tr>
+                                    <th>@localizer["Previous Balance"]</th>
+                                    <td style="width:50%">
+                                        <input type="number" asp-for="PaymentCRUDViewModel.PrevousBalance"
+                                            id="PrevousBalance" class="unstyled-button" readonly />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th style="background-color:aqua">@localizer["Paid Amount"]</th>
+                                    <td style="width:50%">
+                                        <input type="number" asp-for="PaymentCRUDViewModel.PaidAmount" id="PaidAmount"
+                                            class="unstyled-button" readonly />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>@localizer["Sub Total"]</th>
+                                    <td style="width:50%">
+                                        <input type="number" asp-for="PaymentCRUDViewModel.SubTotal" id="SubTotal"
+                                            class="unstyled-button" readonly />
+                                    </td>
+                                </tr>
+                                @if (Model.PaymentCRUDViewModel.IsVat == "Yes")
+                                {
+                                    <tr>
+                                        <th>@localizer["VAT Amount"]</th>
+                                        <td style="width:50%">
+                                            <input type="number" asp-for="PaymentCRUDViewModel.VATAmount" id="VATAmount"
+                                            class="unstyled-button" readonly />
+                                        </td>
+                                    </tr>
+                                }
+                                <tr>
+                                    <th>@localizer["Discount Amount"]</th>
+                                    <td style="width:50%">
+                                        <input type="number" asp-for="PaymentCRUDViewModel.DiscountAmount"
+                                            id="DiscountAmount" class="unstyled-button" readonly />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>@localizer["Grand Total"]</th>
+                                    <td style="width:50%">
+                                        <input asp-for="PaymentCRUDViewModel.GrandTotal" id="GrandTotal"
+                                            class="unstyled-button" readonly />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>@localizer["Due Amount"]</th>
+                                    <td style="width:50%">
+                                        <input asp-for="PaymentCRUDViewModel.DueAmount" id="DueAmount"
+                                            class="unstyled-button" readonly />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>@localizer["Changed Amount"]</th>
+                                    <td style="width:50%">
+                                        <input type="number" asp-for="PaymentCRUDViewModel.ChangedAmount"
+                                            id="ChangedAmount" class="unstyled-button" readonly />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>@localizer["Shipping Charge"]</th>
+                                    <td style="width:50%">
+                                        <input type="number" asp-for="PaymentCRUDViewModel.CommonCharge"
+                                            id="CommonCharge" class="" onchange="onchangeCommonCharge()" />
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+
+                        <div class="col-sm-7">
+                            <div id="divPaymentDetail">
+                                <div class="row">
+                                    <partial name="_AddPaymentModeHistory" />
+                                </div>
+                                <div class="col-sm-12">
+                                    <h5 class="text-right">@localizer["Payment Total:"] <label
+                                            id="SumPaymentHistory"></label></h5>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label class="col-sm-3 col-form-label">@localizer["Customer Note"]</label>
+                                <div class="col-sm-9">
+                                    <textarea asp-for="PaymentCRUDViewModel.CustomerNote" id="CustomerNote"
+                                        class="form-control" type="text"></textarea>
+                                    <span asp-validation-for="PaymentCRUDViewModel.CustomerNote"
+                                        class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-sm-3 col-form-label">@localizer["Private Note"]</label>
+                                <div class="col-sm-9">
+                                    <textarea asp-for="PaymentCRUDViewModel.PrivateNote" id="PrivateNote"
+                                        class="form-control" type="text"></textarea>
+                                    <span asp-validation-for="PaymentCRUDViewModel.PrivateNote"
+                                        class="text-danger"></span>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <label></label>
+                                <div class="col-sm-12">
+                                    <button type="button" id="btnSave" onclick="SavePayment()"
+                                        class="btn btn-success">@localizer["Save"]</button>
+                                    <button type="button" id="btnSaveDraft" onclick="SavePaymentDraft()"
+                                        class="btn btn-info">@localizer["Draft"]</button>
+                                    <button type="button" id="btnClose" class="btn btn-danger" data-dismiss="modal">
+                                        @localizer["Close"]</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tab-pane fade" id="divOtherInfo" role="tabpanel" aria-labelledby="divOtherInfoTab">
+                    <div class="form-group row">
+                        <label class="col-sm-1 col-form-label">@localizer["Branch"]</label>
+                        <div class="col-sm-6">
+                            <select asp-for="PaymentCRUDViewModel.BranchId" id="BranchId" style="width: 100%;"
+                                asp-items="@ViewBag.ddlBranch" class="form-control" required>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-1 col-form-label">@localizer["Currency"]</label>
+                        <div class="col-sm-6">
+                            <select asp-for="PaymentCRUDViewModel.CurrencyId" id="CurrencyId" style="width: 100%;"
+                                asp-items="@ViewBag.ddlCurrency" class="form-control" required>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="divAddNewCustomer" role="tabpanel" aria-labelledby="divAddNewCustomer">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group row">
+                                <label class="col-sm-3 col-form-label">@localizer["Name"]</label>
+                                <div class="col-sm-9">
+                                    <input asp-for="CustomerInfoCRUDViewModel.Name" id="Name" class="form-control" />
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-sm-3 col-form-label">@localizer["Company Name"]</label>
+                                <div class="col-sm-9">
+                                    <input asp-for="CustomerInfoCRUDViewModel.CompanyName" id="CompanyName"
+                                        class="form-control" />
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-sm-3 col-form-label">@localizer["Type"]</label>
+                                <div class="col-sm-9">
+                                    <select asp-for="CustomerInfoCRUDViewModel.Type"
+                                        asp-items="@ViewBag.GetddlCustomerType" id="Type" class="form-control"
+                                        style="width:100%;">
+                                    </select>
+                                    <span asp-validation-for="CustomerInfoCRUDViewModel.Type"
+                                        class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-sm-3 col-form-label">@localizer["Phone"]</label>
+                                <div class="col-sm-9">
+                                    <input asp-for="CustomerInfoCRUDViewModel.Phone" id="Phone" class="form-control" />
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-sm-3 col-form-label">@localizer["Email"]</label>
+                                <div class="col-sm-9">
+                                    <input asp-for="CustomerInfoCRUDViewModel.Email" id="Email" class="form-control" />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-6">
+                            <div class="form-group row">
+                                <label class="col-sm-3 col-form-label">@localizer["Address"]</label>
+                                <div class="col-sm-9">
+                                    <textarea asp-for="CustomerInfoCRUDViewModel.Address" class="form-control"
+                                        id="Address"></textarea>
+                                    <span asp-validation-for="CustomerInfoCRUDViewModel.Address"
+                                        class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label asp-for="CustomerInfoCRUDViewModel.AddressPostcode"
+                                    class="col-sm-3 col-form-label">@localizer["Postcode"]</label>
+                                <div class="col-sm-9">
+                                    <textarea asp-for="CustomerInfoCRUDViewModel.AddressPostcode" class="form-control"
+                                        id="AddressPostcode"></textarea>
+                                    <span asp-validation-for="CustomerInfoCRUDViewModel.AddressPostcode"
+                                        class="text-danger"></span>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label class="col-sm-3 col-form-label"></label>
+                                <div class="col-sm-9 text-left">
+                                    <input asp-for="CustomerInfoCRUDViewModel.UseThisAsBillingAddress" type="checkbox"
+                                        id="UseThisAsBillingAddress" />
+                                    <span>@localizer["Use this as billing and shipping address"]</span>
+                                </div>
+                            </div>
+                            <div id="divBillingAddress">
+                                <div class="form-group row">
+                                    <label class="col-sm-3 col-form-label">@localizer["Billing Address"]</label>
+                                    <div class="col-sm-9">
+                                        <textarea asp-for="CustomerInfoCRUDViewModel.BillingAddress"
+                                            class="form-control" id="BillingAddress"></textarea>
+                                        <span asp-validation-for="CustomerInfoCRUDViewModel.BillingAddress"
+                                            class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-sm-3 col-form-label">@localizer["Postcode"]</label>
+                                    <div class="col-sm-9">
+                                        <textarea asp-for="CustomerInfoCRUDViewModel.BillingAddressPostcode"
+                                            class="form-control" id="BillingAddressPostcode"></textarea>
+                                        <span asp-validation-for="CustomerInfoCRUDViewModel.BillingAddressPostcode"
+                                            class="text-danger"></span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label class="col-sm-3 col-form-label">@localizer["Notes"]</label>
+                                <div class="col-sm-9">
+                                    <textarea asp-for="CustomerInfoCRUDViewModel.Notes" class="form-control"
+                                        id="Notes"></textarea>
+                                    <span asp-validation-for="CustomerInfoCRUDViewModel.Notes"
+                                        class="text-danger"></span>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label class="col-sm-3 col-form-label"></label>
+                                <div class="col-sm-9">
+                                    <button onclick="SaveCustomerInfo()"
+                                        class="btn btn-info">@localizer["Add Customer"]</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+<script src="/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+<script src="~/js/Payment/PaymentDetail_CRUD.js"></script>
+<script src="~/js/Payment/HideShowInvoiceQuote.js"></script>
+<script src="~/js/Payment/FieldsUpdateService.js"></script>
+<script src="~/js/ItemSerialNumber/ItemSerialNumber_CRUD.js"></script>
+
+<script>
+    $(document).ready(function () {
+        $("#ItemId").select2();
+        $("#CurrencyId").select2();
+        $("#CustomerId").select2();
+        $("#InsuranceCompanyName").select2();
+
+        var _divBillingAddress = document.getElementById("divBillingAddress");
+        _divBillingAddress.style.display = "none";
+        $("#UseThisAsBillingAddress").click();
+
+        var _CustomerId = $("#CustomerId").val();
+        GetCustomerHistory(_CustomerId);
+
+        //Edit Option: Load Items
+        var _Category = parseFloat($("#Category").val());
+        var result = @Html.Raw(Json.Serialize(Model.listPaymentDetailCRUDViewModel));
+        if (result != null) {
+            result.forEach(LoadTableRowFromDB);
+            var _GrandTotal = $("#GrandTotal").val();
+            var _CommonCharge = $("#CommonCharge").val();
+            _GrandTotal = parseFloat(_GrandTotal) - parseFloat(_CommonCharge)
+            $("#SumPaymentItem").text(_GrandTotal);
+            $('#Category').attr("disabled", true);
+        }
+    });
+    $('#CurrentURL').val(window.location.pathname);
+
+    var LoadCustomerNoteByCustomerId = function () {
+        var _CustomerId = $("#CustomerId").val();
+        GetCustomerHistory(_CustomerId);
+    }
+
+    $("body").on("click", "#UseThisAsBillingAddress", function () {
+        var _divBillingAddress = document.getElementById("divBillingAddress");
+
+        if ($('#UseThisAsBillingAddress').is(":checked")) {
+            _divBillingAddress.style.display = "none";
+        }
+        else {
+            _divBillingAddress.style.display = "block";
+        }
+    });
+
+    var onchangeCommonCharge = function () {
+        var _CommonCharge = $("#CommonCharge").val();
+        var _SumPaymentItem = $("#SumPaymentItem").text();
+
+        var result = parseFloat(_SumPaymentItem) + parseFloat(_CommonCharge);
+        $("#GrandTotal").val(result.toFixed(2));
+    }
+
+    var IsDraft = false;
+    var _Category = 1;
+    var SavePaymentDraft = function () {
+        IsDraft = true;
+        SavePayment();
+        IsDraft = false;
+    }
+
+    var SavePayment = function () {
+        if (IsDraft) {
+            _Category = 2;
+        }
+        else {
+            var _CategoryTMP = $("#Category").val();
+            if (_CategoryTMP == 2) {
+                _Category = 1;
+            }
+            else {
+                _Category = $("#Category").val();
+            }
+        }
+
+        var _PreparedFormObj = PreparedFormObj();
+        $("#btnSave").val("Please Wait");
+        $('#btnSave').attr('disabled', 'disabled');
+
+        $.ajax({
+            type: "POST",
+            url: "/Payment/AddEdit",
+            data: _PreparedFormObj,
+            dataType: "json",
+            success: function (result) {
+                if (result.IsSuccess) {
+                    Swal.fire({
+                        title: result.AlertMessage,
+                        icon: "success"
+                    }).then(function () {
+                        document.getElementById("btnClose").click();
+                        $("#btnSave").val("Save");
+                        $('#btnSave').removeAttr('disabled');
+                        if (result.CurrentURL == "/Payment/Index" && result.ModelObject.Category == 1) {
+                            $('#tblPayments').DataTable().ajax.reload();
+                        }
+                        else if (result.CurrentURL == "/Payment/Index" && result.ModelObject.Category == 2) {
+                            location.href = "/PaymentDraft/Index";
+                        }
+                        else if (result.CurrentURL == "/PaymentDraft/Index" && result.ModelObject.Category == 1) {
+                            location.href = "/Payment/PrintPaymentInvoice?_PaymentId=" + result.Id;
+                        }
+                        else if (result.CurrentURL == "/PaymentDraft/Index" && result.ModelObject.Category == 2) {
+                            $('#tblPaymentDraft').DataTable().ajax.reload();
+                        }
+                        else if (result.CurrentURL == "/Payment/Index" && result.ModelObject.Category == 3) {
+                            location.href = "/PaymentQuote/Index";
+                        }
+                        else if (result.CurrentURL == "/PaymentQuote/Index" && result.ModelObject.Category == 3) {
+                            $('#tblQuoteInvoice').DataTable().ajax.reload();
+                        }
+                        else if (result.CurrentURL == "/ItemCart/Index" || result.CurrentURL == "/ItemCart/ItemCartSideInvoice" && result.ModelObject.Category == 1) {
+                            location.href = "/Payment/PrintPaymentInvoice?_PaymentId=" + result.Id;
+                        }
+                        else if (result.CurrentURL == "/") {
+                            setTimeout(function () {
+                                $("#tblPayments").load("/ #tblPayments");
+                            }, 1000);
+                        }
+                        else {
+                            $('#tblPayments').DataTable().ajax.reload();
+                        }
+                    });
+                }
+                else {
+                    Swal.fire({
+                        title: result.AlertMessage,
+                        icon: "warning"
+                    }).then(function () {
+                        $("#btnSave").val("Save");
+                        $('#btnSave').removeAttr('disabled');
+                        setTimeout(function () {
+                            $('#ItemId').focus();
+                        }, 400);
+                    });
+                }
+            },
+            error: function (errormessage) {
+                SwalSimpleAlert(errormessage.responseText, "warning");
+            }
+        });
+    }
+
+    var PreparedFormObj = function () {
+        var _PaymentCRUDViewModel = {
+            Id: $("#Id").val(),
+            CustomerId: $("#CustomerId").val(),
+            InvoiceNo: $("#InvoiceNo").val(),
+            QuoteNo: $("#QuoteNo").val(),
+            CreatedDate: $("#CreatedDate").val(),
+            CreatedBy: $("#CreatedBy").val(),
+
+            CommonCharge: $("#CommonCharge").val(),
+            Discount: $("#Discount").val(),
+            DiscountAmount: $("#DiscountAmount").text(),
+            VAT: $("#VAT").val(),
+            TaxAmount: $("#TaxAmount").text(),
+            SubTotal: $("#SubTotal").val(),
+            GrandTotal: $("#GrandTotal").val(),
+            PaidAmount: $("#PaidAmount").val(),
+            DueAmount: $("#DueAmount").val(),
+            ChangedAmount: $("#ChangedAmount").val(),
+            CurrencyId: $("#CurrencyId").val(),
+            BranchId: $("#BranchId").val(),
+            PaymentStatus: $("#PaymentStatus").val(),
+            CurrentURL: $("#CurrentURL").val(),
+            Category: _Category,
+
+            PurchaseOrderNumber: $("#PurchaseOrderNumber").val(),
+            CustomerNote: $("#CustomerNote").val(),
+            PrivateNote: $("#PrivateNote").val(),
+        };
+        return _PaymentCRUDViewModel;
+    }
+
+</script>
+
+<style>
+    table th {
+        padding-left: 5px;
+    }
+
+    table td {
+        padding-left: 5px;
+    }
+
+    .card-body {
+        padding-top: 0.25rem;
+        padding-right: 1.25rem;
+        padding-bottom: 1.25rem;
+        padding-left: 1.25rem;
+    }
+</style>

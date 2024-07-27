@@ -1,0 +1,45 @@
+﻿@model AdvPOS.Models.PaymentViewModel.PaymentReportViewModel
+
+<div>
+    <div id="divDeliveryNote">
+        <hr />
+        <div class="row" style="width:100%; margin:0 auto;">
+            <table class="" style="width:100%" border="1">
+                <thead>
+                    <tr>
+                        <th>ITEM CODE</th>
+                        <th>QTY</th>
+                        <th>DESCRIPTION</th>
+                    </tr>
+                </thead>
+                @foreach (var item in Model.listPaymentDetailCRUDViewModel)
+                {
+                    <tbody>
+
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.ItemCode)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Quantity)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.ItemName)
+                            </td>
+                        </tr>
+                    </tbody>
+                }
+            </table>
+        </div>
+    </div>
+
+    <style>
+        table th {
+            padding-left: 5px;
+        }
+
+        table td {
+            padding-left: 5px;
+        }
+    </style>
+</div>

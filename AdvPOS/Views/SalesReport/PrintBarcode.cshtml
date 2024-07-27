@@ -1,0 +1,63 @@
+@model AdvPOS.Models.ItemsViewModel.BarcodeViewModel
+
+<div class="wrapper">
+    <div class="row">
+        <div class="col-sm-9">
+            <h5><b>Print Barcode</b></h5>
+        </div>
+        <div class="col-sm-3 text-right hidden-print">
+            <button class="btn btn-dark" onclick="printDivWithCSS()"><span class="fa fa-print"></span></button>
+        </div>
+    </div>
+
+    <hr />
+    <div class="panel panel-hash">
+        <div class="panel-heading">
+            <div class="row">
+                <div class="col-md-10">
+                </div>
+                <div class="col-md-2">
+                </div>
+            </div>
+        </div>
+
+        <div class="panel-body scroll panel-height">
+            <div class="col-12">
+                <div class="row" id="printableArea">
+                    @foreach (var item in Model.listBarcodeViewModel)
+
+                    {
+                        <div class="info-box col-1 col-sm-1 no-print">
+                            <div class="info-box-content">
+                                <span class="info-box-text">@item.Id</span>
+                                <span class="info-box-text">@item.ItemName</span>
+                                <span class="info-box-text">
+                                    <button class="btn btn-success no-print" onclick="printBarcodeDiv('@item.Barcode')"><span
+                                        class="fa fa-print"></span></button>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="info-box col-3 col-sm-3" id="@item.Id">
+                            <span>
+                                <img src="@item.Barcode" alt="" class="col-sm-12" />
+                            </span>
+                        </div>
+
+                    }
+                </div>
+                <partial name="~/Views/UIComponents/_IndexPagination.cshtml" />
+            </div>
+        </div>
+    </div>
+
+    <div class="row" id="divSingleBarcodeDIV">
+        <div class="col-sm-3">
+            <span>
+                <img src="" alt="" id="imgSingleBarcode" />
+            </span>
+        </div>
+        <div class="col-sm-9">
+        </div>
+    </div>
+</div>
+

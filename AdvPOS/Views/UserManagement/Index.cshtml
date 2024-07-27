@@ -1,0 +1,56 @@
+﻿@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer localizer
+
+@{
+    ViewData["Title"] = "Manage User";
+}
+
+<div class="wrapper">
+    <div class="panel panel-hash">
+        <div class="panel-heading">
+            <div class="row">
+                <div class="col-md-6">
+                    <button class="btn btn-sm btn-danger" onclick="AddEditUserAccount(0)">@localizer["Add New"]</button>
+                </div>
+                <div class="col-md-6 pull-right">
+                    <h5 class="pull-right"><b>&nbsp;@localizer["User List"]</b></h5>
+                </div>
+            </div>
+        </div>
+        <div class="panel-body scroll panel-height">
+            <table id="tblUserAccount" class="CustomBlueTable" style="width:100%">
+                <thead>
+                    <tr>
+                        <th>@localizer["Id"]</th>
+                        <th>@localizer["Image"]</th>
+                        <th>@localizer["First Name"]</th>
+                        <th>@localizer["Last Name"]</th>
+                        <th>@localizer["Phone Number"]</th>
+                        <th>@localizer["Email"]</th>
+                        <th>@localizer["Created Date"]</th>
+                        <th>@localizer["Action"]</th>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+    </div>
+</div>
+
+<style>
+    .panel-heading {
+        padding: 0px 0px 0px 5px;
+    }
+
+    .panel-body {
+        padding: 5px;
+    }
+
+    .h4 {
+        margin-top: 1px;
+        margin-bottom: 1px;
+    }
+</style>
+
+
+<script src="~/js/UserManagement/UserManagement_CRUD.js"></script>
+<script src="~/js/UserManagement/UserManagement_Datatable.js"></script>
+

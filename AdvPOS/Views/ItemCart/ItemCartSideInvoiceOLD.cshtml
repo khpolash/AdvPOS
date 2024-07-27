@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <link rel="icon" href="~/images/favicon.ico" type="image/gif" sizes="16x16">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] -</title>
+
+
+    <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="stylesheet" href="~/css/TableTheme.css" />
+    <link href="~/DataTables/datatables.css" rel="stylesheet" />
+    <link href="~/DataTables/buttons.dataTables.css" rel="stylesheet" />
+    <link href="~/lib/toastr/toastr.min.css" rel="stylesheet" />
+    <link href="~/AdminLTE/plugins/select2/css/select2.css" rel="stylesheet" />
+
+</head>
+<body class="">
+    <div class="row">
+        <div class="col-sm-5" style="background-color: white;">
+            <input id="ItemBarcode" onchange="GetItemByItemBarcode()" class="col-sm-12"
+                placeholder="Insert item barcode" />
+            <hr />
+            <table id="tblItemCart" class="CustomTablePurple" border="1" style="width:100%;">
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Item</th>
+                        <th style="width: 70px;">Quantity</th>
+                        <th>Unit Price</th>
+                        <th style="width: 70px;">VAT</th>
+                        <th>Total</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+                <tfoot>
+                </tfoot>
+            </table>
+            <br />
+            <hr />
+
+            <div class="row">
+                <div class="col-sm-6">
+                </div>
+                <div class="col-sm-6 text-right">
+                    <label id="ItemChartSubTotal">Sub Total: </label>
+                </div>
+
+                <div class="col-sm-6">
+                </div>
+                <div class="col-sm-6 text-right">
+                    <label id="ItemChartGrandTotal">Grand Total: </label>
+                    <hr />
+                    <input type="button" class="btn btn-xs btn-danger col-sm-4" onclick="ClearCart()"
+                        value="Clear Cart" />
+                    <input type="button" class="btn btn-success form-control col-sm-6" id="btnCheckout"
+                        onclick="ItemCheckoutfromSideInvoice()" value="Checkout" />
+                </div>
+            </div>
+        </div>
+
+        <div class="col-sm-7">
+            <table id="tblItemCartSideInvoice" style="width:100%">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                </thead>
+            </table>
+            <div class="form-group row">
+                <label class="col-sm-4 col-form-label">Item By Category: </label>
+                <div class="col-sm-8">
+                    <select asp-items="@ViewBag.CategorieList" onchange="TableFilterByCategory();" class="form-control" id="CategoriesId" style="width: 100%;">
+                        <option selected>All Item</option>
+                    </select>                   
+                </div>
+            </div>
+        </div>
+    </div>
+    <partial name="_ItemCartModal" />
+
+    <style>
+    .h4 {
+        margin-top: 1px;
+        margin-bottom: 1px;
+    }
+
+    .form-control {
+        border-radius: 5px;
+        box-shadow: none;
+        border-color: green;
+        width: 300px;
+    }
+</style>
+
+<script src="~/js/ItemCart/ItemCart_CRUD.js"></script>
+<script src="~/js/Payment/Payment_CRUD.js"></script>
+<script src="~/js/Common_CRUD.js"></script>
+<script src="~/js/ItemCart/ItemCartSideInvoice_Datatable.js"></script>
+
+<script>
+    var listPaymentDetail = new Array();
+    var listItemCart = new Array();
+
+    var ClearCart = function () {
+        ClearAllCartItemWithAlert();
+        $("#ItemChartSubTotal").text("Sub Total: 0.00");
+        $("#ItemChartGrandTotal").text("Grand Total: 0.00");
+    }
+    var ItemCheckoutfromSideInvoice = function () {
+        ItemCheckout();
+    }
+
+    var ViewItem = function (Id) {
+        var url = "/Items/ViewItem?Id=" + Id;
+        $('#titleBigModal').html("Item Details ");
+        loadBigModal(url);
+    };
+
+    $(document).ready(function () {
+        $("#CategoriesId").select2();
+        DataTableCustomSearchBox('350px', 'Search Item');
+        var table = $("#tblItemCartSideInvoice").DataTable();
+        table.search('').columns().search('').draw();
+        
+        GetAllCartItem();
+        var _listItemCart = localStorage.getItem('listItemCart');
+        if (_listItemCart != null) {
+            listItemCart = JSON.parse(_listItemCart);
+            $("#shoppingcart").html(listItemCart.length);
+            for (let i = 0; i < listItemCart.length; i++) {
+                AddTableRow(listItemCart[i], '#tblItemCart');
+            }
+        }
+        SubAndGrandTotal();
+    });
+
+    var TableFilterByCategory = function ()
+    {
+        //var _CategoriesId = $("#CategoriesId option:selected").text();      
+        var _CategoriesId = $("#CategoriesId").val();
+        var _tblItemCartSideInvoice = $("#tblItemCartSideInvoice").DataTable();
+        _tblItemCartSideInvoice.clear();
+        _tblItemCartSideInvoice.destroy();
+        if(_CategoriesId == 'All Item')
+        {
+            //table.search('').columns().search('').draw();
+            ItemCartDataTableLoad(false, 0);       
+        }
+        else
+        {
+            //table.search(_CategoriesId).draw();                  
+            ItemCartDataTableLoad(true, _CategoriesId);
+        }
+        DataTableCustomSearchBox('350px', 'Search Item');        
+    }
+
+    var GetItemByItemBarcode = function () {
+        var _ItemBarcode = $("#ItemBarcode").val();
+        if (_ItemBarcode == null || _ItemBarcode == '') return;
+        $.ajax({
+            type: "GET",
+            url: "/Payment/GetItemByItemBarcode?ItemBarcode=" + _ItemBarcode,
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (data) {
+                if (data === null) {
+                    Swal.fire({
+                        title: "Item not found for Barcode: " + _ItemBarcode,
+                        icon: 'info',
+                        onAfterClose: () => {
+                            setTimeout(function () {
+                                $('#ItemBarcode').focus();
+                            }, 300);
+                        }
+                    });
+                    return;
+                }
+
+                var TempItemDTO = {};
+                TempItemDTO.ItemId = data.Id;
+                TempItemDTO.ItemName = data.Name;
+                TempItemDTO.Quantity = 1;
+                TempItemDTO.UnitPrice = data.NormalPrice;
+                TempItemDTO.ItemVAT = data.NormalVAT;
+                TempItemDTO.TotalAmount = data.NormalPrice;
+                var _TotalPriceWithVAT = data.NormalPrice + (data.NormalVAT / 100) * data.NormalPrice;
+                TempItemDTO.TotalPriceWithVAT = _TotalPriceWithVAT;
+
+                listItemCart.push(TempItemDTO);
+                AddTableRow(TempItemDTO, "#tblItemCart");
+                SubAndGrandTotal();
+
+                $('#ItemBarcode').focus();
+                $('#ItemBarcode').val('');
+                toastr.options.positionClass = "toast-bottom-right";
+                toastr.success("Item added successfully. Item Id: " + data.Id);
+                localStorage.setItem("listItemCart", JSON.stringify(listItemCart));
+            },
+            error: function (response) {
+                SwalSimpleAlert(errormessage.responseText, "warning");
+            }
+        });
+    };
+</script>
+
+
+
+
+
+
+    <script src="~/AdminLTE/plugins/jquery-ui/jquery-ui.min.js"></script>
+    <script src="~/AdminLTE/plugins/daterangepicker/daterangepicker.js"></script>
+    <script src="~/AdminLTE/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
+    <script src="~/AdminLTE/dist/js/adminlte.js"></script>
+
+    <script src="~/lib/sweetalert.min.js"></script>
+    <script src="~/lib/sweetalert2/sweetalert2.js"></script>
+    <script src="~/lib/toastr/toastr.min.js"></script>
+    <script src="~/js/site.js"></script>
+
+
+
+
+    <script src="~/DataTables/datatables.js"></script>
+    <script src="~/AdminLTE/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="~/DataTables/buttons.dataTables.js"></script>
+
+    <script src="~/DataTables/Export/pdfmake-0.1.36/pdfmake.js"></script>
+    <script src="~/DataTables/Export/pdfmake-0.1.36/vfs_fonts.js"></script>
+    <script src="~/DataTables/Export/Buttons-1.6.5/js/buttons.html5.min.js"></script>
+    <script src="~/DataTables/Export/Buttons-1.6.5/js/buttons.print.min.js"></script>
+
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+
+    <link href="~/AdminLTE/plugins/sweetalert2/sweetalert2.min.css" rel="stylesheet" />
+    <script src="~/AdminLTE/plugins/sweetalert2/sweetalert2.min.js"></script>
+
+    <script src="~/lib/JsBarcode.all.min.js"></script>
+    <script src="~/AdminLTE/plugins/select2/js/select2.js"></script>
+    <script src="~/lib/loadingoverlay.js"></script>
+
+</body>
+</html>

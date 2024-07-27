@@ -1,0 +1,75 @@
+﻿@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer localizer
+
+<div class="wrapper">
+    <div class="panel panel-hash">
+        <div class="panel-heading">
+            <div class="row">
+                <div class="col-md-4">
+                    <a class="fa fa-plus-square fa-2x" onclick="AddEdit(0)"></a>
+                </div>
+                <div class="col-md-2">
+                    <h5><b>&nbsp;@localizer["Item List"]</b></h5>
+                </div>        
+                <div class="col-md-6 text-right">                   
+                    <a class="btn-sm btn-info" href="#" onclick="AddEditWarehouse(0)">@localizer["Add Warehouse"]</a>
+                    <a class="btn-sm btn-info" href="#" onclick="AddEditCategories(0)">@localizer["Add Categories"]</a>
+                    <a class="btn-sm btn-info" href="#" onclick="AddEditSupplier(0)">@localizer["Add Supplier"]</a>
+                    <a class="btn-sm btn-info" href="#" onclick="AddEditUnitsofMeasure(0)">@localizer["Add Measure"]</a>
+                    <a class="btn-sm btn-default" href="#" onclick="AddBulkItem()">@localizer["Add Bulk Item"]</a>
+                </div>
+            </div>
+        </div>
+        <div class="panel-body scroll panel-height">
+            <table id="tblItem" class="BlueGreen" style="width:100%">
+                <thead>
+                    <tr>
+                        <th>@localizer["Id"]</th>
+                        <th>@localizer["Name"]</th>
+                        <th>@localizer["Image"]</th>
+                        <th>@localizer["Bar Code"]</th>
+                        <th>@localizer["Categorie"]</th>
+                        <th>@localizer["Supplier"]</th>
+                        <th>@localizer["Measure"]</th>
+                        <th>@localizer["Cost Price"]</th>
+                        <th>@localizer["Sell Price"]</th>
+                        <th style="background-color:rebeccapurple">@localizer["Quantity"]</th>
+                        <th>@localizer["Created Date"]</th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+    </div>
+</div>
+
+<style>
+    .panel-heading {
+        padding: 0px 0px 0px 5px;
+    }
+
+    .panel-body {
+        padding: 5px;
+    }
+
+    .h4 {
+        margin-top: 1px;
+        margin-bottom: 1px;
+    }
+</style>
+
+
+<script src="~/js/Item/Item_CRUD.js"></script>
+<script src="~/js/Warehouse/Warehouse_CRUD.js"></script>
+<script src="~/js/Categories/Categories_CRUD.js"></script>
+<script src="~/js/Supplier/Supplier_CRUD.js"></script>
+<script src="~/js/UnitsofMeasure/UnitsofMeasure_CRUD.js"></script>
+<script src="~/js/Item/Item_Datatable.js"></script>
+
+<script>
+    $(document).ready(function () {
+        DataTableCustomSearchBox('250px', 'Search Item');
+    });
+</script>

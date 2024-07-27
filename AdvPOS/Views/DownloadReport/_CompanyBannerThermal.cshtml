@@ -1,0 +1,51 @@
+﻿@model AdvPOS.Models.PaymentViewModel.PaymentReportViewModel
+
+@{
+    ViewData["Title"] = "Payment Report";
+}
+
+<div class="row">
+    <div class="col-sm-5">
+        <img src="@Model.CompanyInfoCRUDViewModel.Logo" class="" alt="" style="margin-bottom:1px; width:30%;">
+    </div>
+    <div class="col-sm-6">
+        <h4><b>INVOICE</b></h4>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-sm-12">
+        <span>From,</span>
+        <address style="margin-top:1px">
+            <strong>@Model.CompanyInfoCRUDViewModel.Name</strong>
+            <br>@Model.CompanyInfoCRUDViewModel.Address<br>
+            <abbr><b>Mobile: </b></abbr>@Model.CompanyInfoCRUDViewModel.Phone<br>
+            <abbr><b>Email: </b></abbr>@Model.CompanyInfoCRUDViewModel.Email<br>
+            <abbr><b>Website: </b></abbr>@Model.CompanyInfoCRUDViewModel.Website
+        </address>
+    </div>
+    <div class="col-sm-12">
+        <abbr><b>Invoice No: </b></abbr>@Model.PaymentCRUDViewModel.InvoiceNo<br>
+        <abbr><b>Payment Status: </b></abbr>@Model.PaymentCRUDViewModel.PaymentStatusDisplay<br>
+        <abbr><b>Currency: </b></abbr>@Model.PaymentCRUDViewModel.CurrencyName<br>
+        <abbr><b>Branch: </b></abbr>@Model.PaymentCRUDViewModel.BranchName<br>
+    </div>
+    <div class="col-sm-12">
+        <span>To,</span>
+        <address style="margin-top:1px">
+            <strong>@Model.CustomerInfoCRUDViewModel.Name </strong><br>
+            <abbr><b>Phone: </b></abbr>@Model.CustomerInfoCRUDViewModel.Phone<br>
+            <abbr><b>Address: </b></abbr>@Model.CustomerInfoCRUDViewModel.BillingAddress
+        </address>
+        <div class="m-b-15"><strong>Print Date </strong>: @DateTime.Today.ToString("dd MMMM yyyy")</div>
+    </div>
+</div>
+
+<style>
+    .panel-heading {
+        padding: 0px 0px;
+        border-bottom: 0px solid transparent;
+        border-top-left-radius: 0px;
+        border-top-right-radius: 0px;
+    }
+</style>

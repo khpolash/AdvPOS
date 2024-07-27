@@ -1,0 +1,436 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!--
+    Microsoft ResX Schema
+
+    Version 2.0
+
+    The primary goals of this format is to allow a simple XML format
+    that is mostly human readable. The generation and parsing of the
+    various data types are done through the TypeConverter classes
+    associated with the data types.
+
+    Example:
+
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+
+    There are any number of "resheader" rows that contain simple
+    name/value pairs.
+
+    Each data row contains a name, and value. The row also contains a
+    type or mimetype. Type corresponds to a .NET class that support
+    text/value conversion through the TypeConverter architecture.
+    Classes that don't support this are serialized and stored with the
+    mimetype set.
+
+    The mimetype is used for serialized objects, and tells the
+    ResXResourceReader how to depersist the object. This is currently not
+    extensible. For a given mimetype the value must be set accordingly:
+
+    Note - application/x-microsoft.net.object.binary.base64 is the format
+    that the ResXResourceWriter will generate, however the reader can
+    read any of the formats listed below.
+
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace"/>
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0"/>
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string"/>
+              <xsd:attribute name="type" type="xsd:string"/>
+              <xsd:attribute name="mimetype" type="xsd:string"/>
+              <xsd:attribute ref="xml:space"/>
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string"/>
+              <xsd:attribute name="name" type="xsd:string"/>
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2"/>
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1"/>
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3"/>
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4"/>
+              <xsd:attribute ref="xml:space"/>
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required"/>
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="Dashboard" xml:space="preserve">
+    <value>لوحة القيادة</value>
+    <comment/>
+  </data>
+  <data name="User Management" xml:space="preserve">
+    <value>إدارةالمستخدم</value>
+    <comment/>
+  </data>
+  <data name="UserInfo From Browser" xml:space="preserve">
+    <value>معلومات المستخدم</value>
+    <comment/>
+  </data>
+  <data name="Audit Logs" xml:space="preserve">
+    <value>سجلات التدقيق</value>
+    <comment/>
+  </data>
+  <data name="User Profile" xml:space="preserve">
+    <value>ملف تعريفي للمستخدم</value>
+    <comment/>
+  </data>
+  <data name="Manage Page Access" xml:space="preserve">
+    <value>إدارة الوصول إلى الصفحة</value>
+    <comment/>
+  </data>
+  <data name="Email Setting" xml:space="preserve">
+    <value>إعداد البريد الإلكتروني</value>
+    <comment/>
+  </data>
+  <data name="Identity Setting" xml:space="preserve">
+    <value>تحديد الهوية</value>
+    <comment/>
+  </data>
+  <data name="Login History" xml:space="preserve">
+    <value>سجل تسجيل الدخول</value>
+    <comment/>
+  </data>
+  <data name="Send Email History" xml:space="preserve">
+    <value>محفوظات البريد الإلكتروني</value>
+    <comment/>
+  </data>
+  <data name="JWT Token" xml:space="preserve">
+    <value>JWT Token</value>
+    <comment/>
+  </data>
+  <data name="Company Info" xml:space="preserve">
+    <value>معلومات الشركة</value>
+    <comment/>
+  </data>
+  <data name="Invoice" xml:space="preserve">
+    <value>فاتورة</value>
+    <comment/>
+  </data>
+  <data name="Invoice Draft" xml:space="preserve">
+    <value>مسودة الفاتورة</value>
+    <comment/>
+  </data>
+  <data name="Invoice Quote" xml:space="preserve">
+    <value>اقتباس الفاتورة</value>
+    <comment/>
+  </data>
+  <data name="Purchases Invoice" xml:space="preserve">
+    <value>فاتورة المشتريات</value>
+    <comment/>
+  </data>
+  <data name="Purchases Invoice Draft" xml:space="preserve">
+    <value>مسودة فاتورة المشتريات</value>
+    <comment/>
+  </data>
+  <data name="Purchases Invoice Quote" xml:space="preserve">
+    <value>اقتباس فاتورة المشتريات</value>
+    <comment/>
+  </data>
+  <data name="Manage Expense" xml:space="preserve">
+    <value>إدارة المصاريف</value>
+    <comment/>
+  </data>
+  <data name="Expense Type" xml:space="preserve">
+    <value>نوع المصاريف</value>
+    <comment/>
+  </data>
+  <data name="Expense Summary" xml:space="preserve">
+    <value>ملخص المصاريف</value>
+    <comment/>
+  </data>
+  <data name="Item" xml:space="preserve">
+    <value>العنصر</value>
+    <comment/>
+  </data>
+  <data name="Item Cart" xml:space="preserve">
+    <value>عربة البند</value>
+    <comment/>
+  </data>
+  <data name="Side Invoice" xml:space="preserve">
+    <value>فاتورة جانبية</value>
+    <comment/>
+  </data>
+  <data name="Categories" xml:space="preserve">
+    <value>فئات</value>
+    <comment/>
+  </data>
+  <data name="Units of Measure" xml:space="preserve">
+    <value>وحدات القياس</value>
+    <comment/>
+  </data>
+  <data name="Out of Stock" xml:space="preserve">
+    <value>إنتهى من المخزن</value>
+    <comment/>
+  </data>
+  <data name="Low In Stock" xml:space="preserve">
+    <value>انخفاض المخزون</value>
+    <comment/>
+  </data>
+  <data name="Damage Item Details" xml:space="preserve">
+    <value>تفاصيل عنصر الضرر</value>
+    <comment/>
+  </data>
+  <data name="Items History" xml:space="preserve">
+    <value>تاريخ العناصر</value>
+    <comment/>
+  </data>
+  <data name="Manage Currency" xml:space="preserve">
+    <value>إدارة العملة</value>
+    <comment/>
+  </data>
+  <data name="Manage Customer Info" xml:space="preserve">
+    <value>إدارة معلومات العميل</value>
+    <comment/>
+  </data>
+  <data name="Customer Type" xml:space="preserve">
+    <value>نوع العميل</value>
+    <comment/>
+  </data>
+  <data name="Manage Supplier" xml:space="preserve">
+    <value>إدارة المورد</value>
+    <comment/>
+  </data>
+  <data name="Manage Warehouse" xml:space="preserve">
+    <value>إدارة المستودع</value>
+    <comment/>
+  </data>
+  <data name="Payment Type" xml:space="preserve">
+    <value>نوع الدفع</value>
+    <comment/>
+  </data>
+  <data name="Payment Status" xml:space="preserve">
+    <value>الة السداد</value>
+    <comment/>
+  </data>
+  <data name="Email Config" xml:space="preserve">
+    <value>تكوين البريد الإلكتروني</value>
+    <comment/>
+  </data>
+  <data name="Vat Percentage" xml:space="preserve">
+    <value>نسبة ضريبة القيمة المضافة</value>
+    <comment/>
+  </data>
+  <data name="Sales Report" xml:space="preserve">
+    <value>تقرير المبيعات</value>
+    <comment/>
+  </data>
+  <data name="Transaction Summary" xml:space="preserve">
+    <value>ملخص المعاملات</value>
+    <comment/>
+  </data>
+  <data name="Product Wise Sale" xml:space="preserve">
+    <value>بيع المنتج الحكيم</value>
+    <comment/>
+  </data>
+  <data name="Transaction Detail" xml:space="preserve">
+    <value>تفاصيل الصفقة</value>
+    <comment/>
+  </data>
+  <data name="Transaction By Day" xml:space="preserve">
+    <value>المعاملة حسب اليوم</value>
+    <comment/>
+  </data>
+  <data name="Transaction By Month" xml:space="preserve">
+    <value>المعاملة بالشهر</value>
+    <comment/>
+  </data>
+  <data name="Transaction By Year" xml:space="preserve">
+    <value>المعاملة بالسنة</value>
+    <comment/>
+  </data>
+  <data name="Purchases Report" xml:space="preserve">
+    <value>تقرير المشتريات</value>
+    <comment/>
+  </data>
+  <data name="Purchases Summary" xml:space="preserve">
+    <value>ملخص المشتريات</value>
+    <comment/>
+  </data>
+  <data name="Purchases Detail" xml:space="preserve">
+    <value>تفاصيل المشتريات</value>
+    <comment/>
+  </data>
+  <data name="Item Report" xml:space="preserve">
+    <value>تقرير العنصر</value>
+    <comment/>
+  </data>
+  <data name="High In Demand" xml:space="preserve">
+    <value>ارتفاع الطلب</value>
+    <comment/>
+  </data>
+  <data name="Low In Demand" xml:space="preserve">
+    <value>انخفاض الطلب</value>
+    <comment/>
+  </data>
+  <data name="Highest Earning" xml:space="preserve">
+    <value>أعلى ربح</value>
+    <comment/>
+  </data>
+  <data name="Lowest Earning" xml:space="preserve">
+    <value>أقل ربح</value>
+    <comment/>
+  </data>
+  <data name="Other Report" xml:space="preserve">
+    <value>تقرير آخر</value>
+    <comment/>
+  </data>
+  <data name="Summary Report" xml:space="preserve">
+    <value>تقرير ملخص</value>
+    <comment/>
+  </data>
+  <data name="Print Barcode" xml:space="preserve">
+    <value>طباعة الباركود</value>
+    <comment/>
+  </data>
+  <data name="Attendance Report" xml:space="preserve">
+    <value>تقرير الحضور</value>
+    <comment/>
+  </data>
+  <data name="Manage Employee" xml:space="preserve">
+    <value>إدارة الموظف</value>
+    <comment/>
+  </data>
+  <data name="Designation" xml:space="preserve">
+    <value>تعيين</value>
+    <comment/>
+  </data>
+  <data name="Department" xml:space="preserve">
+    <value>قسم</value>
+    <comment/>
+  </data>
+  <data name="Sub Department" xml:space="preserve">
+    <value>قسم فرعى</value>
+    <comment/>
+  </data>
+  <data name="Attendance" xml:space="preserve">
+    <value>حضور</value>
+    <comment/>
+  </data>
+  <data name="Expense Report" xml:space="preserve">
+    <value>تقرير المصاريف</value>
+    <comment/>
+  </data>
+  <data name="Expense Details" xml:space="preserve">
+    <value>تفاصيل المصاريف</value>
+    <comment/>
+  </data>
+  <data name="Expense By Day" xml:space="preserve">
+    <value>المصاريف باليوم</value>
+    <comment/>
+  </data>
+  <data name="Expense By Month" xml:space="preserve">
+    <value>المصاريف حسب الشهر</value>
+    <comment/>
+  </data>
+  <data name="Expense By Year" xml:space="preserve">
+    <value>المصاريف بالسنة</value>
+    <comment/>
+  </data>
+  <data name="POS" xml:space="preserve">
+    <value>نقاط البيع</value>
+    <comment/>
+  </data>
+  <data name="Manage Purchases" xml:space="preserve">
+    <value>إدارة المشتريات</value>
+    <comment/>
+  </data>
+  <data name="System Settings" xml:space="preserve">
+    <value>اعدادات النظام</value>
+    <comment/>
+  </data>
+  <data name="Human Resource" xml:space="preserve">
+    <value>الموارد البشرية</value>
+    <comment/>
+  </data>
+  <data name="Manage User" xml:space="preserve">
+    <value>إدارة المستخدم</value>
+    <comment/>
+  </data>
+  <data name="Point of Sale" xml:space="preserve">
+    <value>نقطة البيع</value>
+    <comment/>
+  </data>
+  <data name="Manage Item" xml:space="preserve">
+    <value>إدارة العنصر</value>
+    <comment/>
+  </data>
+  <data name="Manage Invoice" xml:space="preserve">
+    <value>إدارة الفاتورة</value>
+    <comment/>
+  </data>
+  <data name="Branch" xml:space="preserve">
+    <value>فرع</value>
+    <comment/>
+  </data>
+  <data name="Manage Branch" xml:space="preserve">
+    <value>إدارة الفرع</value>
+    <comment/>
+  </data>
+  <data name="Manage Sales" xml:space="preserve">
+    <value>إدارة المبيعات</value>
+    <comment/>
+  </data>
+</root>

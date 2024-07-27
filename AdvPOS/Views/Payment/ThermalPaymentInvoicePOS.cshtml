@@ -1,0 +1,95 @@
+﻿@model AdvPOS.Models.PaymentViewModel.PaymentReportViewModel
+
+<div class="row no-print">
+    <div class="col-sm-6">
+    </div>
+    <div class="col-sm-6">
+        <button class="btn btn-sm btn-info" id="btnPrint"><span class="fa fa-print"></span></button>
+        <button class="btn btn-sm btn-dark" onclick="BacktoPreviousPage()">Back</button>
+    </div>
+
+    <hr />
+</div>
+
+<div class="ThermalPrintArea">
+    <div class="row">
+        <span class="text-center">
+            <img src="@Model.CompanyInfoCRUDViewModel.Logo" class="" alt="" style="margin-bottom:20px; width:20%;"><br />
+            @Model.CompanyInfoCRUDViewModel.Name
+        </span>
+    </div>
+
+    <hr />
+    <div class="row">
+        <address style="margin-top:1px">
+            <abbr><b>Invoice No: </b></abbr>@Model.PaymentCRUDViewModel.InvoiceNo<br>
+            <abbr><b>Invoice Date: </b></abbr>@Model.PaymentCRUDViewModel.CreatedDate<br>
+            <abbr><b>Customer Name: </b></abbr>@Model.CustomerInfoCRUDViewModel.Name
+        </address>
+    </div>
+
+    <hr />
+    <div class="row">
+        <table class="" style="width:100%" border="1">
+            <thead>
+                <tr>
+                    <th>Description</th>
+                    <th>Qty</th>
+                    <th>Sub Total</th>
+                </tr>
+            </thead>
+            @foreach (var item in Model.listPaymentDetailCRUDViewModel)
+            {
+<tbody>
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.ItemName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Quantity)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TotalAmount)
+        </td>
+    </tr>
+</tbody>}
+        </table>
+    </div>
+
+
+    <hr />
+    <div class="row">
+        <address style="margin-top:1px">
+            <abbr><b>Total Tax: </b></abbr>@Model.PaymentCRUDViewModel.VAT<br>
+            <abbr><b>Total Discount: </b></abbr>@Model.PaymentCRUDViewModel.Discount<br>
+            <abbr><b>Total: </b></abbr>@Model.PaymentCRUDViewModel.GrandTotal
+        </address>
+    </div>
+
+    <hr />
+    <span class="text-center">
+        Thank you for your shopping
+    </span>
+    <style>
+        table th {
+            padding-left: 5px;
+        }
+
+        table td {
+            padding-left: 5px;
+        }
+    </style>
+</div>
+
+<link href="~/css/ThermalPrinting.css" rel="stylesheet" />
+
+<script>
+    $(document).ready(function () {
+        window.print();
+    });
+
+    const $btnPrint = document.querySelector("#btnPrint");
+    $btnPrint.addEventListener("click", () => {
+        window.print();
+    });
+</script>

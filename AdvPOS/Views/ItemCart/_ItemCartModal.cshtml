@@ -1,0 +1,38 @@
+﻿<div class="modal fade" id="ItemCartModal" role="dialog">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="col-md-8">
+                    <h3 id="titleItemCartModal" class="modal-title">Item Cart Detail</h3>
+                </div>
+                <div class="col-md-pull-4 pull-right">
+                    <button type="button" id="btnItemCartModalClose" class="btn btn-danger"
+                        data-dismiss="modal">X</button>
+                </div>
+            </div>
+            <div class="modal-body" id="ItemCartModalDiv">
+                <partial name="_ItemCart" />
+            </div>
+            <div class="modal-footer">
+                <div class="row">
+                    <div class="col-sm-6">
+                    </div>
+                    <div class="col-sm-6 text-right">
+                        <label id="ItemChartSubTotal">Sub Total: </label>
+                    </div>
+
+                    <div class="col-sm-6">
+                    </div>
+                    <div class="col-sm-6 text-right">
+                        <label id="ItemChartGrandTotal">Grand Total: </label>
+                        <hr />
+                        <input type="button" class="btn btn-xs btn-danger col-sm-4" onclick="ClearAllCartItemWithAlert()"
+                            value="Clear Cart" />
+                        <input type="button" class="btn btn-success form-control col-sm-6" id="btnCheckout"
+                            onclick="ItemCheckout()" value="Checkout" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,90 @@
+﻿@model IEnumerable<AdvPOS.Models.PaymentViewModel.PaymentCRUDViewModel>
+
+<div class="row">
+    <div class="col-md-12">
+
+        @{
+            if (Model.Count() > 0)
+            {
+                <table class="ItemTranTable" border="1">
+                    <thead>
+                        <tr>
+                            <th>SL</th>
+                            <th>Invoice Id</th>
+                            <th>Net Amount</th>
+                            <th>Net Payable</th>
+                            <th>Paid Amount</th>
+                            <th>Due Amount</th>
+                            <th>Discount Amount</th>
+                            <th>Vat Amount</th>
+                            <th>Invoice Date</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @{
+                            double? _NetPayable = 0;
+                            double? _PaidAmount = 0;
+                            double? _DueAmount = 0;
+                            int index = 1;
+                            @foreach (var item in Model)
+                            {
+                                _NetPayable = _NetPayable + item.GrandTotal;
+                                _PaidAmount = _PaidAmount + item.PaidAmount;
+                                _DueAmount = _DueAmount + item.DueAmount;
+                                <tr>
+                                    <td>
+                                        @index
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.InvoiceNo)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.SubTotal)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.GrandTotal)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.PaidAmount)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.DueAmount)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Discount)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.VAT)
+                                    </td>
+                                    <td>
+                                        @item.CreatedDate.ToString("dd MMMM yyyy")
+                                    </td>
+                                </tr>
+                                index++;
+                            }
+                        }
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td><b>Σ:</b> @Math.Round((decimal)_NetPayable, 2)</td>
+                            <td><b>Σ:</b> @Math.Round((decimal)_PaidAmount, 2)</td>
+                            <td><b>Σ:</b> @Math.Round((decimal)_DueAmount, 2)</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    </tfoot>
+                </table>
+            }
+            else
+            {
+                <h3>No Invoice have been for this customer. Please create invocie first.</h3>
+                <a asp-controller="Payment" asp-action="Index" class="fa fa-plus-square fa-2x">Create Invoice</a>
+            }
+        }
+    </div>
+</div>
+

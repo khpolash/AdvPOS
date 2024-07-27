@@ -1,0 +1,199 @@
+﻿@model AdvPOS.Models.CompanyInfoViewModel.CompanyInfoCRUDViewModel
+@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer localizer
+
+@{
+    ViewData["Title"] = "Company Info";
+}
+
+<div class="wrapper">
+    <div class="panel panel-hash">
+        <div class="panel-heading">
+            <div style="display: inline-block;">
+                <h3 class="pull-right"><b>@localizer["Company Info"]</b></h3>
+            </div>
+        </div>
+        <div class="panel-body scroll panel-height">
+            <form asp-action="Edit" enctype="multipart/form-data">
+                <input type="hidden" asp-for="@Model.Id" />
+                <input type="hidden" asp-for="@Model.Logo" />
+                <input type="hidden" asp-for="@Model.CreatedDate" />
+                <input type="hidden" asp-for="@Model.CreatedBy" />
+                <table class="CustomBlueTable">
+                    <tr>
+                        <th>@localizer["Name"]</th>
+                        <td>
+                            <input asp-for="Name" class="form-control" autofocus />
+                            <span asp-validation-for="Name" class="text-danger"></span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>@localizer["Logo"]</th>
+                        <td>
+                            <input type="file" asp-for="CompanyLogo" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>@localizer["Invoice No Prefix"]</th>
+                        <td>
+                            <input asp-for="InvoiceNoPrefix" class="form-control" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>@localizer["Quote No Prefix"]</th>
+                        <td>
+                            <input asp-for="QuoteNoPrefix" class="form-control" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>@localizer["Address"]</th>
+                        <td>
+                            <input asp-for="Address" class="form-control" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>@localizer["Country"]</th>
+                        <td>
+                            <input asp-for="Country" class="form-control" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>@localizer["Phone"]</th>
+                        <td>
+                            <input asp-for="Phone" class="form-control" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>@localizer["Email"]</th>
+                        <td>
+                            <input asp-for="Email" class="form-control" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>@localizer["Fax"]</th>
+                        <td>
+                            <input asp-for="Fax" class="form-control" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>@localizer["Website"]</th>
+                        <td>
+                            <input asp-for="Website" class="form-control" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <th><label class="control-label">@localizer["Shop No"]</label></th>
+                        <td>
+                            <input asp-for="ShopNo" class="form-control" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <th><label class="control-label">@localizer["Street Name"]</label></th>
+                        <td>
+                            <input asp-for="StreetName" class="form-control" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <th><label class="control-label">@localizer["Post Code"]</label></th>
+                        <td>
+                            <input asp-for="PostCode" class="form-control" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <th><label asp-for="Office" class="control-label">@localizer["Office"]</label></th>
+                        <td>
+                            <input asp-for="Office" class="form-control" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <th><label class="control-label">@localizer["Mobile"]</label></th>
+                        <td>
+                            <input asp-for="Mobile" class="form-control" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <th><label class="control-label">@localizer["Password"]</label></th>
+                        <td>
+                            <input asp-for="Password" class="form-control" type="password" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <th><label class="control-label">@localizer["Host Name"]</label></th>
+                        <td>
+                            <input asp-for="HostName" class="form-control" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <th><label class="control-label">@localizer["Terms And Condition"]</label></th>
+                        <td>
+                            <textarea asp-for="TermsAndCondition" id="TermsAndCondition" class="form-control" rows="10"></textarea>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th><label class="control-label">@localizer["Terms And Condition Item Sale"]</label></th>
+                        <td>
+                            <textarea asp-for="TermsAndConditionItemSale" id="TermsAndConditionItemSale" class="form-control" rows="10"></textarea>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th><label class="control-label">@localizer["Company Number"]</label></th>
+                        <td>
+                            <input asp-for="CompanyNumber" class="form-control" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <th><label class="control-label">@localizer["Vat Number"]</label></th>
+                        <td>
+                            <input asp-for="VatNumber" class="form-control" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <th><label class="control-label">@localizer["Card Percentage"]</label></th>
+                        <td>
+                            <input asp-for="CardPercentage" class="form-control" type="number" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <th><label class="control-label">@localizer["Is Vat"]</label></th>
+                        <td>
+                            <input asp-for="IsVat" class="form-control" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <th><label class="control-label">@localizer["Whitelist IP"]</label></th>
+                        <td>
+                            <input asp-for="WhitelistIP" class="form-control" />
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th></th>
+                        <td>
+                            <button type="submit" value="Update Info" class="btn btn-danger btn-sm">@localizer["Update Info"]</button>
+                        </td>
+                    </tr>
+                </table>
+            </form>
+            <a asp-action="Index">@localizer["Back to Company Info"]</a>
+        </div>
+    </div>
+</div>
+
+<style>
+    .panel-heading {
+        padding: 0px 0px 0px 25px;
+    }
+
+    .panel-body {
+        padding: 0px 25px 0px 25px;
+    }
+
+    .h4 {
+        margin-top: 1px;
+        margin-bottom: 1px;
+    }
+
+    .CustomBlueTable td, #CustomBlueTable th {
+        padding: 5px;
+    }
+</style>
+

@@ -1,0 +1,71 @@
+﻿@model AdvPOS.Models.PaymentViewModel.PaymentReportViewModel
+
+<button class="btn btn-sm btn-info" onclick="PrintPOSReport('@Model.PaymentCRUDViewModel.Id')"><span class="fa fa-print"></span></button>
+
+<div id="printableArea">
+    <div class="row">
+        <span class="text-center">
+            <img src="@Model.CompanyInfoCRUDViewModel.Logo" class="" alt="" style="margin-bottom:20px; width:20%;"><br />
+            @Model.CompanyInfoCRUDViewModel.Name
+        </span>
+    </div>
+
+    <hr />
+    <div class="row">
+        <address style="margin-top:1px">
+            <abbr><b>Invoice No: </b></abbr>@Model.PaymentCRUDViewModel.InvoiceNo<br>
+            <abbr><b>Invoice Date: </b></abbr>@Model.PaymentCRUDViewModel.CreatedDate<br>
+            <abbr><b>Customer Name: </b></abbr>@Model.CustomerInfoCRUDViewModel.Name
+        </address>
+    </div>
+    <div class="row">
+        <table class="" style="width:100%" border="1">
+            <thead>
+                <tr>
+                    <th>Description</th>
+                    <th>Qty</th>
+                    <th>Sub Total</th>
+                </tr>
+            </thead>
+            @foreach (var item in Model.listPaymentDetailCRUDViewModel)
+            {
+<tbody>
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.ItemName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Quantity)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TotalAmount)
+        </td>
+    </tr>
+</tbody>
+}
+        </table>
+    </div>
+
+    <div class="row">
+        <address style="margin-top:1px">
+            <abbr><b>Total Tax: </b></abbr>@Model.PaymentCRUDViewModel.VAT<br>
+            <abbr><b>Total Discount: </b></abbr>@Model.PaymentCRUDViewModel.Discount<br>
+            <abbr><b>Total: </b></abbr>@Model.PaymentCRUDViewModel.GrandTotal
+        </address>
+    </div>
+
+    <hr />
+    <span class="text-center">
+        Thank you for your shopping
+    </span>
+</div>
+
+<style>
+    table th {
+        padding-left: 5px;
+    }
+
+    table td {
+        padding-left: 5px;
+    }
+</style>

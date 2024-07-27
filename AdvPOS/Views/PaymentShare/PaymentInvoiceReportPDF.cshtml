@@ -1,0 +1,49 @@
+﻿@model AdvPOS.Models.PaymentViewModel.PaymentReportViewModel
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Payment Invoice</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="~/lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/css/site.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="col-sm-12">
+        @if (Model.SendEmailViewModel.IsHideCompanyInfo == 0)
+        {
+            <partial name="_CompanyBannerHideInfo" />
+        }
+        else
+        {
+            <partial name="_CompanyBanner" />
+        }
+
+        @if (Model.SendEmailViewModel.InvoiceDocType == 1)
+        {
+            <partial name="_RegularInvoice" />
+        }
+        else if (Model.SendEmailViewModel.InvoiceDocType == 2)
+        {
+            <partial name="_PickingListInvoice" />
+        }
+        else if (Model.SendEmailViewModel.InvoiceDocType == 3)
+        {
+            <partial name="_DeliveryNoteInvoice " />
+        }
+        
+    </div>
+
+    <style>
+        .column {
+            float: left;
+            width: 50%;
+        }
+    </style>
+</body>
+</html>

@@ -1,0 +1,54 @@
+﻿@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer localizer
+
+<div id="divAddPaymentDetail" class="row" style="overflow-x:auto;">
+    <table id="tblPaymentDetail" class="BlueGreen" border="1">
+        <thead>
+            <tr>
+                <th>@localizer["Id"]</th>
+                <th>@localizer["Item Name"]</th>
+                <th>@localizer["Quantity"]</th>
+                <th>@localizer["Unit Price"]</th>
+                <th id="thVAT">@localizer["VAT(%)"]</th>
+                <th>@localizer["Discount(%)"]</th>
+                <th>@localizer["Total"]</th>
+                <th>@localizer["Action"]</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+        <tfoot id="tblAddLabTeststfoot">
+            <tr>
+                <td style="width:40px;">
+                    <input id="PaymentsDetailsId" type="number" class="unstyled-button" style="width: 40px;" readonly />
+                </td>
+                <td style="width:400px;">
+                    <select id="ItemId" asp-items="@ViewBag._LoadddlInventoryItem" onchange="UpdateUnitPrice()"
+                            style="width: 100%;">
+                        <option disabled selected>--- SELECT ---</option>
+                    </select>
+                </td>
+                <td style="width:70px;">
+                    <input id="Quantity" type="number" onchange="onchangeQuantity()" style="width:70px;" class="" value="1" min="1" />
+                </td>
+                <td style="width:70px;">
+                    <select id="UnitPrice" onchange="onchangeUnitPrice()"></select>
+                </td>
+                <td style="width:50px;">
+                    <input id="ItemVAT" style="width:50px;" class="unstyled-button" readonly />
+                </td>
+                <td id="tdVAT" style="width:70px;">
+                    <input id="ItemDiscount" type="number" onchange="onchangeItemDiscount()" style="width:70px;" class="" value="0" maxlength="5" />
+                </td>
+                <td style="width:70px;">
+                    <input id="TotalAmount" type="text" style="width:70px;" class="unstyled-button" readonly />
+                </td>
+                <td style="width:150px;">
+                    <button type="button" id="btnPaymentsDetails" onclick="AddPaymentDetail();" 
+                    class="btn btn-info btn-xs">@localizer["Add Item"]</button>
+                </td>
+            </tr>
+        </tfoot>
+    </table>
+</div>
+
+<script src="~/js/Payment/PaymentDetail_HtmlTblOpr.js"></script>
+

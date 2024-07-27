@@ -1,0 +1,78 @@
+<div class="wrapper">
+    <div class="panel panel-hash">
+        <div class="panel-heading">
+            <div class="row">
+                <div class="col-md-12 text-right">
+                    <a href="#" class="btn-dark fa fa-shopping-cart fa-3x" id="shoppingcart" onclick="ItemCartDetail()">0</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="panel-body scroll panel-height">
+            <table id="tblItemList" style="width:100%;">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+    </div>
+    <partial name="_ItemCartModal" />
+</div>
+
+<style>
+    .panel-heading {
+        padding: 0px 0px 0px 5px;
+    }
+
+    .panel-body {
+        padding: 5px;
+    }
+
+    .h4 {
+        margin-top: 1px;
+        margin-bottom: 1px;
+    }
+
+    .form-control {
+        border-radius: 5px;
+        box-shadow: none;
+        border-color: green;
+        width: 300px;
+    }
+</style>
+
+<script src="~/js/ItemCart/ItemCart_CRUD.js"></script>
+<script src="~/js/Payment/Payment_CRUD.js"></script>
+<script src="~/js/Common_CRUD.js"></script>
+<script src="~/js/ItemCart/ItemCart_Datatable.js"></script>
+<script src="~/js/ItemCart/dynamic_content.js"></script>
+
+<script>
+    var listPaymentDetail = new Array();
+    var listItemCart = new Array();
+
+
+    var ViewItem = function (Id) {
+        var url = "/Items/ViewItem?Id=" + Id;
+        $('#titleBigModal').html("Item Details ");
+        loadBigModal(url);
+    };
+
+    $(document).ready(function () {
+        DataTableCustomSearchBox('550px', 'Search Item');
+        GetAllCartItem();
+        var _listItemCart = localStorage.getItem('listItemCart');
+        if (_listItemCart != null) {
+            listItemCart = JSON.parse(_listItemCart);
+            $("#shoppingcart").html(listItemCart.length);
+            for (let i = 0; i < listItemCart.length; i++) {
+                AddTableRow(listItemCart[i], '#tblItemCart');
+            }
+        }
+    });
+</script>

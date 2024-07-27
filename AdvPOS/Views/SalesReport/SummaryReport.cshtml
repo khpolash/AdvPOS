@@ -1,0 +1,199 @@
+﻿@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer localizer
+
+<div class="row">
+    <div class="col-sm-12">
+        <div class="panel-footer text-right">
+            <button class="btn btn-info" onclick="printDivWithCSS('printableArea','CustomBlueTable')"><span
+                    class="fa fa-print"></span></button>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-5">
+        <h5>@localizer["Summary Report"]</h5>
+    </div>
+    <div class="col-md-7">
+        <div class="form-group row">
+            <label class="col-sm-2 col-form-label">Date Type: </label>
+            <div class="col-sm-10">
+                <select class="" id="DateType" onchange="GetBySummaryReportData()" style="width: 100%;">
+                    <option value="Daily">@localizer["Daily"]</option>
+                    <option value="Monthly" selected>@localizer["Monthly"]</option>
+                    <option value="Yearly">@localizer["Yearly"]</option>
+                </select>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="panel panel-hash" id="printableArea">
+    <div class="panel-heading">
+    </div>
+    <div class="panel-body scroll panel-height">
+        <table id="tblSummaryReport" class="CustomBlueTable" border="1" style="width:100%;">
+            <thead>
+                <tr>
+                    <th>@localizer["SL"]</th>
+                    <th>@localizer["Date"]</th>
+                    <th>@localizer["Sales Total"]</th>
+                    <th>@localizer["Sales Paid Total"]</th>
+                    <th>@localizer["Sales Due Total"]</th>
+
+                    <th style="background-color:green;">@localizer["Purchases Total"]</th>
+                    <th style="background-color:green;">@localizer["Purchases Paid Total"]</th>
+                    <th style="background-color:green;">@localizer["Purchases Due Total"]</th>
+
+                    <th style="background-color:grey;">@localizer["Expense Total"]</th>
+                    <th style="background-color:grey;">@localizer["xpense Paid Total"]</th>
+                    <th style="background-color:grey;">@localizer["Expense Due Total"]</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+            <tfoot id="tblAddLabTeststfoot">
+                <tr>
+                    <td>
+                    </td>
+                    <td>
+                    </td>
+
+                    <td>
+                        <label id="lblSalesTotal"></label>
+                    </td>
+                    <td>
+                        <label id="lblSalesPaidTotal"></label>
+                    </td>
+                    <td>
+                        <label id="lblSalesDueTotal"></label>
+                    </td>
+
+
+                    <td>
+                        <label id="lblPurchasesTotal"></label>
+                    </td>
+                    <td>
+                        <label id="lblPurchasesPaidTotal"></label>
+                    </td>
+                    <td>
+                        <label id="lblPurchasesDueTotal"></label>
+                    </td>
+
+
+                    <td>
+                        <label id="lblExpenseTotal"></label>
+                    </td>
+                    <td>
+                        <label id="lblExpensePaidTotal"></label>
+                    </td>
+                    <td>
+                        <label id="lblExpenseDueTotal"></label>
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        document.title = "Summary Report";
+        $("#DateType").select2();
+        GetSummaryReportData();
+    });
+
+    var GetBySummaryReportData = function () {
+        GetSummaryReportData();
+    }
+
+    Summ = {};
+    var GetSummaryReportData = function () {
+        var _DateType = $("#DateType").val();
+
+        $.ajax({
+            type: "GET",
+            url: "/SalesReport/GetSummaryReportData?DateType=" + _DateType,
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (data) {
+                if (data != null) {
+                    $("#tblSummaryReport > tbody").empty();
+                    Summ = {
+                        SalesTotal: 0, SalesPaidTotal: 0, SalesDueTotal: 0,
+                        PurchasesTotal: 0, PurchasesPaidTotal: 0, PurchasesDueTotal: 0,
+                        ExpenseTotal: 0, ExpensePaidTotal: 0, ExpenseDueTotal: 0,
+                    };
+
+                    data.forEach(LoadTableRowFromDB);
+                    $("#lblSalesTotal").text("Σ: " + Summ.SalesTotal.toFixed(2));
+                    $("#lblSalesPaidTotal").text("Σ: " + Summ.SalesPaidTotal.toFixed(2));
+                    $("#lblSalesDueTotal").text("Σ: " + Summ.SalesDueTotal.toFixed(2));
+
+                    $("#lblPurchasesTotal").text("Σ: " + Summ.PurchasesTotal.toFixed(2));
+                    $("#lblPurchasesPaidTotal").text("Σ: " + Summ.PurchasesPaidTotal.toFixed(2));
+                    $("#lblPurchasesDueTotal").text("Σ: " + Summ.PurchasesDueTotal);
+
+                    $("#lblExpenseTotal").text("Σ: " + Summ.ExpenseTotal.toFixed(2));
+                    $("#lblExpensePaidTotal").text("Σ: " + Summ.ExpensePaidTotal.toFixed(2));
+                    $("#lblExpenseDueTotal").text("Σ: " + Summ.ExpenseDueTotal.toFixed(2));
+                }
+            },
+            error: function (errormessage) {
+                SwalSimpleAlert(errormessage.responseText, "warning");
+            }
+        });
+    };
+
+    function LoadTableRowFromDB(item, index) {
+        var tBody = $("#tblSummaryReport > TBODY")[0];
+        var row = tBody.insertRow(-1);
+
+        var cell = $(row.insertCell(-1));
+        cell.html(item.Id);
+        var cell = $(row.insertCell(-1));
+        cell.html(item.TranDate);
+
+        var cell = $(row.insertCell(-1));
+        cell.html(item.SalesTotal);
+        var cell = $(row.insertCell(-1));
+        cell.html(item.SalesPaidTotal);
+        var cell = $(row.insertCell(-1));
+        cell.html(item.SalesDueTotal);
+
+        var cell = $(row.insertCell(-1));
+        cell.html(item.PurchasesTotal);
+        var cell = $(row.insertCell(-1));
+        cell.html(item.PurchasesPaidTotal);
+        var cell = $(row.insertCell(-1));
+        cell.html(item.PurchasesDueTotal);
+
+        var cell = $(row.insertCell(-1));
+        cell.html(item.ExpenseTotal);
+        var cell = $(row.insertCell(-1));
+        cell.html(item.ExpensePaidTotal);
+        var cell = $(row.insertCell(-1));
+        cell.html(item.ExpenseDueTotal);
+
+        Summ.SalesTotal = Summ.SalesTotal + item.SalesTotal;
+        Summ.SalesPaidTotal = Summ.SalesPaidTotal + item.SalesPaidTotal;
+        Summ.SalesDueTotal = Summ.SalesDueTotal + item.SalesDueTotal;
+
+        Summ.PurchasesTotal = Summ.PurchasesTotal + item.PurchasesTotal;
+        Summ.PurchasesPaidTotal = Summ.PurchasesPaidTotal + item.PurchasesPaidTotal;
+        Summ.PurchasesDueTotal = Summ.PurchasesDueTotal + item.PurchasesDueTotal;
+
+        Summ.ExpenseTotal = Summ.ExpenseTotal + item.ExpenseTotal;
+        Summ.ExpensePaidTotal = Summ.ExpensePaidTotal + item.ExpensePaidTotal;
+        Summ.ExpenseDueTotal = Summ.ExpenseDueTotal + item.ExpenseDueTotal;
+    }
+</script>
+
+<style>
+    table th {
+        padding-left: 5px;
+    }
+
+    table td {
+        padding-left: 5px;
+    }
+</style>

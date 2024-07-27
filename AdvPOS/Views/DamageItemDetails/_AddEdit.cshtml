@@ -1,0 +1,116 @@
+@model AdvPOS.Models.DamageItemDeatilsViewModel.DamageItemDeatilsCRUDViewModel
+
+@{ ViewData["Title"] = "Create"; }
+
+<div>
+    <div class="row">
+        <div class="col-md-12">
+            <form id="frmDamageItemDeatils">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <input type="hidden" asp-for="Id" id="IdDamageTbl" />
+                <input type="hidden" asp-for="CreatedDate" />
+                <input type="hidden" asp-for="CreatedBy" />
+
+                <div class="form-group">
+                    <label asp-for="ItemId" class="control-label"></label>
+                    <select asp-for="ItemId" id="ItemId" onchange="GetByItem()" style="width: 570px;" asp-items="@ViewBag._LoadddlInventoryItem" required>
+                        <option value="0" disabled selected>Please Select Item</option>
+                    </select>
+                    <span asp-validation-for="ItemId" class="text-danger"></span>
+                </div>
+
+
+
+                <div class="form-group">
+                    <label asp-for="CurrentTotalStock" class="control-label"></label>
+                    <input asp-for="CurrentTotalStock" id="CurrentTotalStock" class="form-control" type="number" readonly />
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="TotalDamageItem" class="control-label"></label>
+                    <input asp-for="TotalDamageItem" class="form-control" />
+                    <span asp-validation-for="TotalDamageItem" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="ReasonOfDamage" class="control-label"></label>
+                    <input asp-for="ReasonOfDamage" class="form-control" />
+                    <span asp-validation-for="ReasonOfDamage" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <input type="button" value="Save" onclick="Save()" class="btn btn-info">
+                    <button type="button" id="btnClose" class="btn btn-danger" data-dismiss="modal">Close</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script src="/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+
+<script>
+    var tmpTotalDamageItem;
+    $(document).ready(function () {
+        $("#ItemId").select2();
+    });
+
+    var _DamageItemId = $("#IdDamageTbl").val();
+    if (_DamageItemId == 0)
+        $('#ItemId').removeAttr('disabled');
+    else {
+        $('#ItemId').attr('disabled', 'disabled');
+        var SelectItemValue = $("#ItemId").val();
+        GetByItem();
+        tmpTotalDamageItem = $("#TotalDamageItem").val();
+    }
+
+
+    function GetByItem() {
+        var SelectItemValue = $("#ItemId").val();
+        $.ajax({
+            type: "GET",
+            url: "/DamageItemDetails/GetByItem?Id=" + SelectItemValue,
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (data) {
+                if (data === null) return;
+                $('#CurrentTotalStock').val(data.Quantity);
+            },
+            error: function (response) {
+                console.log(response);
+            }
+        });
+    }
+
+    var strCurrentStockMessage;
+    var CheckCurrentStock = function () {
+        var _CurrentTotalStock = $("#CurrentTotalStock").val();
+        var _TotalDamageItem = $("#TotalDamageItem").val();
+
+        if (parseFloat(_TotalDamageItem) > parseFloat(_CurrentTotalStock) && _DamageItemId == 0) {
+            strCurrentStockMessage = "Damage item can not be gratre than currrent total stock."
+            StockCrossWarning();
+        }
+        else if (_DamageItemId > 0) {
+            var limitStock = parseFloat(_CurrentTotalStock) + parseFloat(tmpTotalDamageItem);
+            var _TotalDamageItem = $("#TotalDamageItem").val();
+            if (parseFloat(_TotalDamageItem) > parseFloat(limitStock)) {
+                strCurrentStockMessage = "Update damage item cross the current limit, please check."
+                StockCrossWarning();
+            }
+        }
+
+        function StockCrossWarning() {
+            Swal.fire({
+                title: strCurrentStockMessage,
+                text: "Alert!",
+                type: "warning"
+            }).then(function () {
+                $("#TotalDamageItem").val("");
+                window.setTimeout(function () {
+                    document.getElementById('TotalDamageItem').focus();
+                }, 0);
+            });
+        }
+    };
+
+</script>

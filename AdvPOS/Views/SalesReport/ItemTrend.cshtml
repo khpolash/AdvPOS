@@ -1,0 +1,64 @@
+﻿@model AdvPOS.Models.DashboardViewModel.GroupByViewModel;
+<div class="row">
+    <div class="col-sm-12">
+        <div class="panel-footer text-right">
+            <button class="btn btn-info" onclick="printDiv('printableArea','BlueGreen')"><span
+                    class="fa fa-print"></span></button>
+        </div>
+    </div>
+</div>
+
+<div class="panel panel-hash" id="printableArea">
+    <div class="panel-heading">
+        <h4><b>@ViewBag.ReportTitle</b></h4>
+    </div>
+    <div class="panel-body scroll panel-height">
+        <table class="BlueGreen" id="tblItemTrend" border="1" style="width:100%;">
+            <thead>
+                <tr>
+                    <th>SL</th>
+                    <th>Item Name</th>
+                    <th>Total</th>
+                </tr>
+            </thead>
+            <tbody>
+                @{
+                    int SL = 1;
+                    foreach (var item in Model.listGroupByViewModel)
+                    {
+                        <tr>
+                            <td>@SL</td>
+                            <td>@item.ItemName</td>
+                            <td>@item.ItemTotal</td>
+                        </tr>
+                        SL++;
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<style>
+    table th {
+        padding-left: 5px;
+    }
+
+    table td {
+        padding-left: 5px;
+    }
+</style>
+
+<script>
+    $(document).ready(function () {
+        $("#tblItemTrend").DataTable({
+            'columnDefs': [{
+                'targets': [0, 1, 2],
+                'orderable': false,
+            }],
+
+            "lengthMenu": [[10, 15, 20, 25, 50, 100, 200], [20, 10, 15, 25, 50, 100, 200]]
+        });
+        DataTableCustomSearchBox('350px', 'Search...');
+    });
+</script>

@@ -1,0 +1,42 @@
+﻿<div class="wrapper">
+    <div class="panel panel-hash">
+        <div class="panel-heading"><h4><b>Item History</b></h4></div>
+        <div class="panel-body scroll panel-height">
+            <table id="tblItemsHistory" class="BlueGreen" style="width:100%">
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Item Id</th>
+                        <th>Item Name</th>
+                        <th>Unit Price</th>
+                        <th>Sell Price</th>
+                        <th>Old Unit Price</th>
+                        <th>Old Quantity</th>
+                        <th style="background-color:rebeccapurple">New Quantity</th>
+                        <th>Tran Quantity</th>
+                        <th>Action</th>
+                        <th>Created Date</th>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+    </div>
+</div>
+
+<style>
+    .panel-heading {
+        padding: 0px 0px 0px 5px;
+    }
+
+    .panel-body {
+        padding: 5px;
+    }
+
+    .h4 {
+        margin-top: 1px;
+        margin-bottom: 1px;
+    }
+</style>
+
+<script src="~/js/ItemsHistory/ItemHistory_CRUD.js"></script>
+<script src="~/js/ItemsHistory/ItemsHistory_Datatable.js"></script>

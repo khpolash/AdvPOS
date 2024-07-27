@@ -1,0 +1,143 @@
+﻿@model AdvPOS.Models.DashboardViewModel.DashboardSummaryViewModel
+@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer localizer
+
+<br />
+<div class="row">
+    <div class="col-12 col-sm-6 col-md-3">
+        <a href="@Url.Action("Index", "Payment")">
+            <div class="info-box">
+                <span class="box"><img src="/images/dashboard/invoicetoday.png"></span>
+                <div class="info-box-content">
+                    <span class="info-box-text">@localizer["Invoice Today"]</span>
+                    <span class="info-box-number">
+                        @Model.InvoiceToday
+                    </span>
+                </div>
+            </div>
+        </a>
+    </div>
+
+    <div class="col-12 col-sm-6 col-md-3">
+        <a href="@Url.Action("Index", "Payment")">
+            <div class="info-box">
+                <span class="box"><img src="/images/dashboard/invoicethismonth.png"></span>
+                <div class="info-box-content">
+                    <span class="info-box-text">@localizer["Invoice This Month"]</span>
+                    <span class="info-box-number">
+                        @Model.InvoiceThisMonth
+                    </span>
+                </div>
+            </div>
+        </a>
+    </div>
+
+    <div class="col-12 col-sm-6 col-md-3">
+        <a href="@Url.Action("TransactionByDay", "SalesReport")">
+            <div class="info-box">
+                <span class="box"><img src="/images/dashboard/salestoday.png"></span>
+                <div class="info-box-content">
+                    <span class="info-box-text">@localizer["Sales Today"]</span>
+                    <span class="info-box-number">
+                        @Model.SalesToday
+                    </span>
+                </div>
+            </div>
+        </a>
+    </div>
+
+    <div class="col-12 col-sm-6 col-md-3">
+        <a href="@Url.Action("TransactionByMonth", "SalesReport")">
+            <div class="info-box">
+                <span class="box"><img src="/images/dashboard/salesthismonth.png"></span>
+                <div class="info-box-content">
+                    <span class="info-box-text">@localizer["Sales This Month"]</span>
+                    <span class="info-box-number">
+                        @Model.SalesThisMonth
+                    </span>
+                </div>
+            </div>
+        </a>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-12 col-sm-6 col-md-3">
+        <a href="@Url.Action("Index", "Items")">
+            <div class="info-box">
+                <span class="box"><img src="/images/dashboard/item.png"></span>
+                <div class="info-box-content">
+                    <span class="info-box-text">@localizer["Total Item"]</span>
+                    <span class="info-box-number">
+                        @Model.TotalItem
+                    </span>
+                </div>
+            </div>
+        </a>
+    </div>
+    <div class="col-12 col-sm-6 col-md-3">
+        <a href="@Url.Action("Index", "Items")">
+            <div class="info-box">
+                <span class="box"><img src="/images/dashboard/quantity.png"></span>
+                <div class="info-box-content">
+                    <span class="info-box-text">@localizer["Total Item Quantity"]</span>
+                    <span class="info-box-number">
+                        @Model.TotalItemQuantity
+                    </span>
+                </div>
+            </div>
+        </a>
+    </div>
+
+    <div class="col-12 col-sm-6 col-md-3">
+        <a href="@Url.Action("LowInStockItem", "Items")">
+            <div class="info-box">
+                <span class="box"><img src="/images/dashboard/LowInStock.png"></span>
+                <div class="info-box-content">
+                    <span class="info-box-text">@localizer["Low Items"]</span>
+                    <span class="info-box-number">
+                        @Model.LowItems
+                    </span>
+                </div>
+            </div>
+        </a>
+    </div>
+
+    <div class="col-12 col-sm-6 col-md-3">
+        <a href="@Url.Action("OutofStockItem", "Items" )">
+            <div class="info-box">
+                <span class="box"><img src="/images/dashboard/outofstock.png"></span>
+                <div class="info-box-content">
+                    <span class="info-box-text">@localizer["Out of Stock"]</span>
+                    <span class="info-box-number">
+                        @Model.OutofStock
+                    </span>
+                </div>
+            </div>
+        </a>
+    </div>
+</div> 
+
+<div class="row">
+    <div class="col-12 col-sm-6 col-md-3">
+        <a href="@Url.Action("Index", "Payment")">
+            <div class="info-box">
+                <span class="box"><img src="/images/dashboard/dueinvoice.png"></span>
+                <div class="info-box-content">
+                    <span class="info-box-text">@localizer["Due Invoice"]</span>
+                    <span class="info-box-number">
+                        @Model.DueInvoice
+                    </span>
+                </div>
+            </div>
+        </a>
+    </div>
+
+    <div class="col-12 col-sm-6 col-md-3">        
+    </div>
+
+    <div class="col-12 col-sm-6 col-md-3">        
+    </div>
+
+    <div class="col-12 col-sm-6 col-md-3">        
+    </div>
+</div>

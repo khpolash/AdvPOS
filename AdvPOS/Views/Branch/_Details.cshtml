@@ -1,0 +1,49 @@
+@model AdvPOS.Models.BranchViewModel.BranchCRUDViewModel
+@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer localizer
+
+<div class="row">
+    <div class="col-md-12">
+        <table class="CustomBlueTable">
+            <tr>
+                <th>@localizer["Id"]</th>
+                <td>@Model.Id</td>
+            </tr>
+            <tr>
+                <th>@localizer["Name"]</th>
+                <td>@Model.Name</td>
+            </tr>
+            <tr>
+                <th>@localizer["Contact Person"]</th>
+                <td>@Model.ContactPerson</td>
+            </tr>
+            <tr>
+                <th>@localizer["Phone Number"]</th>
+                <td>@Model.PhoneNumber</td>
+            </tr>
+            <tr>
+                <th>@localizer["Address"]</th>
+                <td>@Model.Address</td>
+            </tr>
+            <tr>
+                <th>@localizer["Short Description"]</th>
+                <td>@Model.ShortDescription</td>
+            </tr>
+            <tr>
+                <th>@localizer["Created Date"]</th>
+                <td>@Model.CreatedDate</td>
+            </tr>
+            <tr>
+                <th>@localizer["Modified Date"]</th>
+                <td>@Model.ModifiedDate</td>
+            </tr>
+            <tr>
+                <th>@localizer["Created By"]</th>
+                <td>@Model.CreatedBy</td>
+            </tr>
+            <tr>
+                <th>@localizer["Modified By"]</th>
+                <td>@Model.ModifiedBy</td>
+            </tr>
+        </table>
+    </div>
+</div>
